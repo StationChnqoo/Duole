@@ -40,7 +40,9 @@ const PlayerPanel: React.FC<MyProps> = props => {
     >
       <Text style={{ color: '#333', fontSize: 16 }}>{player.name}</Text>
       <View style={{ height: 4 }} />
-      <View style={{ flexDirection: 'row' }}>
+      <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
+      <View style={{ height: 4 }} />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Text style={{ color: 'green', fontSize: 12 }}>
           进贡：{player.cards[0] || '--'}
         </Text>
@@ -49,8 +51,6 @@ const PlayerPanel: React.FC<MyProps> = props => {
           吃贡：{player.cards[1] || '--'}
         </Text>
       </View>
-      <View style={{ height: 4 }} />
-      <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
       <Text style={styles.remaingCount}>{remainingCardsCount}张</Text>
     </TouchableOpacity>
   );
@@ -64,6 +64,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     position: 'relative',
+  },
+  border: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
   },
   remaingCount: {
     color: '#000',

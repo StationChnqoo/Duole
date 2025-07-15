@@ -95,7 +95,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            onKeyBoardPress?.('N');
+            onKeyBoardPress?.('#');
           }}
           style={[
             styles.button,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#999',
-    backgroundColor: '#eee',
+    backgroundColor: '#f0f0f0',
   },
   buttons: {
     flexDirection: 'row',

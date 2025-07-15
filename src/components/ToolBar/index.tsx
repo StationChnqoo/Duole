@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Image,
   Platform,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,31 +15,24 @@ interface MyProps {
   navigation?: RootStacksProp;
   title: String;
   onBackPress?: () => void;
-  avoidStatusBar?: boolean;
 }
 
 const IMAGE_SIZE = 16;
 
 const ToolBar: React.FC<MyProps> = props => {
-  const { title, onBackPress, avoidStatusBar } = props;
+  const { title, onBackPress } = props;
+  const height = Platform.select({
+    ios: useSafeAreaInsets().top,
+    android: StatusBar.currentHeight,
+  });
   return (
     <View style={{ backgroundColor: '#fff' }}>
-      {avoidStatusBar ? null : (
-        <View
-          style={{
-            backgroundColor: '#fff',
-            height: Platform.select({
-              ios: useSafeAreaInsets().top,
-              android: 0,
-            }),
-          }}
-        />
-      )}
-      {/* <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={'#fff'}
-        translucent={false}
-      /> */}
+      <View
+        style={{
+          backgroundColor: '#fff',
+          height,
+        }}
+      />
       <View style={styles.views}>
         <TouchableOpacity
           activeOpacity={0.9}

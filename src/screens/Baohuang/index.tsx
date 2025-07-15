@@ -1,12 +1,12 @@
-import PlayerPanel from '@src/components/PlayerPanel';
 import PlayerCards from '@src/components/PlayerCards';
+import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
+import { Player } from '@src/constants/t';
+import { produce } from 'immer';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { RootStacksProp } from '../Screens';
-import { Player } from '@src/constants/t';
-import { produce } from 'immer';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -24,7 +24,7 @@ const Baohuang: React.FC<MyProps> = props => {
         id: index,
         name,
         cards: Array(3).fill(''),
-        currentCardIndex: 0,
+        currentCardIndex: 2,
       })),
     );
     return function () {};
@@ -95,7 +95,7 @@ const Baohuang: React.FC<MyProps> = props => {
                 sum={40}
               />
               <View style={{ height: 6 }} />
-              <View style={{ paddingHorizontal: 6 }}>
+              <View style={{ paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
                     player={players[0]}
