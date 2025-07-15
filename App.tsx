@@ -11,10 +11,8 @@ const App: React.FC<MyProps> = props => {
   const isDarkMode = useColorScheme() === 'dark';
   useEffect(() => {
     setTimeout(() => {
-      if (props.navigation) {
-        props.navigation.navigate('HelloWorld', { id: '666666' });
-      }
-    });
+      props.navigation.navigate('Baohuang');
+    }, 1000);
     return function () {};
   });
 

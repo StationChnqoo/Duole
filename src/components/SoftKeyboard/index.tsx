@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface MyProps {}
 
@@ -75,17 +76,20 @@ const SoftKeyboard: React.FC<MyProps> = props => {
           <Text style={{ fontSize: 14, color: 'red' }}>删除</Text>
         </TouchableOpacity>
       </View>
+      <View style={{ height: 10 + useSafeAreaInsets().bottom }} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
     backgroundColor: '#fff',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
   dot: {
     width: 64,
