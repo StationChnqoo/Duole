@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 
 const HelloWorld = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1}}>
       <Text>Hello World Screen</Text>
       <SoftKeyboard />
     </View>

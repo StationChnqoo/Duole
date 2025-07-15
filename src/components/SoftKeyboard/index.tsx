@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 
 interface MyProps {}
 
 const SoftKeyboard: React.FC<MyProps> = props => {
-  const nums = Array.from({ length: 7 }, (_, i) => ({
-    label: (i + 2).toString(),
+  const nums = Array.from({ length: 9 }, (_, i) => ({
+    label: ((i + 2) % 10).toString(),
     value: (i + 2).toString(),
   }));
   const letters = ['J', 'Q', 'K', 'A']
@@ -14,37 +14,97 @@ const SoftKeyboard: React.FC<MyProps> = props => {
       value: item,
     }))
     .concat([
-      { label: 'X', value: '小王' },
-      { label: 'D', value: '大王' },
-      { label: 'Y', value: '鹰🦅' },
+      { label: '小王', value: 'X' },
+      { label: '大王', value: 'D' },
+      { label: '鹰', value: 'Y' },
     ]);
   const actions = [
-    { label: 'D(点)', value: 'D' },
-    { label: 'S(烧)', value: 'S' },
-    { label: 'M(闷)', value: 'M' },
-    { label: 'L(落)', value: 'L' },
-    { label: 'R(让)', value: 'R' },
-    { label: 'D(删除）', value: 'D' },
+    { label: 'D.点', value: 'D' },
+    { label: 'S.烧', value: 'S' },
+    { label: 'M.闷', value: 'M' },
+    { label: 'L.落', value: 'L' },
+    { label: 'R.让', value: 'R' },
   ];
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {nums.map((item, index) => (
-        <Text key={index} style={{ fontSize: 20, margin: 5 }}>
-          {item.label}
-        </Text>
-      ))}
-      {letters.map((item, index) => (
-        <Text key={index} style={{ fontSize: 20, margin: 5 }}>
-          {item.label}
-        </Text>
-      ))}
-      {actions.map((item, index) => (
-        <Text key={index} style={{ fontSize: 20, margin: 5 }}>
-          {item.label}
-        </Text>
-      ))}
+    <View style={styles.container}>
+      <View style={styles.dot} />
+      <View style={{ flexDirection: 'row', gap: 10 }}>
+        {nums.map((item, index) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {}}
+            key={index}
+            style={styles.button}
+          >
+            <Text style={{ fontSize: 16, color: '#333' }}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View style={{ height: 10 }} />
+      <View style={{ flexDirection: 'row', gap: 10 }}>
+        {letters.map((item, index) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {}}
+            key={index}
+            style={[styles.button, { width: 36 }]}
+          >
+            <Text style={{ fontSize: 14, color: '#333' }}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View style={{ height: 10 }} />
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          {actions.map((item, index) => (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {}}
+              key={index}
+              style={[styles.button, { width: 44 }]}
+            >
+              <Text style={{ fontSize: 14, color: '#333' }}>{item.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {}}
+          style={[styles.button, { width: 48, borderColor: 'red' }]}
+        >
+          <Text style={{ fontSize: 14, color: 'red' }}>删除</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  dot: {
+    width: 64,
+    height: 4,
+    borderRadius: 3,
+    backgroundColor: '#999',
+    alignSelf: 'center',
+    marginBottom: 12,
+  },
+  button: {
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 28,
+    width: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#999',
+    backgroundColor: '#eee',
+  },
+});
 
 export default SoftKeyboard;
