@@ -1,8 +1,22 @@
 import { NewAppScreen } from '@react-native/new-app-screen';
+import { useEffect } from 'react';
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { RootStacksProp } from './src/screens/Screens';
 
-function App() {
+interface MyProps {
+  navigation?: RootStacksProp;
+}
+
+const App: React.FC<MyProps> = props => {
   const isDarkMode = useColorScheme() === 'dark';
+  useEffect(() => {
+    setTimeout(() => {
+      if (props.navigation) {
+        props.navigation.navigate('HelloWorld', { id: '666666' });
+      }
+    });
+    return function () {};
+  });
 
   return (
     <View style={styles.container}>
@@ -10,7 +24,7 @@ function App() {
       <NewAppScreen templateFileName="App.tsx" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
