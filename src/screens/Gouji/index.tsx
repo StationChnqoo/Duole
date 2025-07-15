@@ -8,4 +8,5 @@ const Gouji = () => {
     </View>
   );
 };
+
 export default Gouji;
