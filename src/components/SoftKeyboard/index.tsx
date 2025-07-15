@@ -102,7 +102,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
             { width: 72, borderColor: 'green', backgroundColor: '#e6ffe6' },
           ]}
         >
-          <Text style={{ fontSize: 14, color: 'green' }}>N.下一轮</Text>
+          <Text style={{ fontSize: 14, color: 'green' }}>#.下一轮</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}

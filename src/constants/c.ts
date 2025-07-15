@@ -4,7 +4,7 @@
  * @returns
  */
 export const parseCard3Groups = (input: string): string => {
-  const tokens = input.trim().toUpperCase().split('N');
+  const tokens = input.trim().toUpperCase().split('#');
   let result = '';
   for (const token of tokens) {
     if (token.length >= 2) {
@@ -48,7 +48,7 @@ export const calcRemainingRanks = (playedCards: string) => {
     'A',
     '2',
   ];
-  const groups = playedCards.toUpperCase().trim().split('N');
+  const groups = playedCards.toUpperCase().trim().split('#');
   const used = new Set<string>();
   for (const group of groups) {
     const card = group.slice(-1); // 每组最后一个字符为牌名
