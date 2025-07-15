@@ -3,7 +3,7 @@ import PlayerCards from '@src/components/PlayerCards';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { RootStacksProp } from '../Screens';
 import { Player } from '@src/constants/t';
 import { produce } from 'immer';
@@ -77,55 +77,61 @@ const Baohuang: React.FC<MyProps> = props => {
         }}
       />
       <View style={{ height: 2 }} />
-      {players.length === 0 ? (
-        <View style={{ padding: 16 }}>
-          <Text style={{ color: '#666', fontSize: 14, textAlign: 'center' }}>
-            正在初始化
-          </Text>
-        </View>
-      ) : (
-        <View>
-          <PlayerCards
-            player={players[currentPlayerIndex]}
-            onChildPanelPress={onChildPanelPress}
-            sum={40}
-          />
-          <View style={{ height: 6 }} />
-          <View style={{ paddingHorizontal: 6 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <PlayerPanel
-                player={players[0]}
-                onPlayerPress={handlePlayerPress}
-                currentPalyerIndex={currentPlayerIndex}
-                sum={40}
-              />
-              <View style={{ width: 4 }} />
-              <PlayerPanel
-                player={players[3]}
-                onPlayerPress={handlePlayerPress}
-                currentPalyerIndex={currentPlayerIndex}
-                sum={40}
-              />
+      <ScrollView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          {players.length === 0 ? (
+            <View style={{ padding: 16 }}>
+              <Text
+                style={{ color: '#666', fontSize: 14, textAlign: 'center' }}
+              >
+                正在初始化
+              </Text>
             </View>
-            <View style={{ height: 4 }} />
-            <View style={{ flexDirection: 'row' }}>
-              <PlayerPanel
-                player={players[1]}
-                onPlayerPress={handlePlayerPress}
-                currentPalyerIndex={currentPlayerIndex}
+          ) : (
+            <View>
+              <PlayerCards
+                player={players[currentPlayerIndex]}
+                onChildPanelPress={onChildPanelPress}
                 sum={40}
               />
-              <View style={{ width: 4 }} />
-              <PlayerPanel
-                player={players[2]}
-                onPlayerPress={handlePlayerPress}
-                currentPalyerIndex={currentPlayerIndex}
-                sum={40}
-              />
+              <View style={{ height: 6 }} />
+              <View style={{ paddingHorizontal: 6 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <PlayerPanel
+                    player={players[0]}
+                    onPlayerPress={handlePlayerPress}
+                    currentPalyerIndex={currentPlayerIndex}
+                    sum={40}
+                  />
+                  <View style={{ width: 4 }} />
+                  <PlayerPanel
+                    player={players[3]}
+                    onPlayerPress={handlePlayerPress}
+                    currentPalyerIndex={currentPlayerIndex}
+                    sum={40}
+                  />
+                </View>
+                <View style={{ height: 4 }} />
+                <View style={{ flexDirection: 'row' }}>
+                  <PlayerPanel
+                    player={players[1]}
+                    onPlayerPress={handlePlayerPress}
+                    currentPalyerIndex={currentPlayerIndex}
+                    sum={40}
+                  />
+                  <View style={{ width: 4 }} />
+                  <PlayerPanel
+                    player={players[2]}
+                    onPlayerPress={handlePlayerPress}
+                    currentPalyerIndex={currentPlayerIndex}
+                    sum={40}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
+          )}
         </View>
-      )}
+      </ScrollView>
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
         onDeletePress={onDeletePress}
