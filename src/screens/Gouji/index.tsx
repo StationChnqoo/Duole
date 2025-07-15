@@ -1,13 +1,11 @@
-import SoftKeyboard from '@src/components/SoftKeyboard';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const HelloWorld = () => {
+const Gouji = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Hello World Screen</Text>
-      <SoftKeyboard />
     </View>
   );
 };
-export default HelloWorld;
+export default Gouji;
