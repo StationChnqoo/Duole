@@ -33,9 +33,9 @@ const PlayerPanel: React.FC<MyProps> = props => {
     <TouchableOpacity
       style={[
         styles.container,
-        player.id == currentPalyerIndex
-          ? { borderColor: '#ff5252', backgroundColor: '#ffe6e6' }
-          : { borderColor: '#eee' },
+        {
+          backgroundColor: player.id == currentPalyerIndex ? '#ffe6e6' : '#fff',
+        },
       ]}
       activeOpacity={0.8}
       onPress={() => {
