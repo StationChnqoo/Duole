@@ -27,16 +27,16 @@ const Gouji: React.FC<MyProps> = props => {
   const [isEagle, setIsEagle] = useState(false); // 是否带鹰
   const [bigCardIndex, setBigCardIndex] = useState(1); // 当前大牌索引
 
+  const defaultPlayers = ['对门', '上家', '下家'].map((name, index) => ({
+    id: index,
+    name,
+    cards: Array(3).fill(''),
+    currentCardIndex: 2,
+  }));
+
   // 初始化玩家数据
   useEffect(() => {
-    setPlayers(
-      ['对门', '上家', '下家'].map((name, index) => ({
-        id: index,
-        name,
-        cards: Array(3).fill(''),
-        currentCardIndex: 2,
-      })),
-    );
+    setPlayers(defaultPlayers);
     return function () {};
   }, []);
 
@@ -216,6 +216,9 @@ const Gouji: React.FC<MyProps> = props => {
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
         onDeletePress={onDeletePress}
+        onClearPress={() => {
+          setPlayers(defaultPlayers);
+        }}
       />
     </View>
   );

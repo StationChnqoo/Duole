@@ -15,17 +15,18 @@ const Baohuang: React.FC<MyProps> = props => {
   const { navigation } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  const defaultPlayers = ['上联', '上家', '下家', '下联'].map(
+    (name, index) => ({
+      id: index,
+      name,
+      cards: Array(3).fill(''),
+      currentCardIndex: 2,
+    }),
+  );
 
   // 初始化玩家数据
   useEffect(() => {
-    setPlayers(
-      ['上联', '上家', '下家', '下联'].map((name, index) => ({
-        id: index,
-        name,
-        cards: Array(3).fill(''),
-        currentCardIndex: 2,
-      })),
-    );
+    setPlayers(defaultPlayers);
     return function () {};
   }, []);
 
@@ -127,6 +128,9 @@ const Baohuang: React.FC<MyProps> = props => {
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
         onDeletePress={onDeletePress}
+        onClearPress={() => {
+          setPlayers(defaultPlayers);
+        }}
       />
     </View>
   );

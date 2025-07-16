@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface MyProps {
   onKeyBoardPress?: (key: string) => void; // 可选的键盘按键处理函数
   onDeletePress?: () => void; // 可选的删除按键处理函数
+  onClearPress?: () => void;
 }
 
 const SoftKeyboard: React.FC<MyProps> = props => {
-  const { onKeyBoardPress, onDeletePress } = props;
+  const { onKeyBoardPress, onDeletePress, onClearPress } = props;
 
   const nums = '789456123'.split('').map((it, i) => ({
     label: it,
@@ -93,7 +94,11 @@ const SoftKeyboard: React.FC<MyProps> = props => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            onDeletePress?.();
+            Alert.alert('提示', '确认清除吗？', [
+              { text: '取消', onPress: () => {} },
+              { text: '确认', onPress: onClearPress },
+            ]);
+            onClearPress?.();
           }}
           style={[
             styles.button,
@@ -160,9 +165,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#999',
     backgroundColor: '#f5f5f5',
-    elevation: 1,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },
