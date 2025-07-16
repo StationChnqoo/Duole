@@ -1,4 +1,3 @@
-import PlayerCards from '@src/components/PlayerCards';
 import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
@@ -51,15 +50,12 @@ const Gouji: React.FC<MyProps> = props => {
     );
   }, [isEagle]);
 
-  const handlePlayerPress = (player: Player) => {
+  const handlePlayerPress = (player: Player, index: number) => {
     // 处理玩家点击事件
     setCurrentPlayerIndex(player.id);
-  };
-
-  const onChildPanelPress = (index: number) => {
     setPlayers(
       produce(players, draft => {
-        draft[currentPlayerIndex].currentCardIndex = index;
+        draft[player.id].currentCardIndex = index;
       }),
     );
   };
@@ -115,12 +111,12 @@ const Gouji: React.FC<MyProps> = props => {
             </View>
           ) : (
             <View>
-              <PlayerCards
+              {/* <PlayerCards
                 player={players[currentPlayerIndex]}
                 onChildPanelPress={onChildPanelPress}
                 sum={sum}
               />
-              <View style={{ height: 6 }} />
+              <View style={{ height: 6 }} /> */}
               <View style={{ paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
@@ -194,6 +190,7 @@ const Gouji: React.FC<MyProps> = props => {
                           styles.bigCardsItem,
                           {
                             borderColor: i == bigCardIndex ? '#ff5252' : '#999',
+                            flex: i == 0 ? 2 : 1,
                           },
                         ]}
                         key={i}
@@ -206,7 +203,7 @@ const Gouji: React.FC<MyProps> = props => {
                           {['全局剩余', '我的', '别人'][i]}
                         </Text>
                         <View style={{ height: 4 }} />
-                        <Text style={{ fontSize: 14, color: '#666' }}>
+                        <Text style={{ fontSize: 12, color: '#666' }}>
                           {bigCards[i] || '--'}
                         </Text>
                       </TouchableOpacity>

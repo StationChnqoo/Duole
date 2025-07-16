@@ -1,4 +1,3 @@
-import PlayerCards from '@src/components/PlayerCards';
 import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
@@ -30,15 +29,17 @@ const Baohuang: React.FC<MyProps> = props => {
     return function () {};
   }, []);
 
-  const handlePlayerPress = (player: Player) => {
+  const handlePlayerPress = (player: Player, index: number) => {
     // 处理玩家点击事件
     setCurrentPlayerIndex(player.id);
-  };
-
-  const onChildPanelPress = (index: number) => {
     setPlayers(
       produce(players, draft => {
-        draft[currentPlayerIndex].currentCardIndex = index;
+        draft[player.id].currentCardIndex = index;
+        for (let i = 0; i < draft.length; i++) {
+          if (draft[i].cards[2] != '' && !draft[i].cards[2].endsWith('#')) {
+            draft[i].cards[2] += '#';
+          }
+        }
       }),
     );
   };
@@ -89,12 +90,6 @@ const Baohuang: React.FC<MyProps> = props => {
             </View>
           ) : (
             <View>
-              <PlayerCards
-                player={players[currentPlayerIndex]}
-                onChildPanelPress={onChildPanelPress}
-                sum={40}
-              />
-              <View style={{ height: 6 }} />
               <View style={{ paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
