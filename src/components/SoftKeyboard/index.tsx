@@ -160,6 +160,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#999',
     backgroundColor: '#f5f5f5',
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   buttons: {
     flexDirection: 'row',
