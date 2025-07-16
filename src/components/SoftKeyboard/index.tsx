@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface MyProps {
@@ -36,7 +36,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
     <View style={styles.container}>
       <View style={styles.dot} />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={[styles.buttons, { width: 41 * 3 }]}>
+        <View style={[styles.buttons]}>
           {actions.map((item, index) => (
             <TouchableOpacity
               activeOpacity={0.8}
@@ -44,14 +44,14 @@ const SoftKeyboard: React.FC<MyProps> = props => {
                 onKeyBoardPress?.(item.value);
               }}
               key={index}
-              style={[styles.button, { width: 36 }]}
+              style={[styles.button]}
             >
-              <Text style={{ fontSize: 14, color: '#333' }}>{item.label}</Text>
+              <Text style={{ fontSize: 12, color: '#333' }}>{item.label}</Text>
             </TouchableOpacity>
           ))}
         </View>
         <View style={styles.splite} />
-        <View style={[styles.buttons, { width: 41 * 3 }]}>
+        <View style={[styles.buttons]}>
           {letters.map((item, index) => (
             <TouchableOpacity
               activeOpacity={0.8}
@@ -59,14 +59,21 @@ const SoftKeyboard: React.FC<MyProps> = props => {
                 onKeyBoardPress?.(item.value);
               }}
               key={index}
-              style={[styles.button, { width: 36 }]}
+              style={[styles.button]}
             >
-              <Text style={{ fontSize: 14, color: '#333' }}>{item.label}</Text>
+              <Text
+                style={{
+                  fontSize: item.label.length == 1 ? 14 : 12,
+                  color: '#333',
+                }}
+              >
+                {item.label}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
         <View style={styles.splite} />
-        <View style={[styles.buttons, { width: 41 * 3 }]}>
+        <View style={[styles.buttons]}>
           {nums.map((item, index) => (
             <TouchableOpacity
               activeOpacity={0.8}
@@ -82,7 +89,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
         </View>
       </View>
       <View style={{ height: 10 }} />
-      <View style={styles.buttons}>
+      <View style={[styles.buttons, { width: '100%' }]}>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     height: 28,
-    width: 36,
+    width: 32,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#999',
@@ -159,6 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexWrap: 'wrap',
     rowGap: 8,
+    width: 36 * 3,
   },
   splite: {
     width: 1,
