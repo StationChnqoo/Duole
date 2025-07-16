@@ -95,7 +95,7 @@ const Gouji: React.FC<MyProps> = props => {
           navigation.goBack();
         }}
       />
-      <View style={{ height: 2 }} />
+      <View style={{ height: 6 }} />
       <ScrollView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           {players.length === 0 ? (

@@ -46,32 +46,43 @@ const PlayerPanel: React.FC<MyProps> = props => {
       <View style={{ height: 4 }} />
       <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
       <View style={{ height: 4 }} />
-      <TouchableOpacity
-        style={[styles.cards01, { borderColor: borderColor(0) }]}
-        activeOpacity={0.8}
-        onPress={() => {
-          onPlayerPress(player, 0);
-        }}
-      >
-        <Text style={{ color: 'green', fontSize: 12 }}>
-          进贡：{player.cards[0] || '--'}
-        </Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: 'row', gap: 5 }}>
+        <TouchableOpacity
+          style={[styles.cards01, { borderColor: borderColor(0) }]}
+          activeOpacity={0.8}
+          onPress={() => {
+            onPlayerPress(player, 0);
+          }}
+        >
+          <Text style={{ color: 'green', fontSize: 12 }}>进贡：</Text>
+        </TouchableOpacity>
+        <View style={[styles.cards01, { borderColor: borderColor(0) }]}>
+          <Text style={{ color: 'green', fontSize: 12 }}>
+            {player.cards[0] || '--'}
+          </Text>
+        </View>
+      </View>
       <View style={{ height: 4 }} />
-      <TouchableOpacity
-        style={[styles.cards01, { borderColor: borderColor(1) }]}
-        activeOpacity={0.8}
-        onPress={() => {
-          onPlayerPress(player, 1);
-        }}
-      >
-        <Text style={{ color: 'red', fontSize: 12 }}>
-          吃贡：{player.cards[1] || '--'}
-        </Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: 'row', gap: 5 }}>
+        <TouchableOpacity
+          style={[styles.cards01, { borderColor: borderColor(1) }]}
+          activeOpacity={0.8}
+          onPress={() => {
+            onPlayerPress(player, 1);
+          }}
+        >
+          <Text style={{ color: 'red', fontSize: 12 }}>吃贡：</Text>
+        </TouchableOpacity>
+        <View style={[styles.cards01, { borderColor: borderColor(1) }]}>
+          <Text style={{ color: 'red', fontSize: 12 }}>
+            {player.cards[1] || '--'}
+          </Text>
+        </View>
+      </View>
       <View style={{ height: 4 }} />
       <View style={[styles.cards2, { borderColor: borderColor(2) }]}>
         <Text
+          ellipsizeMode={'head'}
           numberOfLines={2}
           style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
         >
@@ -88,7 +99,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     backgroundColor: '#fff',
-    borderWidth: 1,
     borderRadius: 5,
     position: 'relative',
   },
@@ -122,7 +132,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 4,
     height: 24,
-    width: '61.8%',
   },
 });
 
