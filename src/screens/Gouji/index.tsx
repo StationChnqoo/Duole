@@ -64,9 +64,6 @@ const Gouji: React.FC<MyProps> = props => {
     setPlayers(
       produce(players, draft => {
         let p = draft[currentPlayerIndex];
-        if (card == '10') {
-          card = '0'; // 特殊处理10
-        }
         p.cards[p.currentCardIndex] += card;
       }),
     );
