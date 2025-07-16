@@ -33,7 +33,7 @@ export const parseCard3Groups = (input: string): string => {
  * @returns
  */
 export const calcRemainingRanks = (playedCards: string) => {
-  const allRanks = '3456789JQKA2'.split('');
+  const allRanks = '34567890JQKA2'.split('');
   const groups = playedCards.toUpperCase().trim().split('#');
   const used = new Set<string>();
   for (const group of groups) {
