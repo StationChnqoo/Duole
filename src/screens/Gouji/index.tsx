@@ -45,7 +45,7 @@ const Gouji: React.FC<MyProps> = props => {
     setBigCards(
       produce(bigCards, draft => {
         let hawks = isEagle ? Array(6).fill('Y').join('') : '';
-        draft[0] = hawks + Array(4).fill('DX').join('');
+        draft[0] = hawks + Array(6).fill('DX').join('');
       }),
     );
   }, [isEagle]);
@@ -187,7 +187,7 @@ const Gouji: React.FC<MyProps> = props => {
                           styles.bigCardsItem,
                           {
                             borderColor: i == bigCardIndex ? '#ff5252' : '#999',
-                            flex: i == 0 ? 2 : 1,
+                            flex: i == 0 ? 3 : 1,
                           },
                         ]}
                         key={i}
