@@ -1,4 +1,5 @@
 import { calcRemainingRanks, parseCard3Groups } from '@src/constants/c';
+import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -12,6 +13,8 @@ interface MyProps {
 
 const PlayerPanel: React.FC<MyProps> = props => {
   const { player, onPlayerPress, currentPalyerIndex, sum } = props;
+  const { playedCardsMode } = useCaches();
+
   const borderColor = (index: number) => {
     return player.id == currentPalyerIndex && player.currentCardIndex == index
       ? 'red'
@@ -80,10 +83,18 @@ const PlayerPanel: React.FC<MyProps> = props => {
         </View>
       </View>
       <View style={{ height: 4 }} />
-      <View style={[styles.cards2, { borderColor: borderColor(2) }]}>
+      <View
+        style={[
+          styles.cards2,
+          {
+            borderColor: borderColor(2),
+            height: [24, 16 * 3][playedCardsMode],
+          },
+        ]}
+      >
         <Text
           ellipsizeMode={'head'}
-          numberOfLines={1}
+          numberOfLines={[1, 3][playedCardsMode]}
           style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
         >
           {player.cards[2] || '暂无出牌记录 ~'}

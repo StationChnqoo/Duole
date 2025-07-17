@@ -2914,11 +2914,13 @@ __metadata:
     react: 19.1.0
     react-native: 0.80.1
     react-native-gesture-handler: ^2.27.1
+    react-native-mmkv: ^3.3.0
     react-native-safe-area-context: ^5.5.2
     react-native-screens: ^4.11.1
     react-test-renderer: 19.1.0
     typescript: 5.0.4
     zod: ^4.0.5
+    zustand: ^5.0.6
   languageName: unknown
   linkType: soft
 
@@ -7931,6 +7933,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-mmkv@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "react-native-mmkv@npm:3.3.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 2544e4a2d37429a17fba14bc12140b45d8da3e2b4a3d4cf884c355cca8d57dd425fd45160c5552e4b725978b037f3dfadd408db05735bb21341eea92e0c2a869
+  languageName: node
+  linkType: hard
+
 "react-native-safe-area-context@npm:^5.5.2":
   version: 5.5.2
   resolution: "react-native-safe-area-context@npm:5.5.2"
@@ -9614,5 +9626,26 @@ __metadata:
   version: 4.0.5
   resolution: "zod@npm:4.0.5"
   checksum: d1e35c6737ac448e2115e5f3bfa4d71e398f4f4c95243fd4128dca74f7df40163337a26c812bc365ea95e27206787ab57bd4d682c8e8b8af2ed298eff1e7d8ba
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "zustand@npm:5.0.6"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    immer: ">=9.0.6"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+    use-sync-external-store:
+      optional: true
+  checksum: 1808cd7d49e8ba6777e0d8d524a858a918a4fd0bcbde88eb19ea3f4be9c8066276ecc236a8ed071623d3f13373424c56a5ddb0013be590b641ac99bf8f9b4e19
   languageName: node
   linkType: hard

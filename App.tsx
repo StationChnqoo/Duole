@@ -1,5 +1,8 @@
-import { NewAppScreen } from '@react-native/new-app-screen';
-import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import CheckBox from '@src/components/CheckBox';
+import Flex from '@src/components/Flex';
+import { useCaches } from '@src/constants/store';
+import React from 'react';
 import {
   Platform,
   ScrollView,
@@ -10,11 +13,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import { RootStacksProp } from './src/screens/Screens';
-import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import CheckBox from '@src/components/CheckBox';
-import Flex from '@src/components/Flex';
+import { RootStacksProp } from './src/screens/Screens';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -23,7 +23,7 @@ interface MyProps {
 const App: React.FC<MyProps> = props => {
   const isDarkMode = useColorScheme() === 'dark';
   const { navigation } = props;
-  const [playedCardsMode, setPlayedCardsMode] = useState(0);
+  const { playedCardsMode, setPlayedCardsMode } = useCaches();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -95,7 +95,6 @@ const App: React.FC<MyProps> = props => {
               游戏设置
             </Text>
             <View style={{ height: 12 }} />
-
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
                 出牌记录模式
