@@ -1,5 +1,5 @@
 import { NewAppScreen } from '@react-native/new-app-screen';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Platform,
   ScrollView,
@@ -13,6 +13,8 @@ import {
 import { RootStacksProp } from './src/screens/Screens';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import CheckBox from '@src/components/CheckBox';
+import Flex from '@src/components/Flex';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -21,6 +23,7 @@ interface MyProps {
 const App: React.FC<MyProps> = props => {
   const isDarkMode = useColorScheme() === 'dark';
   const { navigation } = props;
+  const [playedCardsMode, setPlayedCardsMode] = useState(0);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -86,6 +89,32 @@ const App: React.FC<MyProps> = props => {
               ))}
             </View>
           </View>
+          <View style={{ height: 12 }} />
+          <View style={{ padding: 12, backgroundColor: '#fff' }}>
+            <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
+              游戏设置
+            </Text>
+            <View style={{ height: 12 }} />
+
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
+                出牌记录模式
+              </Text>
+              <Flex horizontal align={'center'}>
+                <CheckBox
+                  checked={playedCardsMode == 0}
+                  onPress={() => setPlayedCardsMode(0)}
+                  label={'简洁模式'}
+                />
+                <View style={{ width: 12 }} />
+                <CheckBox
+                  checked={playedCardsMode == 1}
+                  onPress={() => setPlayedCardsMode(1)}
+                  label={'详细模式'}
+                />
+              </Flex>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -105,6 +134,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  settingItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 

@@ -83,7 +83,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
       <View style={[styles.cards2, { borderColor: borderColor(2) }]}>
         <Text
           ellipsizeMode={'head'}
-          numberOfLines={2}
+          numberOfLines={1}
           style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
         >
           {player.cards[2] || '暂无出牌记录 ~'}
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     top: 12,
   },
   cards2: {
-    height: 32,
+    height: 24,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 4,
