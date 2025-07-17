@@ -44,3 +44,29 @@ export const calcRemainingRanks = (playedCards: string) => {
   }
   return allRanks.filter(rank => !used.has(rank)).join('');
 };
+
+/**
+ *
+ * @returns
+ */
+export const buildRandomHexColor = () => {
+  return `#${Math.floor(Math.random() * 0xffffff)
+    .toString(16)
+    .padStart(6, '0')}`;
+};
+
+/**
+ * Hex -> rgba
+ * @param hex 
+ * @param alpha 
+ * @returns 
+ */
+export const hexToRgba = (hex: string, alpha = 1) => {
+  // 去除 # 号
+  hex = hex.replace('#', '');
+  // 解析 R, G, B
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};

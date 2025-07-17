@@ -26,7 +26,7 @@ interface States {
 
 const initialState = {
   bears: 0,
-  theme: '#827100',
+  theme: '#987123',
   playedCardsMode: 0,
 };
 

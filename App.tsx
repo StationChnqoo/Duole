@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from './src/screens/Screens';
+import { buildRandomHexColor } from '@src/constants/c';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -23,7 +24,7 @@ interface MyProps {
 const App: React.FC<MyProps> = props => {
   const isDarkMode = useColorScheme() === 'dark';
   const { navigation } = props;
-  const { playedCardsMode, setPlayedCardsMode } = useCaches();
+  const { playedCardsMode, setPlayedCardsMode, theme, setTheme } = useCaches();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -102,16 +103,35 @@ const App: React.FC<MyProps> = props => {
               <Flex horizontal align={'center'}>
                 <CheckBox
                   checked={playedCardsMode == 0}
+                  activeColor={theme}
                   onPress={() => setPlayedCardsMode(0)}
                   label={'简洁模式'}
                 />
                 <View style={{ width: 12 }} />
                 <CheckBox
                   checked={playedCardsMode == 1}
+                  activeColor={theme}
                   onPress={() => setPlayedCardsMode(1)}
                   label={'详细模式'}
                 />
               </Flex>
+            </View>
+            <View style={{ height: 12 }} />
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
+                主题颜色
+              </Text>
+              <TouchableOpacity
+                style={[styles.themeTag, { borderColor: theme }]}
+                activeOpacity={0.8}
+                onPress={() => {
+                  setTheme(buildRandomHexColor());
+                }}
+              >
+                <Text style={{ fontSize: 14, color: theme }}>
+                  换一组：{theme}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -138,6 +158,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  themeTag: {
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 24,
+    paddingHorizontal: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

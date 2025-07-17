@@ -1,4 +1,8 @@
-import { calcRemainingRanks, parseCard3Groups } from '@src/constants/c';
+import {
+  calcRemainingRanks,
+  hexToRgba,
+  parseCard3Groups,
+} from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import React, { useMemo } from 'react';
@@ -13,11 +17,11 @@ interface MyProps {
 
 const PlayerPanel: React.FC<MyProps> = props => {
   const { player, onPlayerPress, currentPalyerIndex, sum } = props;
-  const { playedCardsMode } = useCaches();
+  const { playedCardsMode, theme } = useCaches();
 
   const borderColor = (index: number) => {
     return player.id == currentPalyerIndex && player.currentCardIndex == index
-      ? 'red'
+      ? theme
       : '#ccc';
   };
   const remainingCardsCount = useMemo(() => {
@@ -37,7 +41,8 @@ const PlayerPanel: React.FC<MyProps> = props => {
       style={[
         styles.container,
         {
-          backgroundColor: player.id == currentPalyerIndex ? '#ffe6e6' : '#fff',
+          backgroundColor:
+            player.id == currentPalyerIndex ? hexToRgba(theme, 0.08) : '#fff',
         },
       ]}
       activeOpacity={0.8}

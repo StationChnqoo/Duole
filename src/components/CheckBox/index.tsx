@@ -6,10 +6,20 @@ interface MyProps {
   size?: number;
   label?: string;
   onPress?: () => void;
+  activeColor?: string;
+  inactiveColor?: string;
 }
 
 const CheckBox: React.FC<MyProps> = props => {
-  const { checked, size = 16, label, onPress } = props;
+  const {
+    checked,
+    size = 16,
+    label,
+    onPress,
+    activeColor = '#987123',
+    inactiveColor = '#ccc',
+  } = props;
+
   return (
     <TouchableOpacity
       hitSlop={{ top: 4, left: 4, right: 4, bottom: 4 }}
@@ -22,12 +32,12 @@ const CheckBox: React.FC<MyProps> = props => {
       {checked ? (
         <Image
           source={require('./assets/checked.png')}
-          style={{ height: size, width: size, tintColor: '#987123' }}
+          style={{ height: size, width: size, tintColor: activeColor }}
         />
       ) : (
         <Image
           source={require('./assets/unchecked.png')}
-          style={{ height: size, width: size, tintColor: '#999' }}
+          style={{ height: size, width: size, tintColor: inactiveColor }}
         />
       )}
       {label ? <Text style={styles.label}>{label}</Text> : null}
