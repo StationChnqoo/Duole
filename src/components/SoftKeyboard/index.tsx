@@ -16,15 +16,14 @@ const SoftKeyboard: React.FC<MyProps> = props => {
     value: it,
   }));
   const letters = ['0', 'J', 'Q', 'K', 'A']
-    .reverse()
     .map((item, index) => ({
       label: item,
       value: item,
     }))
     .concat([
       { label: '鹰', value: 'Y' },
-      { label: '大王', value: 'D' },
       { label: '小王', value: 'X' },
+      { label: '大王', value: 'D' },
     ]);
   const actions = [
     { label: 'D.点', value: 'D' },
