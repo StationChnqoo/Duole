@@ -80,6 +80,11 @@ const Gouji: React.FC<MyProps> = props => {
     setPlayers(
       produce(players, draft => {
         draft[player.id].currentCardIndex = index;
+        for (let i = 0; i < draft.length; i++) {
+          if (draft[i].cards[2] != '' && !draft[i].cards[2].endsWith('#')) {
+            draft[i].cards[2] += '#';
+          }
+        }
       }),
     );
   };
