@@ -204,9 +204,10 @@ const Gouji: React.FC<MyProps> = props => {
                               <Text style={{ color: '#333', fontSize: 14 }}>
                                 {['我的', '别人'][i]}
                               </Text>
+                              <View style={{ width: 4 }} />
                               <Text
-                                style={{ fontSize: 14, color: '#666' }}
-                                ellipsizeMode={'middle'}
+                                style={{ fontSize: 14, color: '#666', flex: 1 }}
+                                ellipsizeMode={'head'}
                                 numberOfLines={1}
                               >
                                 {it || '--'}
@@ -291,6 +292,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     borderRadius: 10,
+    paddingHorizontal: 12,
     padding: 12,
   },
   bigCardsItem: {

@@ -93,7 +93,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
           styles.cards2,
           {
             borderColor: borderColor(2),
-            height: [24, 16 * 3][playedCardsMode],
+            height: [28, 16 * 3][playedCardsMode],
           },
         ]}
       >
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
     top: 12,
   },
   cards2: {
-    height: 24,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 4,

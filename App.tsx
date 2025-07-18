@@ -80,7 +80,6 @@ const App: React.FC<MyProps> = props => {
                     style={{
                       color: '#333',
                       fontSize: 14,
-                      fontWeight: '500',
                     }}
                   >
                     {item.title}
