@@ -1,11 +1,13 @@
 import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
+import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { produce } from 'immer';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Dimensions,
+  Image,
   ScrollView,
   StyleSheet,
   Switch,
@@ -14,6 +16,7 @@ import {
   View,
 } from 'react-native';
 import { RootStacksProp } from '../Screens';
+import Flex from '@src/components/Flex';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -23,9 +26,40 @@ const Gouji: React.FC<MyProps> = props => {
   const { navigation } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [bigCards, setBigCards] = useState<string[]>(Array(3).fill('')); // 大牌统计
+  const [bigCards, setBigCards] = useState<string[]>(Array(2).fill('')); // 大牌统计
   const [isEagle, setIsEagle] = useState(false); // 是否带鹰
-  const [bigCardIndex, setBigCardIndex] = useState(1); // 当前大牌索引
+  const { theme } = useCaches();
+  const [isExpandBigCards, setIsExpandBigCards] = useState(false);
+
+  const subtractCards = (allCards: string, ...removes: string[]) => {
+    const countMap: Record<string, number> = {};
+    // 构建 baseStr 的计数映射
+    for (const card of allCards) {
+      countMap[card] = (countMap[card] || 0) + 1;
+    }
+
+    // 遍历所有要移除的牌，进行扣减
+    for (const removeStr of removes) {
+      for (const card of removeStr) {
+        if (countMap[card]) {
+          countMap[card]--;
+        }
+      }
+    }
+
+    // 构造剩余的牌字符串
+    let result = '';
+    for (const card in countMap) {
+      result += card.repeat(countMap[card]);
+    }
+    return result;
+  };
+
+  const remainingBigCards = useMemo(() => {
+    let hawks = isEagle ? Array(6).fill('Y').join('') : '';
+    let allBigCards = hawks + Array(6).fill('DX').join('');
+    return subtractCards(allBigCards, bigCards[0], bigCards[1]);
+  }, [isEagle, bigCards]);
 
   const defaultPlayers = ['对门', '上家', '下家'].map((name, index) => ({
     id: index,
@@ -40,16 +74,6 @@ const Gouji: React.FC<MyProps> = props => {
     return function () {};
   }, []);
 
-  useEffect(() => {
-    // 初始化大牌统计
-    setBigCards(
-      produce(bigCards, draft => {
-        let hawks = isEagle ? Array(6).fill('Y').join('') : '';
-        draft[0] = hawks + Array(6).fill('DX').join('');
-      }),
-    );
-  }, [isEagle]);
-
   const handlePlayerPress = (player: Player, index: number) => {
     // 处理玩家点击事件
     setCurrentPlayerIndex(player.id);
@@ -61,12 +85,20 @@ const Gouji: React.FC<MyProps> = props => {
   };
 
   const onKeyBoardPress = (card: string) => {
-    setPlayers(
-      produce(players, draft => {
-        let p = draft[currentPlayerIndex];
-        p.cards[p.currentCardIndex] += card;
-      }),
-    );
+    if (currentPlayerIndex < 3) {
+      setPlayers(
+        produce(players, draft => {
+          let p = draft[currentPlayerIndex];
+          p.cards[p.currentCardIndex] += card;
+        }),
+      );
+    } else {
+      setBigCards(
+        produce(bigCards, draft => {
+          draft[currentPlayerIndex - 3] += card;
+        }),
+      );
+    }
   };
 
   const onDeletePress = () => {
@@ -108,13 +140,79 @@ const Gouji: React.FC<MyProps> = props => {
             </View>
           ) : (
             <View>
-              {/* <PlayerCards
-                player={players[currentPlayerIndex]}
-                onChildPanelPress={onChildPanelPress}
-                sum={sum}
-              />
-              <View style={{ height: 6 }} /> */}
               <View style={{ paddingHorizontal: 10 }}>
+                <View style={styles.settingPanel}>
+                  <Flex horizontal justify={'space-between'}>
+                    <View>
+                      <Text style={{ fontSize: 14, color: '#333' }}>
+                        大牌统计（鹰、大王、小王）
+                      </Text>
+                      <View style={{ height: 4 }} />
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: theme,
+                        }}
+                        numberOfLines={1}
+                      >
+                        {remainingBigCards}
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      hitSlop={{ top: 5, left: 5, bottom: 5, right: 5 }}
+                      onPress={() => {
+                        setIsExpandBigCards(!isExpandBigCards);
+                      }}
+                    >
+                      <Image
+                        style={{ height: 16, width: 16, tintColor: theme }}
+                        source={
+                          isExpandBigCards
+                            ? require('@src/assets/images/common/arrow_up.png')
+                            : require('@src/assets/images/common/arrow_right.png')
+                        }
+                      />
+                    </TouchableOpacity>
+                  </Flex>
+                  {isExpandBigCards ? (
+                    <View style={{ marginTop: 5 }}>
+                      <Flex horizontal style={{ gap: 12 }}>
+                        {bigCards.map((it, i) => (
+                          <TouchableOpacity
+                            key={i}
+                            activeOpacity={0.8}
+                            style={[
+                              styles.bigCardsItem,
+                              {
+                                borderColor:
+                                  i + 3 == currentPlayerIndex ? theme : '#999',
+                                flex: 1,
+                              },
+                            ]}
+                            onPress={() => {
+                              setCurrentPlayerIndex(i + 3);
+                            }}
+                          >
+                            <Flex horizontal justify={'space-between'}>
+                              <Text style={{ color: '#333', fontSize: 14 }}>
+                                {['我的', '别人'][i]}
+                              </Text>
+                              <Text
+                                style={{ fontSize: 14, color: '#666' }}
+                                ellipsizeMode={'middle'}
+                                numberOfLines={1}
+                              >
+                                {it || '--'}
+                              </Text>
+                            </Flex>
+                          </TouchableOpacity>
+                        ))}
+                      </Flex>
+                    </View>
+                  ) : null}
+                </View>
+                <View style={{ height: 10 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
                     player={players[0]}
@@ -122,38 +220,6 @@ const Gouji: React.FC<MyProps> = props => {
                     currentPalyerIndex={currentPlayerIndex}
                     sum={sum}
                   />
-                  <View style={{ width: 5 }} />
-                  <View style={styles.settingPanel}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: '#333',
-                        fontWeight: '500',
-                      }}
-                    >
-                      设置
-                    </Text>
-                    <View style={{ height: 6 }} />
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <Text style={{ fontSize: 14, color: '#666' }}>
-                        是否带鹰🦅
-                      </Text>
-                      <Switch
-                        value={isEagle}
-                        onValueChange={value => {
-                          setIsEagle(value);
-                        }}
-                        trackColor={{ false: '#ccc', true: '#ff5252' }}
-                        thumbColor={isEagle ? '#fff' : '#f4f3f4'}
-                      />
-                    </View>
-                  </View>
                 </View>
                 <View style={{ height: 5 }} />
                 <View style={{ flexDirection: 'row' }}>
@@ -171,40 +237,36 @@ const Gouji: React.FC<MyProps> = props => {
                     sum={sum}
                   />
                 </View>
-                <View style={{ height: 5 }} />
+                <View style={{ height: 10 }} />
                 <View style={styles.settingPanel}>
-                  <Text>大牌统计（鹰、大王、小王、2）</Text>
-                  <View style={{ height: 5 }} />
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: '#333',
+                      fontWeight: '500',
+                    }}
+                  >
+                    设置
+                  </Text>
+                  <View style={{ height: 6 }} />
                   <View
                     style={{
                       flexDirection: 'row',
-                      gap: 12,
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
                     }}
                   >
-                    {bigCards.map((it, i) => (
-                      <TouchableOpacity
-                        style={[
-                          styles.bigCardsItem,
-                          {
-                            borderColor: i == bigCardIndex ? '#ff5252' : '#999',
-                            flex: i == 0 ? 3 : 1,
-                          },
-                        ]}
-                        key={i}
-                        onPress={() => {
-                          setBigCardIndex(i);
-                        }}
-                        disabled={i == 0}
-                      >
-                        <Text style={{ color: '#333', fontSize: 14 }}>
-                          {['全局剩余', '我的', '别人'][i]}
-                        </Text>
-                        <View style={{ height: 4 }} />
-                        <Text style={{ fontSize: 12, color: '#666' }}>
-                          {bigCards[i] || '--'}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
+                    <Text style={{ fontSize: 14, color: '#666' }}>
+                      是否带鹰🦅
+                    </Text>
+                    <Switch
+                      value={isEagle}
+                      onValueChange={value => {
+                        setIsEagle(value);
+                      }}
+                      trackColor={{ false: '#ccc', true: '#ff5252' }}
+                      thumbColor={isEagle ? '#fff' : '#f4f3f4'}
+                    />
                   </View>
                 </View>
               </View>
@@ -228,15 +290,17 @@ const styles = StyleSheet.create({
   settingPanel: {
     flex: 1,
     backgroundColor: '#fff',
-    borderRadius: 5,
+    borderRadius: 10,
     padding: 12,
   },
   bigCardsItem: {
     flex: 1,
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 5,
+    height: 32,
+    paddingHorizontal: 10,
     borderColor: '#999',
     borderWidth: 1,
+    justifyContent: 'center',
   },
 });
 export default Gouji;

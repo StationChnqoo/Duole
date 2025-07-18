@@ -4,6 +4,7 @@ import Flex from '@src/components/Flex';
 import { useCaches } from '@src/constants/store';
 import React from 'react';
 import {
+  Image,
   Platform,
   ScrollView,
   StatusBar,
@@ -22,7 +23,6 @@ interface MyProps {
 }
 
 const App: React.FC<MyProps> = props => {
-  const isDarkMode = useColorScheme() === 'dark';
   const { navigation } = props;
   const { playedCardsMode, setPlayedCardsMode, theme, setTheme } = useCaches();
 
@@ -46,15 +46,15 @@ const App: React.FC<MyProps> = props => {
   const games = [
     {
       id: 'gj',
-      title: '6副牌够级',
+      title: '够级',
       page: 'Gouji',
-      message: '带鹰🦅和不带鹰🦅玩法',
+      message: '6副牌、带鹰🦅和不带鹰🦅玩法',
     },
     {
       id: 'bh',
-      title: '保皇炸弹💣场',
+      title: '保皇',
       page: 'Baohuang',
-      message: '潍坊保皇和疯狂保皇玩法',
+      message: '炸弹💣场、潍坊保皇和疯狂保皇玩法',
     },
   ];
   return (
@@ -66,29 +66,38 @@ const App: React.FC<MyProps> = props => {
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏列表
             </Text>
-            <View style={{ height: 12 }} />
-            <View style={{ flexDirection: 'row', gap: 12 }}>
-              {games.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.item}
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    navigation.navigate(item.page as never);
-                  }}
-                >
+            {games.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.item}
+                activeOpacity={0.8}
+                onPress={() => {
+                  navigation.navigate(item.page as never);
+                }}
+              >
+                <Flex horizontal justify={'space-between'}>
                   <Text
-                    style={{ color: '#333', fontSize: 14, fontWeight: '500' }}
+                    style={{
+                      color: '#333',
+                      fontSize: 14,
+                      fontWeight: '500',
+                    }}
                   >
                     {item.title}
                   </Text>
-                  <View style={{ height: 5 }} />
-                  <Text style={{ fontSize: 12, color: '#666' }}>
-                    {item.message}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+                  <Flex horizontal>
+                    <Text style={{ fontSize: 12, color: '#666' }}>
+                      {item.message}
+                    </Text>
+                    <View style={{ width: 4 }} />
+                    <Image
+                      source={require('@src/assets/images/common/arrow_right.png')}
+                      style={{ height: 14, width: 14, tintColor: theme }}
+                    />
+                  </Flex>
+                </Flex>
+              </TouchableOpacity>
+            ))}
           </View>
           <View style={{ height: 12 }} />
           <View style={{ padding: 12, backgroundColor: '#fff' }}>
@@ -149,10 +158,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+    borderRadius: 5,
+    marginTop: 10,
   },
   settingItem: {
     flexDirection: 'row',
