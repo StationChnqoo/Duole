@@ -70,7 +70,7 @@ const Baohuang: React.FC<MyProps> = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
       <ToolBar
-        title={'潍坊保皇'}
+        title={'保皇'}
         onBackPress={() => {
           navigation.goBack();
         }}

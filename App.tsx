@@ -1,6 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
+import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import React from 'react';
 import {
@@ -11,12 +12,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from './src/screens/Screens';
-import { buildRandomHexColor } from '@src/constants/c';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -61,8 +60,9 @@ const App: React.FC<MyProps> = props => {
     <View style={styles.container}>
       <View style={{ backgroundColor: '#fff', height }} />
       <ScrollView>
-        <View style={{ flex: 1 }}>
-          <View style={{ padding: 12, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, paddingHorizontal: 12 }}>
+          <View style={{ height: 12 }} />
+          <View style={styles.card}>
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏列表
             </Text>
@@ -100,7 +100,7 @@ const App: React.FC<MyProps> = props => {
             ))}
           </View>
           <View style={{ height: 12 }} />
-          <View style={{ padding: 12, backgroundColor: '#fff' }}>
+          <View style={styles.card}>
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏设置
             </Text>
@@ -173,6 +173,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  card: {
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: '#fff',
   },
 });
 

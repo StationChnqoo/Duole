@@ -127,7 +127,7 @@ const Gouji: React.FC<MyProps> = props => {
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
       <ToolBar
-        title={'6副牌够级'}
+        title={'够级'}
         onBackPress={() => {
           navigation.goBack();
         }}
