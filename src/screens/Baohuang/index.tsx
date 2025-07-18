@@ -75,7 +75,6 @@ const Baohuang: React.FC<MyProps> = props => {
           navigation.goBack();
         }}
       />
-      <View style={{ height: 6 }} />
       <ScrollView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           {players.length === 0 ? (
@@ -89,6 +88,7 @@ const Baohuang: React.FC<MyProps> = props => {
           ) : (
             <View>
               <View style={{ paddingHorizontal: 10 }}>
+                <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
                     player={players[0]}

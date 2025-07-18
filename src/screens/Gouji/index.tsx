@@ -33,7 +33,7 @@ const Gouji: React.FC<MyProps> = props => {
 
   const subtractCards = (allCards: string, ...removes: string[]) => {
     const countMap: Record<string, number> = {};
-    // 构建 baseStr 的计数映射
+    // 构建 allCards 的计数映射
     for (const card of allCards) {
       countMap[card] = (countMap[card] || 0) + 1;
     }
@@ -132,7 +132,7 @@ const Gouji: React.FC<MyProps> = props => {
           navigation.goBack();
         }}
       />
-      <View style={{ height: 6 }} />
+
       <ScrollView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           {players.length === 0 ? (
@@ -146,6 +146,7 @@ const Gouji: React.FC<MyProps> = props => {
           ) : (
             <View>
               <View style={{ paddingHorizontal: 10 }}>
+                <View style={{ height: 6 }} />
                 <View style={styles.settingPanel}>
                   <Flex horizontal justify={'space-between'}>
                     <View>
@@ -254,13 +255,7 @@ const Gouji: React.FC<MyProps> = props => {
                     设置
                   </Text>
                   <View style={{ height: 6 }} />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
+                  <Flex horizontal justify={'space-between'}>
                     <Text style={{ fontSize: 14, color: '#666' }}>
                       是否带鹰🦅
                     </Text>
@@ -272,7 +267,7 @@ const Gouji: React.FC<MyProps> = props => {
                       trackColor={{ false: '#ccc', true: '#ff5252' }}
                       thumbColor={isEagle ? '#fff' : '#f4f3f4'}
                     />
-                  </View>
+                  </Flex>
                 </View>
               </View>
             </View>
