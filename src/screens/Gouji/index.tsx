@@ -226,9 +226,10 @@ const Gouji: React.FC<MyProps> = props => {
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
                     sum={sum}
+                    direction={'row'}
                   />
                 </View>
-                <View style={{ height: 5 }} />
+                <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
                     player={players[1]}
@@ -236,7 +237,7 @@ const Gouji: React.FC<MyProps> = props => {
                     currentPalyerIndex={currentPlayerIndex}
                     sum={sum}
                   />
-                  <View style={{ width: 5 }} />
+                  <View style={{ width: 6 }} />
                   <PlayerPanel
                     player={players[2]}
                     onPlayerPress={handlePlayerPress}
@@ -257,7 +258,7 @@ const Gouji: React.FC<MyProps> = props => {
                   </Text>
                   <View style={{ height: 6 }} />
                   <Flex horizontal justify={'space-between'}>
-                    <Text style={{ fontSize: 14, color: '#666' }}>
+                    <Text style={{ fontSize: 14, color: '#333' }}>
                       是否带鹰🦅
                     </Text>
                     <Switch
@@ -273,7 +274,6 @@ const Gouji: React.FC<MyProps> = props => {
               </View>
             </View>
           )}
-          <View style={{ height: Dimensions.get('screen').width }} />
         </View>
       </ScrollView>
       <SoftKeyboard
@@ -305,4 +305,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
 export default Gouji;

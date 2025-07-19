@@ -7,16 +7,24 @@ import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Flex from '../Flex';
 
 interface MyProps {
   player: Player;
   onPlayerPress?: (player: Player, cardsIndex: number) => void; // 可选的点击事件处理函数
   currentPalyerIndex?: number; // 当前玩家索引，用于高亮显示
   sum: number;
+  direction?: 'column' | 'row';
 }
 
 const PlayerPanel: React.FC<MyProps> = props => {
-  const { player, onPlayerPress, currentPalyerIndex, sum } = props;
+  const {
+    player,
+    onPlayerPress,
+    currentPalyerIndex,
+    sum,
+    direction = 'column',
+  } = props;
   const { playedCardsMode, theme } = useCaches();
 
   const borderColor = (index: number) => {
@@ -36,6 +44,27 @@ const PlayerPanel: React.FC<MyProps> = props => {
   const remainingCards = useMemo(() => {
     return calcRemainingRanks(player.cards[2]);
   }, [player.cards]);
+
+  const renderCards2 = (extraStyle: any) => (
+    <View
+      style={[
+        styles.cards2,
+        {
+          borderColor: borderColor(2),
+          height: [28, 16 * 3][playedCardsMode],
+        },
+        extraStyle,
+      ]}
+    >
+      <Text
+        ellipsizeMode={'head'}
+        numberOfLines={[1, 3][playedCardsMode]}
+        style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
+      >
+        {player.cards[2] || '暂无出牌记录 ~'}
+      </Text>
+    </View>
+  );
   return (
     <TouchableOpacity
       style={[
@@ -54,57 +83,54 @@ const PlayerPanel: React.FC<MyProps> = props => {
       <View style={{ height: 4 }} />
       <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
       <View style={{ height: 4 }} />
-      <View style={{ flexDirection: 'row', gap: 5 }}>
-        <TouchableOpacity
-          style={[styles.cards01, { borderColor: borderColor(0) }]}
-          activeOpacity={0.8}
-          onPress={() => {
-            onPlayerPress(player, 0);
-          }}
-        >
-          <Text style={{ color: 'green', fontSize: 12 }}>进贡：</Text>
-        </TouchableOpacity>
-        <View style={[styles.cards01, { borderColor: borderColor(0) }]}>
-          <Text style={{ color: 'green', fontSize: 12 }}>
-            {player.cards[0] || '--'}
-          </Text>
-        </View>
-      </View>
-      <View style={{ height: 4 }} />
-      <View style={{ flexDirection: 'row', gap: 5 }}>
-        <TouchableOpacity
-          style={[styles.cards01, { borderColor: borderColor(1) }]}
-          activeOpacity={0.8}
-          onPress={() => {
-            onPlayerPress(player, 1);
-          }}
-        >
-          <Text style={{ color: 'red', fontSize: 12 }}>吃贡：</Text>
-        </TouchableOpacity>
-        <View style={[styles.cards01, { borderColor: borderColor(1) }]}>
-          <Text style={{ color: 'red', fontSize: 12 }}>
-            {player.cards[1] || '--'}
-          </Text>
-        </View>
-      </View>
-      <View style={{ height: 4 }} />
-      <View
-        style={[
-          styles.cards2,
-          {
-            borderColor: borderColor(2),
-            height: [28, 16 * 3][playedCardsMode],
-          },
-        ]}
+      <Flex
+        horizontal={direction == 'row'}
+        justify={'space-between'}
+        // @ts-ignore
+        align={{ row: 'center', column: 'flex-start' }[direction]}
       >
-        <Text
-          ellipsizeMode={'head'}
-          numberOfLines={[1, 3][playedCardsMode]}
-          style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
-        >
-          {player.cards[2] || '暂无出牌记录 ~'}
-        </Text>
-      </View>
+        <View>
+          <View style={{ flexDirection: 'row', gap: 5 }}>
+            <TouchableOpacity
+              style={[styles.cards01, { borderColor: borderColor(0) }]}
+              activeOpacity={0.8}
+              onPress={() => {
+                onPlayerPress(player, 0);
+              }}
+            >
+              <Text style={{ color: 'green', fontSize: 12 }}>进贡：</Text>
+            </TouchableOpacity>
+            <View style={[styles.cards01, { borderColor: borderColor(0) }]}>
+              <Text style={{ color: 'green', fontSize: 12 }}>
+                {player.cards[0] || '--'}
+              </Text>
+            </View>
+          </View>
+          <View style={{ height: 4 }} />
+          <View style={{ flexDirection: 'row', gap: 5 }}>
+            <TouchableOpacity
+              style={[styles.cards01, { borderColor: borderColor(1) }]}
+              activeOpacity={0.8}
+              onPress={() => {
+                onPlayerPress(player, 1);
+              }}
+            >
+              <Text style={{ color: 'red', fontSize: 12 }}>吃贡：</Text>
+            </TouchableOpacity>
+            <View style={[styles.cards01, { borderColor: borderColor(1) }]}>
+              <Text style={{ color: 'red', fontSize: 12 }}>
+                {player.cards[1] || '--'}
+              </Text>
+            </View>
+          </View>
+        </View>
+        {direction == 'row' ? (
+          renderCards2({ marginLeft: 10, width: '50%' })
+        ) : (
+          <View />
+        )}
+      </Flex>
+      {direction == 'column' && renderCards2({ marginTop: 10 })}
       <Text style={styles.remaingCount}>{remainingCardsCount}张</Text>
     </TouchableOpacity>
   );

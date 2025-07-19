@@ -1,10 +1,13 @@
+import CheckBox from '@src/components/CheckBox';
+import Flex from '@src/components/Flex';
 import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
+import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { produce } from 'immer';
-import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStacksProp } from '../Screens';
 
 interface MyProps {
@@ -15,6 +18,9 @@ const Baohuang: React.FC<MyProps> = props => {
   const { navigation } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  const { theme } = useCaches();
+  const [gameArea, setGameArea] = useState<'wf' | 'fk'>('wf'); // 潍坊 | 疯狂
+
   const defaultPlayers = ['上联', '上家', '下家', '下联'].map(
     (name, index) => ({
       id: index,
@@ -67,6 +73,11 @@ const Baohuang: React.FC<MyProps> = props => {
       }),
     );
   };
+
+  const sum = useMemo(() => {
+    return { wf: 40, fk: 30 }[gameArea];
+  }, [gameArea]);
+
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
       <ToolBar
@@ -87,42 +98,75 @@ const Baohuang: React.FC<MyProps> = props => {
             </View>
           ) : (
             <View>
-              <View style={{ paddingHorizontal: 10 }}>
+              <View style={{ paddingHorizontal: 12 }}>
                 <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
                     player={players[0]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
-                    sum={40}
+                    sum={sum}
                   />
-                  <View style={{ width: 4 }} />
+                  <View style={{ width: 6 }} />
                   <PlayerPanel
                     player={players[3]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
-                    sum={40}
+                    sum={sum}
                   />
                 </View>
-                <View style={{ height: 4 }} />
+                <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <PlayerPanel
                     player={players[1]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
-                    sum={40}
+                    sum={sum}
                   />
-                  <View style={{ width: 4 }} />
+                  <View style={{ width: 6 }} />
                   <PlayerPanel
                     player={players[2]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
-                    sum={40}
+                    sum={sum}
                   />
                 </View>
               </View>
             </View>
           )}
+          <View style={{ height: 10 }} />
+          <View style={{ paddingHorizontal: 12 }}>
+            <View style={styles.settingPanel}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: '#333',
+                  fontWeight: '500',
+                }}
+              >
+                设置
+              </Text>
+              <View style={{ height: 6 }} />
+              <Flex horizontal justify={'space-between'}>
+                <Text style={{ fontSize: 14, color: '#333' }}>保皇玩法</Text>
+                <Flex horizontal>
+                  <CheckBox
+                    checked={gameArea == 'wf'}
+                    activeColor={theme}
+                    onPress={() => setGameArea('wf')}
+                    label={'Wf.潍坊保皇'}
+                  />
+                  <View style={{ width: 12 }} />
+                  <CheckBox
+                    checked={gameArea == 'fk'}
+                    activeColor={theme}
+                    onPress={() => setGameArea('fk')}
+                    label={'Fk.疯狂保皇'}
+                  />
+                </Flex>
+              </Flex>
+            </View>
+          </View>
         </View>
       </ScrollView>
       <SoftKeyboard
@@ -136,4 +180,13 @@ const Baohuang: React.FC<MyProps> = props => {
   );
 };
 
+const styles = StyleSheet.create({
+  settingPanel: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    padding: 12,
+  },
+});
 export default Baohuang;
