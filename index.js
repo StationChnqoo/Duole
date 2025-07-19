@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { AppRegistry, StatusBar, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { AppRegistry, BackHandler, StatusBar, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { name as appName } from './app.json';

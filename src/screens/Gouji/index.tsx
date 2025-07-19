@@ -1,3 +1,4 @@
+import Flex from '@src/components/Flex';
 import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
@@ -6,7 +7,7 @@ import { Player } from '@src/constants/t';
 import { produce } from 'immer';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Dimensions,
+  BackHandler,
   Image,
   ScrollView,
   StyleSheet,
@@ -16,7 +17,6 @@ import {
   View,
 } from 'react-native';
 import { RootStacksProp } from '../Screens';
-import Flex from '@src/components/Flex';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -30,6 +30,18 @@ const Gouji: React.FC<MyProps> = props => {
   const [isEagle, setIsEagle] = useState(false); // 是否带鹰
   const { theme } = useCaches();
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
+
+  useEffect(() => {
+    const onBackPress = () => {
+      // 返回 true 阻止默认行为，即 navigation.goBack()
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      onBackPress,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   const subtractCards = (allCards: string, ...removes: string[]) => {
     const countMap: Record<string, number> = {};
