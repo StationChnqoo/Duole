@@ -121,11 +121,21 @@ const Gouji: React.FC<MyProps> = props => {
   const onDeletePress = () => {
     setPlayers(
       produce(players, draft => {
-        let p = draft[currentPlayerIndex];
-        if (p.cards[p.currentCardIndex].length > 0) {
-          p.cards[p.currentCardIndex] = p.cards[p.currentCardIndex].slice(
-            0,
-            -1,
+        if (currentPlayerIndex < 3) {
+          let p = draft[currentPlayerIndex];
+          if (p.cards[p.currentCardIndex].length > 0) {
+            p.cards[p.currentCardIndex] = p.cards[p.currentCardIndex].slice(
+              0,
+              -1,
+            );
+          }
+        } else {
+          setBigCards(
+            produce(bigCards, draft => {
+              draft[currentPlayerIndex - 3] = draft[
+                currentPlayerIndex - 3
+              ].slice(0, -1);
+            }),
           );
         }
       }),
