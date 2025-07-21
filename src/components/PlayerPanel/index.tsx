@@ -8,6 +8,7 @@ import { Player } from '@src/constants/t';
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Flex from '../Flex';
+import { playSound } from '@src/constants/u';
 
 interface MyProps {
   player: Player;
@@ -25,7 +26,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
     sum,
     direction = 'column',
   } = props;
-  const { playedCardsMode, theme } = useCaches();
+  const { playedCardsMode, theme, cardSound } = useCaches();
 
   const borderColor = (index: number) => {
     return player.id == currentPalyerIndex && player.currentCardIndex == index
@@ -65,6 +66,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
       </Text>
     </View>
   );
+
   return (
     <TouchableOpacity
       style={[
@@ -113,6 +115,9 @@ const PlayerPanel: React.FC<MyProps> = props => {
               activeOpacity={0.8}
               onPress={() => {
                 onPlayerPress(player, 1);
+                if (playSound) {
+                  playSound('der.mp3');
+                }
               }}
             >
               <Text style={{ color: 'red', fontSize: 12 }}>吃贡：</Text>

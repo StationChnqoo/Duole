@@ -24,6 +24,8 @@ interface States {
   setPlayedCardsMode: (mode: number) => void;
   defaultGame: string;
   setDefaultGame: (game: string) => void;
+  cardSound: boolean;
+  setCardCound: (cardSoud: boolean) => void;
 }
 
 const initialState = {
@@ -31,6 +33,7 @@ const initialState = {
   theme: '#987123',
   playedCardsMode: 0,
   defaultGame: 'bh',
+  cardSound: true,
 };
 
 const useCaches = create<States>()(
@@ -42,6 +45,7 @@ const useCaches = create<States>()(
         setTheme: theme => set({ theme }),
         setPlayedCardsMode: playedCardsMode => set({ playedCardsMode }),
         setDefaultGame: defaultGame => set({ defaultGame }),
+        setCardCound: cardSound => set({ cardSound }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -52,6 +56,7 @@ const useCaches = create<States>()(
           theme: state.theme,
           playedCardsMode: state.playedCardsMode,
           defaultGame: state.defaultGame,
+          cardSound: state.cardSound
         }),
       },
     ),

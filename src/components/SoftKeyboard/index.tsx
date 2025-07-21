@@ -1,3 +1,5 @@
+import { useCaches } from '@src/constants/store';
+import { playSound } from '@src/constants/u';
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,6 +12,7 @@ interface MyProps {
 
 const SoftKeyboard: React.FC<MyProps> = props => {
   const { onKeyBoardPress, onDeletePress, onClearPress } = props;
+  const { cardSound } = useCaches();
 
   const nums = '789456123'.split('').map((it, i) => ({
     label: it,
@@ -32,6 +35,13 @@ const SoftKeyboard: React.FC<MyProps> = props => {
     { label: 'L.落', value: 'L' },
     { label: 'R.让', value: 'R' },
   ];
+
+  const playPaSound = () => {
+    if (cardSound) {
+      playSound('pa.mp3');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.dot} />
@@ -57,6 +67,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
               activeOpacity={0.8}
               onPress={() => {
                 onKeyBoardPress?.(item.value);
+                playPaSound();
               }}
               key={index}
               style={[styles.button]}
@@ -79,6 +90,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
               activeOpacity={0.8}
               onPress={() => {
                 onKeyBoardPress?.(item.value);
+                playPaSound();
               }}
               key={index}
               style={styles.button}

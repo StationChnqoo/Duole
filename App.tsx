@@ -8,6 +8,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Switch,
   Text,
   TouchableOpacity,
   View,
@@ -28,6 +29,8 @@ const App: React.FC<MyProps> = props => {
     setTheme,
     defaultGame,
     setDefaultGame,
+    cardSound,
+    setCardCound,
   } = useCaches();
 
   const height = Platform.select({
@@ -140,6 +143,21 @@ const App: React.FC<MyProps> = props => {
                   换一组：{theme}
                 </Text>
               </TouchableOpacity>
+            </View>
+            <View style={{ height: 12 }} />
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
+                提示音效
+              </Text>
+              <Switch
+                value={cardSound}
+                onValueChange={value => {
+                  setCardCound(value);
+                }}
+                disabled={Platform.OS != 'android'}
+                trackColor={{ false: '#ccc', true: theme }}
+                thumbColor={cardSound ? '#fff' : '#f4f3f4'}
+              />
             </View>
           </View>
         </View>

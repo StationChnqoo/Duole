@@ -275,7 +275,7 @@ const Gouji: React.FC<MyProps> = props => {
                       onValueChange={value => {
                         setIsEagle(value);
                       }}
-                      trackColor={{ false: '#ccc', true: '#ff5252' }}
+                      trackColor={{ false: '#ccc', true: theme }}
                       thumbColor={isEagle ? '#fff' : '#f4f3f4'}
                     />
                   </Flex>
