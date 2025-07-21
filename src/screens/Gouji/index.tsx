@@ -57,12 +57,38 @@ const Gouji: React.FC<MyProps> = props => {
     return result;
   };
 
+  const groupPrintBigCards = (s: string) => {
+    const counts: Record<string, number> = {};
+    for (const ch of s) {
+      counts[ch] = (counts[ch] || 0) + 1;
+    }
+
+    const mapping: Record<string, string> = {
+      Y: '鹰🦅',
+      D: '大王',
+      X: '小王',
+      '2': '2',
+    };
+
+    // 按照指定顺序输出
+    const order = ['Y', 'D', 'X', '2'];
+    const result: string[] = [];
+
+    for (const key of order) {
+      if (counts[key]) {
+        result.push(`${counts[key]}x${mapping[key]}`);
+      }
+    }
+    return result.join('、');
+  };
+
   const remainingBigCards = useMemo(() => {
     let hawks = isEagle ? Array(pack).fill('Y').join('') : '';
-    let two = Array(pack).fill('2222').join('');
-    let allBigCards =
-      hawks + Array(pack).fill('DX').join('') + (isContains2 ? two : '');
-    return subtractCards(allBigCards, bigCards[0], bigCards[1]);
+    let two = isContains2 ? Array(pack).fill('2222').join('') : '';
+    let allBigCards = hawks + Array(pack).fill('DX').join('') + two;
+    return groupPrintBigCards(
+      subtractCards(allBigCards, bigCards[0], bigCards[1]),
+    );
   }, [isEagle, bigCards, pack, isContains2]);
 
   const defaultPlayers = ['对门', '上家', '下家'].map((name, index) => ({
@@ -170,7 +196,7 @@ const Gouji: React.FC<MyProps> = props => {
                 <View style={{ height: 6 }} />
                 <View style={styles.settingPanel}>
                   <Flex horizontal justify={'space-between'}>
-                    <View>
+                    <View style={{ flex: 1 }}>
                       <Text style={{ fontSize: 14, color: '#333' }}>
                         大牌统计（鹰、大王、小王、2）
                       </Text>
@@ -185,6 +211,7 @@ const Gouji: React.FC<MyProps> = props => {
                         {remainingBigCards}
                       </Text>
                     </View>
+                    <View style={{ width: 12 }} />
                     <TouchableOpacity
                       activeOpacity={0.8}
                       hitSlop={{ top: 5, left: 5, bottom: 5, right: 5 }}
@@ -203,8 +230,8 @@ const Gouji: React.FC<MyProps> = props => {
                     </TouchableOpacity>
                   </Flex>
                   {isExpandBigCards ? (
-                    <View style={{ marginTop: 5 }}>
-                      <View style={{ gap: 12 }}>
+                    <View style={{ marginTop: 10 }}>
+                      <View style={{ gap: 10 }}>
                         {bigCards.map((it, i) => (
                           <TouchableOpacity
                             key={i}
