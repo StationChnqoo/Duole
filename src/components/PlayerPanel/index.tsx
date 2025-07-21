@@ -81,9 +81,11 @@ const PlayerPanel: React.FC<MyProps> = props => {
         onPlayerPress(player, 2);
       }}
     >
-      <Text style={{ color: '#333', fontSize: 16 }}>{player.name}</Text>
+      <Text style={{ color: '#333', fontSize: 14, fontWeight: '500' }}>
+        {player.name}
+      </Text>
       <View style={{ height: 4 }} />
-      <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
+      <Text style={{ color: '#666', fontSize: 16 }}>{remainingCards}</Text>
       <View style={{ height: 4 }} />
       <Flex
         horizontal={direction == 'row'}

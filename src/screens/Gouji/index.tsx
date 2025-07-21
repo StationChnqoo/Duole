@@ -27,10 +27,11 @@ const Gouji: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [bigCards, setBigCards] = useState<string[]>(Array(2).fill('')); // 大牌统计
-  const [isEagle, setIsEagle] = useState(false); // 是否带鹰
+  const [isEagle, setIsEagle] = useState(true); // 是否带鹰
   const { theme } = useCaches();
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
   const [pack, setPack] = useState(6);
+  const [isContains2, setIsContains2] = useState(false);
 
   const subtractCards = (allCards: string, ...removes: string[]) => {
     const countMap: Record<string, number> = {};
@@ -58,9 +59,11 @@ const Gouji: React.FC<MyProps> = props => {
 
   const remainingBigCards = useMemo(() => {
     let hawks = isEagle ? Array(pack).fill('Y').join('') : '';
-    let allBigCards = hawks + Array(pack).fill('DX').join('');
+    let two = Array(pack).fill('2222').join('');
+    let allBigCards =
+      hawks + Array(pack).fill('DX').join('') + (isContains2 ? two : '');
     return subtractCards(allBigCards, bigCards[0], bigCards[1]);
-  }, [isEagle, bigCards, pack]);
+  }, [isEagle, bigCards, pack, isContains2]);
 
   const defaultPlayers = ['对门', '上家', '下家'].map((name, index) => ({
     id: index,
@@ -169,7 +172,7 @@ const Gouji: React.FC<MyProps> = props => {
                   <Flex horizontal justify={'space-between'}>
                     <View>
                       <Text style={{ fontSize: 14, color: '#333' }}>
-                        大牌统计（鹰、大王、小王）
+                        大牌统计（鹰、大王、小王、2）
                       </Text>
                       <View style={{ height: 4 }} />
                       <Text
@@ -201,7 +204,7 @@ const Gouji: React.FC<MyProps> = props => {
                   </Flex>
                   {isExpandBigCards ? (
                     <View style={{ marginTop: 5 }}>
-                      <Flex horizontal style={{ gap: 12 }}>
+                      <View style={{ gap: 12 }}>
                         {bigCards.map((it, i) => (
                           <TouchableOpacity
                             key={i}
@@ -233,7 +236,7 @@ const Gouji: React.FC<MyProps> = props => {
                             </Flex>
                           </TouchableOpacity>
                         ))}
-                      </Flex>
+                      </View>
                     </View>
                   ) : null}
                 </View>
@@ -308,6 +311,20 @@ const Gouji: React.FC<MyProps> = props => {
                         }}
                       />
                     </Flex>
+                  </Flex>
+                  <View style={{ height: 6 }} />
+                  <Flex horizontal justify={'space-between'}>
+                    <Text style={{ fontSize: 14, color: '#333' }}>
+                      大牌是否数2
+                    </Text>
+                    <Switch
+                      value={isContains2}
+                      onValueChange={value => {
+                        setIsContains2(value);
+                      }}
+                      trackColor={{ false: '#ccc', true: theme }}
+                      thumbColor={isEagle ? '#fff' : '#f4f3f4'}
+                    />
                   </Flex>
                 </View>
               </View>
