@@ -81,7 +81,7 @@ const Gouji: React.FC<MyProps> = props => {
     }
     return function () {};
   }, [pack]);
-  
+
   const handlePlayerPress = (player: Player, index: number) => {
     // 处理玩家点击事件
     setCurrentPlayerIndex(player.id);
@@ -139,7 +139,7 @@ const Gouji: React.FC<MyProps> = props => {
   };
 
   const sum = useMemo(() => {
-    return pack == 4 ? 33 : isEagle ? 51 : 50;
+    return pack == 4 ? 32 : isEagle ? 51 : 50;
   }, [isEagle, pack]);
 
   return (
