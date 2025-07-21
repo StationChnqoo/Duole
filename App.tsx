@@ -42,9 +42,9 @@ const App: React.FC<MyProps> = props => {
 
   const games = {
     gj: {
-      title: '够级（6副牌）',
+      title: '够级（鹰 🦅）',
       page: 'Gouji',
-      message: '带鹰 🦅、不带鹰 🦅',
+      message: '6副牌、4副牌',
     },
     bh: {
       title: '保皇（炸弹 💣 ）',

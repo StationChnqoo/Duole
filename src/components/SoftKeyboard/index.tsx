@@ -150,7 +150,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 12,
+    marginTop: 6,
     paddingVertical: 16,
     paddingHorizontal: 12,
     backgroundColor: '#fff',

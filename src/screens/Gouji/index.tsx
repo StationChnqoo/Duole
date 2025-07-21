@@ -16,6 +16,7 @@ import {
   View,
 } from 'react-native';
 import { RootStacksProp } from '../Screens';
+import CheckBox from '@src/components/CheckBox';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -29,6 +30,7 @@ const Gouji: React.FC<MyProps> = props => {
   const [isEagle, setIsEagle] = useState(false); // 是否带鹰
   const { theme } = useCaches();
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
+  const [pack, setPack] = useState(6);
 
   const subtractCards = (allCards: string, ...removes: string[]) => {
     const countMap: Record<string, number> = {};
@@ -55,10 +57,10 @@ const Gouji: React.FC<MyProps> = props => {
   };
 
   const remainingBigCards = useMemo(() => {
-    let hawks = isEagle ? Array(6).fill('Y').join('') : '';
-    let allBigCards = hawks + Array(6).fill('DX').join('');
+    let hawks = isEagle ? Array(pack).fill('Y').join('') : '';
+    let allBigCards = hawks + Array(pack).fill('DX').join('');
     return subtractCards(allBigCards, bigCards[0], bigCards[1]);
-  }, [isEagle, bigCards]);
+  }, [isEagle, bigCards, pack]);
 
   const defaultPlayers = ['对门', '上家', '下家'].map((name, index) => ({
     id: index,
@@ -73,6 +75,13 @@ const Gouji: React.FC<MyProps> = props => {
     return function () {};
   }, []);
 
+  useEffect(() => {
+    if (pack == 4) {
+      setIsEagle(false);
+    }
+    return function () {};
+  }, [pack]);
+  
   const handlePlayerPress = (player: Player, index: number) => {
     // 处理玩家点击事件
     setCurrentPlayerIndex(player.id);
@@ -130,8 +139,8 @@ const Gouji: React.FC<MyProps> = props => {
   };
 
   const sum = useMemo(() => {
-    return isEagle ? 51 : 50;
-  }, [isEagle]);
+    return pack == 4 ? 33 : isEagle ? 51 : 50;
+  }, [isEagle, pack]);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
@@ -271,6 +280,7 @@ const Gouji: React.FC<MyProps> = props => {
                       是否带鹰🦅
                     </Text>
                     <Switch
+                      disabled={pack == 4}
                       value={isEagle}
                       onValueChange={value => {
                         setIsEagle(value);
@@ -278,6 +288,26 @@ const Gouji: React.FC<MyProps> = props => {
                       trackColor={{ false: '#ccc', true: theme }}
                       thumbColor={isEagle ? '#fff' : '#f4f3f4'}
                     />
+                  </Flex>
+                  <View style={{ height: 6 }} />
+                  <Flex horizontal justify={'space-between'}>
+                    <Text style={{ fontSize: 14, color: '#333' }}>几副牌</Text>
+                    <Flex horizontal style={{ gap: 12 }}>
+                      <CheckBox
+                        checked={pack == 4}
+                        label={'4副牌'}
+                        onPress={() => {
+                          setPack(4);
+                        }}
+                      />
+                      <CheckBox
+                        checked={pack == 6}
+                        label={'6副牌'}
+                        onPress={() => {
+                          setPack(6);
+                        }}
+                      />
+                    </Flex>
                   </Flex>
                 </View>
               </View>

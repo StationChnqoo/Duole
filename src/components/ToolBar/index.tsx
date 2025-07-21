@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     paddingHorizontal: 12,
     justifyContent: 'space-between',
-    height: 52,
+    height: 44,
     backgroundColor: '#fff',
   },
   title: {
