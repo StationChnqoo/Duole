@@ -7,7 +7,6 @@ import { Player } from '@src/constants/t';
 import { produce } from 'immer';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  BackHandler,
   Image,
   ScrollView,
   StyleSheet,
@@ -30,18 +29,6 @@ const Gouji: React.FC<MyProps> = props => {
   const [isEagle, setIsEagle] = useState(false); // 是否带鹰
   const { theme } = useCaches();
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
-
-  useEffect(() => {
-    const onBackPress = () => {
-      // 返回 true 阻止默认行为，即 navigation.goBack()
-      return true;
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      onBackPress,
-    );
-    return () => backHandler.remove();
-  }, []);
 
   const subtractCards = (allCards: string, ...removes: string[]) => {
     const countMap: Record<string, number> = {};

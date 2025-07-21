@@ -1,11 +1,9 @@
-import { useFocusEffect } from '@react-navigation/native';
 import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import React from 'react';
 import {
-  Image,
   Platform,
   ScrollView,
   StatusBar,
@@ -23,39 +21,35 @@ interface MyProps {
 
 const App: React.FC<MyProps> = props => {
   const { navigation } = props;
-  const { playedCardsMode, setPlayedCardsMode, theme, setTheme } = useCaches();
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // This will be called when the screen is focused
-      setTimeout(() => {
-        // props.navigation.navigate('Baohuang');
-      }, 1000);
-      return () => {
-        // This will be called when the screen is unfocused
-      };
-    }, []),
-  );
+  const {
+    playedCardsMode,
+    setPlayedCardsMode,
+    theme,
+    setTheme,
+    defaultGame,
+    setDefaultGame,
+  } = useCaches();
 
   const height = Platform.select({
     ios: useSafeAreaInsets().top,
     android: StatusBar.currentHeight,
   });
 
-  const games = [
-    {
-      id: 'gj',
+  const frames = useSafeAreaInsets();
+
+  const games = {
+    gj: {
       title: '够级',
       page: 'Gouji',
       message: '6副牌、带鹰🦅和不带鹰🦅玩法',
     },
-    {
-      id: 'bh',
+    bh: {
       title: '保皇',
       page: 'Baohuang',
       message: '炸弹💣场、潍坊保皇和疯狂保皇玩法',
     },
-  ];
+  };
+
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: '#fff', height }} />
@@ -66,37 +60,43 @@ const App: React.FC<MyProps> = props => {
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏列表
             </Text>
-            {games.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.item}
-                activeOpacity={0.8}
-                onPress={() => {
-                  navigation.navigate(item.page as never);
-                }}
-              >
-                <Flex horizontal justify={'space-between'}>
-                  <Text
-                    style={{
-                      color: '#333',
-                      fontSize: 14,
-                    }}
-                  >
-                    {item.title}
-                  </Text>
-                  <Flex horizontal>
-                    <Text style={{ fontSize: 12, color: '#666' }}>
-                      {item.message}
+            <Flex horizontal style={{ gap: 12 }} align={'flex-end'}>
+              {Object.keys(games).map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.item,
+                    { borderColor: defaultGame == item ? theme : '#ccc' },
+                  ]}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    // navigation.navigate(item.page as never);
+                    setDefaultGame(item);
+                  }}
+                >
+                  <Flex horizontal justify={'space-between'}>
+                    <Text
+                      style={{
+                        color: '#333',
+                        fontSize: 14,
+                      }}
+                    >
+                      {games[item].title}
                     </Text>
-                    <View style={{ width: 4 }} />
-                    <Image
+                    {/* <Image
                       source={require('@src/assets/images/common/arrow_right.png')}
                       style={{ height: 14, width: 14, tintColor: theme }}
-                    />
+                    /> */}
                   </Flex>
-                </Flex>
-              </TouchableOpacity>
-            ))}
+                  <Text
+                    style={{ fontSize: 12, color: '#666' }}
+                    numberOfLines={1}
+                  >
+                    {games[item].message}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </Flex>
           </View>
           <View style={{ height: 12 }} />
           <View style={styles.card}>
@@ -144,6 +144,18 @@ const App: React.FC<MyProps> = props => {
           </View>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={[
+          styles.startButton,
+          { backgroundColor: theme, marginBottom: frames.bottom + 10 },
+        ]}
+        onPress={() => {
+          navigation.navigate(games[defaultGame].page);
+        }}
+      >
+        <Text style={{ color: '#fff', fontSize: 16 }}>快速开始</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -159,6 +171,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     marginTop: 12,
+    flex: 1,
   },
   settingItem: {
     flexDirection: 'row',
@@ -177,6 +190,15 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     backgroundColor: '#fff',
+  },
+  startButton: {
+    // borderWidth: 1,
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 12,
   },
 });
 

@@ -22,12 +22,15 @@ interface States {
   setTheme: (theme: string) => void;
   playedCardsMode: number;
   setPlayedCardsMode: (mode: number) => void;
+  defaultGame: string;
+  setDefaultGame: (game: string) => void;
 }
 
 const initialState = {
   bears: 0,
   theme: '#987123',
   playedCardsMode: 0,
+  defaultGame: 'bh',
 };
 
 const useCaches = create<States>()(
@@ -38,6 +41,7 @@ const useCaches = create<States>()(
         increase: by => set(state => ({ bears: state.bears + by })),
         setTheme: theme => set({ theme }),
         setPlayedCardsMode: playedCardsMode => set({ playedCardsMode }),
+        setDefaultGame: defaultGame => set({ defaultGame }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -47,6 +51,7 @@ const useCaches = create<States>()(
           bears: state.bears,
           theme: state.theme,
           playedCardsMode: state.playedCardsMode,
+          defaultGame: state.defaultGame,
         }),
       },
     ),

@@ -7,7 +7,7 @@ import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { produce } from 'immer';
 import React, { useEffect, useMemo, useState } from 'react';
-import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStacksProp } from '../Screens';
 
 interface MyProps {
@@ -77,18 +77,6 @@ const Baohuang: React.FC<MyProps> = props => {
   const sum = useMemo(() => {
     return { wf: 40, fk: 30 }[gameArea];
   }, [gameArea]);
-
-  useEffect(() => {
-    const onBackPress = () => {
-      // 返回 true 阻止默认行为，即 navigation.goBack()
-      return true;
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      onBackPress,
-    );
-    return () => backHandler.remove();
-  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
