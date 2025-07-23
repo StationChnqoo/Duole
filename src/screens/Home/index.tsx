@@ -23,8 +23,6 @@ interface MyProps {
 const Home: React.FC<MyProps> = props => {
   const { navigation } = props;
   const {
-    playedCardsMode,
-    setPlayedCardsMode,
     theme,
     setTheme,
     defaultGame,
@@ -80,7 +78,7 @@ const Home: React.FC<MyProps> = props => {
                   <Flex horizontal justify={'space-between'}>
                     <Text
                       style={{
-                        color: '#333',
+                        color: item == defaultGame ? theme : '#666',
                         fontSize: 14,
                       }}
                     >
@@ -92,7 +90,10 @@ const Home: React.FC<MyProps> = props => {
                     /> */}
                   </Flex>
                   <Text
-                    style={{ fontSize: 12, color: '#666' }}
+                    style={{
+                      fontSize: 12,
+                      color: item == defaultGame ? theme : '#666',
+                    }}
                     numberOfLines={1}
                   >
                     {games[item].message}
@@ -106,8 +107,7 @@ const Home: React.FC<MyProps> = props => {
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏设置
             </Text>
-            <View style={{ height: 12 }} />
-            <View style={styles.settingItem}>
+            {/* <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
                 出牌记录模式
               </Text>
@@ -126,7 +126,7 @@ const Home: React.FC<MyProps> = props => {
                   label={'详细模式'}
                 />
               </Flex>
-            </View>
+            </View> */}
             <View style={{ height: 12 }} />
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
@@ -166,7 +166,7 @@ const Home: React.FC<MyProps> = props => {
         activeOpacity={0.8}
         style={[
           styles.startButton,
-          { backgroundColor: theme, marginBottom: frames.bottom + 10 },
+          { backgroundColor: theme, marginBottom: 16 },
         ]}
         onPress={() => {
           navigation.navigate(games[defaultGame].page);

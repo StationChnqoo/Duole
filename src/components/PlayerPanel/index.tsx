@@ -26,7 +26,7 @@ const PlayerPanel: React.FC<MyProps> = props => {
     sum,
     direction = 'column',
   } = props;
-  const { playedCardsMode, theme, cardSound } = useCaches();
+  const { theme, cardSound } = useCaches();
 
   const borderColor = (index: number) => {
     return player.id == currentPalyerIndex && player.currentCardIndex == index
@@ -52,14 +52,14 @@ const PlayerPanel: React.FC<MyProps> = props => {
         styles.cards2,
         {
           borderColor: borderColor(2),
-          height: [28, 16 * 3][playedCardsMode],
+          height: 14 * 3 + 6,
         },
         extraStyle,
       ]}
     >
       <Text
         ellipsizeMode={'head'}
-        numberOfLines={[1, 3][playedCardsMode]}
+        numberOfLines={3}
         style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
       >
         {player.cards[2] || '暂无出牌记录 ~'}
@@ -164,12 +164,11 @@ const styles = StyleSheet.create({
     top: 12,
   },
   cards2: {
-    justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 4,
     borderWidth: 1,
     borderColor: '#999',
     borderRadius: 5,
+    paddingVertical: 3,
   },
   cards01: {
     borderRadius: 5,

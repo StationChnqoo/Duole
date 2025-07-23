@@ -8,15 +8,12 @@ import {
 } from '@react-navigation/native-stack';
 
 import * as React from 'react';
-// 这个地方用Path alias，@/App会报错
-import App from '../../App';
 import HelloWorld from './HelloWorld';
 import Baohuang from './Baohuang';
 import Gouji from './Gouji';
 import BottomTabs from './BottomTabs';
 
 export type RootStacksParams = {
-  App: undefined;
   HelloWorld: { id: string };
   Baohuang: undefined;
   Gouji: undefined;
@@ -42,7 +39,6 @@ export default function Stacks() {
         }}
       >
         <RootStack.Screen name="BottomTabs" component={BottomTabs} />
-        <RootStack.Screen name="App" component={App} />
         <RootStack.Screen name="HelloWorld" component={HelloWorld} />
         <RootStack.Screen name="Baohuang" component={Baohuang} />
         <RootStack.Screen name="Gouji" component={Gouji} />

@@ -20,8 +20,6 @@ interface States {
   increase: (by: number) => void;
   theme: string;
   setTheme: (theme: string) => void;
-  playedCardsMode: number;
-  setPlayedCardsMode: (mode: number) => void;
   defaultGame: string;
   setDefaultGame: (game: string) => void;
   cardSound: boolean;
@@ -31,7 +29,6 @@ interface States {
 const initialState = {
   bears: 0,
   theme: '#987123',
-  playedCardsMode: 0,
   defaultGame: 'bh',
   cardSound: true,
 };
@@ -43,7 +40,6 @@ const useCaches = create<States>()(
         ...initialState,
         increase: by => set(state => ({ bears: state.bears + by })),
         setTheme: theme => set({ theme }),
-        setPlayedCardsMode: playedCardsMode => set({ playedCardsMode }),
         setDefaultGame: defaultGame => set({ defaultGame }),
         setCardCound: cardSound => set({ cardSound }),
       }),
@@ -54,7 +50,6 @@ const useCaches = create<States>()(
         partialize: state => ({
           bears: state.bears,
           theme: state.theme,
-          playedCardsMode: state.playedCardsMode,
           defaultGame: state.defaultGame,
           cardSound: state.cardSound
         }),

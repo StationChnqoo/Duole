@@ -230,7 +230,7 @@ const Gouji: React.FC<MyProps> = props => {
                   </Flex>
                   {isExpandBigCards ? (
                     <View style={{ marginTop: 10 }}>
-                      <View style={{ gap: 10 }}>
+                      <Flex horizontal style={{ gap: 10 }}>
                         {bigCards.map((it, i) => (
                           <TouchableOpacity
                             key={i}
@@ -239,7 +239,7 @@ const Gouji: React.FC<MyProps> = props => {
                               styles.bigCardsItem,
                               {
                                 borderColor:
-                                  i + 3 == currentPlayerIndex ? theme : '#999',
+                                  i + 3 == currentPlayerIndex ? theme : '#ccc',
                                 flex: 1,
                               },
                             ]}
@@ -248,7 +248,15 @@ const Gouji: React.FC<MyProps> = props => {
                             }}
                           >
                             <Flex horizontal justify={'space-between'}>
-                              <Text style={{ color: '#333', fontSize: 14 }}>
+                              <Text
+                                style={{
+                                  color:
+                                    i + 3 == currentPlayerIndex
+                                      ? theme
+                                      : '#666',
+                                  fontSize: 12,
+                                }}
+                              >
                                 {['我的', '别人'][i]}
                               </Text>
                               <View style={{ width: 4 }} />
@@ -262,7 +270,7 @@ const Gouji: React.FC<MyProps> = props => {
                             </Flex>
                           </TouchableOpacity>
                         ))}
-                      </View>
+                      </Flex>
                     </View>
                   ) : null}
                 </View>
@@ -381,9 +389,9 @@ const styles = StyleSheet.create({
   },
   bigCardsItem: {
     flex: 1,
-    borderRadius: 5,
-    height: 32,
-    paddingHorizontal: 10,
+    borderRadius: 4,
+    height: 24,
+    paddingHorizontal: 4,
     borderColor: '#999',
     borderWidth: 1,
     justifyContent: 'center',
