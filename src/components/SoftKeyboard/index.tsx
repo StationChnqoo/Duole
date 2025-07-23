@@ -1,7 +1,7 @@
 import { useCaches } from '@src/constants/store';
 import { playSound } from '@src/constants/u';
 import React from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface MyProps {
@@ -150,7 +150,6 @@ const SoftKeyboard: React.FC<MyProps> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 6,
     paddingVertical: 16,
     paddingHorizontal: 12,
     backgroundColor: '#fff',
@@ -159,6 +158,17 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // bottom: 0,
     width: '100%',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
   },
   dot: {
     width: 64,
@@ -177,11 +187,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#999',
     backgroundColor: '#f5f5f5',
-    elevation: 4,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 0.5 },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowRadius: 1,
   },
   buttons: {
     flexDirection: 'row',

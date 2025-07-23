@@ -366,6 +366,7 @@ const Gouji: React.FC<MyProps> = props => {
               </View>
             </View>
           )}
+          <View style={{ height: 12 }} />
         </View>
       </ScrollView>
       <SoftKeyboard

@@ -168,6 +168,7 @@ const Baohuang: React.FC<MyProps> = props => {
             </View>
           </View>
         </View>
+        <View style={{ height: 12 }} />
       </ScrollView>
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
