@@ -1,4 +1,3 @@
-import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
@@ -29,6 +28,8 @@ const Home: React.FC<MyProps> = props => {
     setDefaultGame,
     cardSound,
     setCardCound,
+    isKeyboardFeedback,
+    setIsKeyboardFeedback,
   } = useCaches();
 
   const height = Platform.select({
@@ -147,12 +148,12 @@ const Home: React.FC<MyProps> = props => {
             <View style={{ height: 12 }} />
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
-                提示音效
+                按键反馈（震动效果）
               </Text>
               <Switch
-                value={cardSound}
+                value={isKeyboardFeedback}
                 onValueChange={value => {
-                  setCardCound(value);
+                  setIsKeyboardFeedback(value);
                 }}
                 disabled={Platform.OS != 'android'}
                 trackColor={{ false: '#ccc', true: theme }}

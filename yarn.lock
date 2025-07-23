@@ -2931,6 +2931,7 @@ __metadata:
     react: 19.1.0
     react-native: 0.80.1
     react-native-gesture-handler: ^2.27.1
+    react-native-haptic-feedback: ^2.3.3
     react-native-mmkv: ^3.3.0
     react-native-safe-area-context: ^5.5.2
     react-native-screens: ^4.11.1
@@ -7937,6 +7938,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 45a9ba24dd6fa370a4f4d6a58dcd58eaa9937a1fcc7db7e6b3c9020dcde41f335c1b80eb2eda0c73dc43e32cd5f151ebc5f90ae7179028e7c3490f4df4ef7817
+  languageName: node
+  linkType: hard
+
+"react-native-haptic-feedback@npm:^2.3.3":
+  version: 2.3.3
+  resolution: "react-native-haptic-feedback@npm:2.3.3"
+  peerDependencies:
+    react-native: ">=0.60.0"
+  checksum: 5ff12aaf44fa1cad8ab3d9c58046a11c631c6622955120294060efc51c625203ee4cd7ccb565663c12b27552ebbb7034a386000d9da738b9eea5ff62d58b14c0
   languageName: node
   linkType: hard
 

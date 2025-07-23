@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   bigCardsItem: {
     flex: 1,
     borderRadius: 4,
-    height: 24,
+    height: 28,
     paddingHorizontal: 4,
     borderColor: '#999',
     borderWidth: 1,

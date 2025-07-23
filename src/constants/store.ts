@@ -24,6 +24,8 @@ interface States {
   setDefaultGame: (game: string) => void;
   cardSound: boolean;
   setCardCound: (cardSoud: boolean) => void;
+  isKeyboardFeedback: boolean;
+  setIsKeyboardFeedback: (isKeyboardFeedback: boolean) => void;
 }
 
 const initialState = {
@@ -31,6 +33,7 @@ const initialState = {
   theme: '#987123',
   defaultGame: 'bh',
   cardSound: true,
+  isKeyboardFeedback: true,
 };
 
 const useCaches = create<States>()(
@@ -42,6 +45,8 @@ const useCaches = create<States>()(
         setTheme: theme => set({ theme }),
         setDefaultGame: defaultGame => set({ defaultGame }),
         setCardCound: cardSound => set({ cardSound }),
+        setIsKeyboardFeedback: isKeyboardFeedback =>
+          set({ isKeyboardFeedback }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -51,7 +56,8 @@ const useCaches = create<States>()(
           bears: state.bears,
           theme: state.theme,
           defaultGame: state.defaultGame,
-          cardSound: state.cardSound
+          cardSound: state.cardSound,
+          isKeyboardFeedback: state.isKeyboardFeedback,
         }),
       },
     ),
