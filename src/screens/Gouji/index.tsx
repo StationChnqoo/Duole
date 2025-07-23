@@ -323,6 +323,7 @@ const Gouji: React.FC<MyProps> = props => {
                     <Text style={{ fontSize: 14, color: '#333' }}>几副牌</Text>
                     <Flex horizontal style={{ gap: 12 }}>
                       <CheckBox
+                        activeColor={theme}
                         checked={pack == 4}
                         label={'4副牌'}
                         onPress={() => {
@@ -330,6 +331,7 @@ const Gouji: React.FC<MyProps> = props => {
                         }}
                       />
                       <CheckBox
+                        activeColor={theme}
                         checked={pack == 6}
                         label={'6副牌'}
                         onPress={() => {
