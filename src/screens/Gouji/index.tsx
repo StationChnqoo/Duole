@@ -5,8 +5,9 @@ import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { produce } from 'immer';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -17,6 +18,7 @@ import {
 } from 'react-native';
 import { RootStacksProp } from '../Screens';
 import CheckBox from '@src/components/CheckBox';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -28,7 +30,7 @@ const Gouji: React.FC<MyProps> = props => {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [bigCards, setBigCards] = useState<string[]>(Array(2).fill('')); // 大牌统计
   const [isEagle, setIsEagle] = useState(true); // 是否带鹰
-  const { theme } = useCaches();
+  const { theme, games, setGames } = useCaches();
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
   const [pack, setPack] = useState(6);
   const [isContains2, setIsContains2] = useState(false);
@@ -103,6 +105,40 @@ const Gouji: React.FC<MyProps> = props => {
     setPlayers(defaultPlayers);
     return function () {};
   }, []);
+
+  // 初始化玩家数据
+  useEffect(() => {
+    setPlayers(defaultPlayers);
+    let last = games.find(it => it.from == 'gj');
+    if (last) {
+      Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
+        { text: '算了', onPress: () => {} },
+        {
+          text: '好的',
+          onPress: () => {
+            setPlayers([...last.players]);
+          },
+        },
+      ]);
+    }
+    return function () {};
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setGames([
+          {
+            id: Math.random().toString(),
+            from: 'gj',
+            time: new Date().toLocaleString(),
+            players,
+          },
+          ...games,
+        ]);
+      };
+    }, [players]),
+  );
 
   useEffect(() => {
     if (pack == 4) {

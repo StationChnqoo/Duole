@@ -3,6 +3,7 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { MMKV } from 'react-native-mmkv';
 import { StateStorage } from 'zustand/middleware';
+import { Game } from './t';
 
 // const mmkv = new MMKV({
 //   id: 'useMMKV',
@@ -26,6 +27,8 @@ interface States {
   setCardCound: (cardSoud: boolean) => void;
   isKeyboardFeedback: boolean;
   setIsKeyboardFeedback: (isKeyboardFeedback: boolean) => void;
+  games: Game[];
+  setGames: (games: Game[]) => void;
 }
 
 const initialState = {
@@ -34,6 +37,7 @@ const initialState = {
   defaultGame: 'bh',
   cardSound: true,
   isKeyboardFeedback: true,
+  games: [],
 };
 
 const useCaches = create<States>()(
@@ -47,6 +51,7 @@ const useCaches = create<States>()(
         setCardCound: cardSound => set({ cardSound }),
         setIsKeyboardFeedback: isKeyboardFeedback =>
           set({ isKeyboardFeedback }),
+        setGames: games => set({ games }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -58,6 +63,7 @@ const useCaches = create<States>()(
           defaultGame: state.defaultGame,
           cardSound: state.cardSound,
           isKeyboardFeedback: state.isKeyboardFeedback,
+          games: state.games,
         }),
       },
     ),

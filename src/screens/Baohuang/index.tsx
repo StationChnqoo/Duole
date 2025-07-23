@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import PlayerPanel from '@src/components/PlayerPanel';
@@ -6,8 +7,8 @@ import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { produce } from 'immer';
-import React, { useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStacksProp } from '../Screens';
 
 interface MyProps {
@@ -18,7 +19,7 @@ const Baohuang: React.FC<MyProps> = props => {
   const { navigation } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const { theme } = useCaches();
+  const { theme, games, setGames } = useCaches();
   const [gameArea, setGameArea] = useState<'wf' | 'fk'>('wf'); // 潍坊 | 疯狂
 
   const defaultPlayers = ['上联', '上家', '下家', '下联'].map(
@@ -33,8 +34,36 @@ const Baohuang: React.FC<MyProps> = props => {
   // 初始化玩家数据
   useEffect(() => {
     setPlayers(defaultPlayers);
+    let last = games.find(it => it.from == 'bh');
+    if (last) {
+      Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
+        { text: '算了', onPress: () => {} },
+        {
+          text: '好的',
+          onPress: () => {
+            setPlayers([...last.players]);
+          },
+        },
+      ]);
+    }
     return function () {};
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setGames([
+          {
+            id: Math.random().toString(),
+            from: 'bh',
+            time: new Date().toLocaleString(),
+            players,
+          },
+          ...games,
+        ]);
+      };
+    }, [players]),
+  );
 
   const handlePlayerPress = (player: Player, index: number) => {
     // 处理玩家点击事件
