@@ -61,15 +61,17 @@ const Baohuang: React.FC<MyProps> = props => {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setGames([
-          {
-            id: uuid(),
-            from: 'bh',
-            time: new Date().toLocaleString(),
-            players,
-          },
-          ...games,
-        ]);
+        if (!players.every(it => it.cards.every(card => card == ''))) {
+          setGames([
+            {
+              id: uuid(),
+              from: 'bh',
+              time: new Date().toLocaleString(),
+              players,
+            },
+            ...games,
+          ]);
+        }
       };
     }, [players]),
   );

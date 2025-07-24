@@ -136,15 +136,17 @@ const Gouji: React.FC<MyProps> = props => {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setGames([
-          {
-            id: uuid(),
-            from: 'gj',
-            time: new Date().toLocaleString(),
-            players,
-          },
-          ...games,
-        ]);
+        if (!players.every(it => it.cards.every(card => card == ''))) {
+          setGames([
+            {
+              id: uuid(),
+              from: 'gj',
+              time: new Date().toLocaleString(),
+              players,
+            },
+            ...games,
+          ]);
+        }
       };
     }, [players]),
   );
