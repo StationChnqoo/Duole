@@ -9,6 +9,7 @@ import HelloWorld from '../HelloWorld';
 import Home from '../Home';
 import { RootStacksProp } from '../Screens';
 import { NewModalRef } from './components/NewModal';
+import Find from '../Find';
 
 const Tab = createBottomTabNavigator();
 interface MyProps {
@@ -29,7 +30,7 @@ const BottomTabs = (props: MyProps) => {
     },
     {
       name: 'Find',
-      component: HelloWorld,
+      component: Find,
       icon: require('./assets/menu_friends.png'),
       label: '发现',
     },

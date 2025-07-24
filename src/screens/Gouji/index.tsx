@@ -1,9 +1,12 @@
+import { RouteProp, useFocusEffect } from '@react-navigation/native';
+import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
+import { uuid } from '@src/constants/u';
 import { produce } from 'immer';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -16,16 +19,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { RootStacksProp } from '../Screens';
-import CheckBox from '@src/components/CheckBox';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { RootStacksParams, RootStacksProp } from '../Screens';
 
 interface MyProps {
   navigation?: RootStacksProp;
+  route?: RouteProp<RootStacksParams, 'Baohuang'>;
 }
 
 const Gouji: React.FC<MyProps> = props => {
-  const { navigation } = props;
+  const { navigation, route } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [bigCards, setBigCards] = useState<string[]>(Array(2).fill('')); // 大牌统计
@@ -109,17 +111,24 @@ const Gouji: React.FC<MyProps> = props => {
   // 初始化玩家数据
   useEffect(() => {
     setPlayers(defaultPlayers);
-    let last = games.find(it => it.from == 'gj');
-    if (last) {
-      Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
-        { text: '算了', onPress: () => {} },
-        {
-          text: '好的',
-          onPress: () => {
-            setPlayers([...last.players]);
-          },
-        },
-      ]);
+    if (route.params?.id && games.some(it => it.id == route.params?.id)) {
+      let game = games.find(it => it.id == route.params.id);
+      setPlayers(game.players);
+    } else {
+      setTimeout(() => {
+        let last = games.find(it => it.from == 'gj');
+        if (last) {
+          Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
+            { text: '算了', onPress: () => {} },
+            {
+              text: '好的',
+              onPress: () => {
+                setPlayers([...last.players]);
+              },
+            },
+          ]);
+        }
+      }, 1000);
     }
     return function () {};
   }, []);
@@ -129,7 +138,7 @@ const Gouji: React.FC<MyProps> = props => {
       return () => {
         setGames([
           {
-            id: Math.random().toString(),
+            id: uuid(),
             from: 'gj',
             time: new Date().toLocaleString(),
             players,

@@ -15,8 +15,8 @@ import BottomTabs from './BottomTabs';
 
 export type RootStacksParams = {
   HelloWorld: { id: string };
-  Baohuang: undefined;
-  Gouji: undefined;
+  Baohuang: {id?: string};
+  Gouji: {id?: string};
   BottomTabs: undefined;
 };
 

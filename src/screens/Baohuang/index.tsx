@@ -1,4 +1,4 @@
-import { useFocusEffect } from '@react-navigation/native';
+import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import PlayerPanel from '@src/components/PlayerPanel';
@@ -6,17 +6,19 @@ import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
+import { uuid } from '@src/constants/u';
 import { produce } from 'immer';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { RootStacksProp } from '../Screens';
+import { RootStacksParams, RootStacksProp } from '../Screens';
 
 interface MyProps {
   navigation?: RootStacksProp;
+  route?: RouteProp<RootStacksParams, 'Baohuang'>;
 }
 
 const Baohuang: React.FC<MyProps> = props => {
-  const { navigation } = props;
+  const { navigation, route } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const { theme, games, setGames } = useCaches();
@@ -34,17 +36,24 @@ const Baohuang: React.FC<MyProps> = props => {
   // 初始化玩家数据
   useEffect(() => {
     setPlayers(defaultPlayers);
-    let last = games.find(it => it.from == 'bh');
-    if (last) {
-      Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
-        { text: '算了', onPress: () => {} },
-        {
-          text: '好的',
-          onPress: () => {
-            setPlayers([...last.players]);
-          },
-        },
-      ]);
+    if (route.params?.id && games.some(it => it.id == route.params?.id)) {
+      let game = games.find(it => it.id == route.params.id);
+      setPlayers(game.players);
+    } else {
+      let last = games.find(it => it.from == 'bh');
+      setTimeout(() => {
+        if (last) {
+          Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
+            { text: '算了', onPress: () => {} },
+            {
+              text: '好的',
+              onPress: () => {
+                setPlayers([...last.players]);
+              },
+            },
+          ]);
+        }
+      }, 1000);
     }
     return function () {};
   }, []);
@@ -54,7 +63,7 @@ const Baohuang: React.FC<MyProps> = props => {
       return () => {
         setGames([
           {
-            id: Math.random().toString(),
+            id: uuid(),
             from: 'bh',
             time: new Date().toLocaleString(),
             players,
