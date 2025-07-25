@@ -51,6 +51,15 @@ const Find: React.FC<MyProps> = props => {
               />
             </TouchableOpacity>
           </Flex>
+          <View style={{marginVertical: 2}}>
+            <Text style={{fontSize: 14, color: theme}}>
+              {`${games.length}局 | ${(
+                JSON.stringify(games).length /
+                1024 /
+                1024
+              ).toFixed(2)}MB`}
+            </Text>
+          </View>
           {games.length == 0 ? (
             <Flex style={{ padding: 12 }}>
               <Text style={{ fontSize: 12, color: '#666' }}>

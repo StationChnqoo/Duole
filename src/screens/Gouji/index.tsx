@@ -8,7 +8,13 @@ import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { uuid } from '@src/constants/u';
 import { produce } from 'immer';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   Alert,
   Image,
@@ -36,6 +42,12 @@ const Gouji: React.FC<MyProps> = props => {
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
   const [pack, setPack] = useState(6);
   const [isContains2, setIsContains2] = useState(false);
+
+  const playersRef = useRef(players);
+
+  useEffect(() => {
+    playersRef.current = players;
+  }, [players]);
 
   const subtractCards = (allCards: string, ...removes: string[]) => {
     const countMap: Record<string, number> = {};
@@ -136,19 +148,20 @@ const Gouji: React.FC<MyProps> = props => {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (!players.every(it => it.cards.every(card => card == ''))) {
+        const latestPlayers = playersRef.current;
+        if (!latestPlayers.every(it => it.cards.every(card => card == ''))) {
           setGames([
             {
               id: uuid(),
               from: 'gj',
               time: new Date().toLocaleString(),
-              players,
+              players: latestPlayers,
             },
             ...games,
           ]);
         }
       };
-    }, [players]),
+    }, []),
   );
 
   useEffect(() => {

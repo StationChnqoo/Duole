@@ -8,7 +8,13 @@ import { useCaches } from '@src/constants/store';
 import { Player } from '@src/constants/t';
 import { uuid } from '@src/constants/u';
 import { produce } from 'immer';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStacksParams, RootStacksProp } from '../Screens';
 
@@ -23,6 +29,11 @@ const Baohuang: React.FC<MyProps> = props => {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const { theme, games, setGames } = useCaches();
   const [gameArea, setGameArea] = useState<'wf' | 'fk'>('wf'); // 潍坊 | 疯狂
+  const playersRef = useRef(players);
+
+  useEffect(() => {
+    playersRef.current = players;
+  }, [players]);
 
   const defaultPlayers = ['上联', '上家', '下家', '下联'].map(
     (name, index) => ({
@@ -61,19 +72,20 @@ const Baohuang: React.FC<MyProps> = props => {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        if (!players.every(it => it.cards.every(card => card == ''))) {
+        const latestPlayers = playersRef.current;
+        if (!latestPlayers.every(it => it.cards.every(card => card == ''))) {
           setGames([
             {
               id: uuid(),
               from: 'bh',
               time: new Date().toLocaleString(),
-              players,
+              players: latestPlayers,
             },
             ...games,
           ]);
         }
       };
-    }, [players]),
+    }, []),
   );
 
   const handlePlayerPress = (player: Player, index: number) => {

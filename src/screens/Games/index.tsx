@@ -27,6 +27,7 @@ const Games: React.FC<MyProps> = props => {
           navigation.goBack();
         }}
       />
+      <View style={{ height: 1, backgroundColor: '#eee' }} />
       <FlatList
         data={games}
         initialNumToRender={10}
@@ -50,6 +51,7 @@ const Games: React.FC<MyProps> = props => {
           <View style={{ height: 1, backgroundColor: '#eee' }} />
         )}
       />
+      <View style={{ height: useSafeAreaInsets().bottom }} />
     </View>
   );
 };
