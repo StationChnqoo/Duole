@@ -12,12 +12,14 @@ import HelloWorld from './HelloWorld';
 import Baohuang from './Baohuang';
 import Gouji from './Gouji';
 import BottomTabs from './BottomTabs';
+import Games from './Games';
 
 export type RootStacksParams = {
   HelloWorld: { id: string };
-  Baohuang: {id?: string};
-  Gouji: {id?: string};
+  Baohuang: { id?: string };
+  Gouji: { id?: string };
   BottomTabs: undefined;
+  Games: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -42,6 +44,7 @@ export default function Stacks() {
         <RootStack.Screen name="HelloWorld" component={HelloWorld} />
         <RootStack.Screen name="Baohuang" component={Baohuang} />
         <RootStack.Screen name="Gouji" component={Gouji} />
+        <RootStack.Screen name="Games" component={Games} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
