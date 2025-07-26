@@ -107,11 +107,7 @@ const SoftKeyboard: React.FC<MyProps> = props => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            Alert.alert('提示', '确认清除吗？', [
-              { text: '取消', onPress: () => {} },
-              { text: '确认', onPress: onClearPress },
-            ]);
-            onClearPress?.();
+            onClearPress();
             isKeyboardFeedback && vibrate();
           }}
           style={[
@@ -124,14 +120,14 @@ const SoftKeyboard: React.FC<MyProps> = props => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            onKeyBoardPress?.('#');
+            // onKeyBoardPress?.('#');
           }}
           style={[
             styles.button,
             { width: 72, borderColor: 'green', backgroundColor: '#e6ffe6' },
           ]}
         >
-          <Text style={{ fontSize: 14, color: 'green' }}>#.下一轮</Text>
+          <Text style={{ fontSize: 14, color: 'green' }}>恢复牌局</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
