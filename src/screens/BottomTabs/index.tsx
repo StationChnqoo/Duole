@@ -5,11 +5,11 @@ import { useCaches } from '@src/constants/store';
 import React, { useCallback, useRef } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
-import HelloWorld from '../HelloWorld';
+import Find from '../Find';
 import Home from '../Home';
+import My from '../My';
 import { RootStacksProp } from '../Screens';
 import { NewModalRef } from './components/NewModal';
-import Find from '../Find';
 
 const Tab = createBottomTabNavigator();
 interface MyProps {
@@ -35,8 +35,8 @@ const BottomTabs = (props: MyProps) => {
       label: '发现',
     },
     {
-      name: 'Me',
-      component: HelloWorld,
+      name: 'My',
+      component: My,
       icon: require('./assets/menu_me.png'),
       label: '我的',
     },

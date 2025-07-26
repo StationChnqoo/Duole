@@ -32,7 +32,7 @@ const Find: React.FC<MyProps> = props => {
     <View style={{ flex: 1 }}>
       <View style={{ height, backgroundColor: 'white' }} />
       <ScrollView style={{ paddingHorizontal: 12 }}>
-        <View style={{ height: 6 }} />
+        <View style={{ height: 12 }} />
         <View style={styles.items}>
           <Flex horizontal justify={'space-between'}>
             <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
