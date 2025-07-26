@@ -38,7 +38,7 @@ const Gouji: React.FC<MyProps> = props => {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [bigCards, setBigCards] = useState<string[]>(Array(2).fill('')); // 大牌统计
   const [isEagle, setIsEagle] = useState(true); // 是否带鹰
-  const { theme, games, setGames } = useCaches();
+  const { theme, games, setGames, autoRevertGame } = useCaches();
   const [isExpandBigCards, setIsExpandBigCards] = useState(false);
   const [pack, setPack] = useState(6);
   const [isContains2, setIsContains2] = useState(false);
@@ -127,20 +127,8 @@ const Gouji: React.FC<MyProps> = props => {
       let game = games.find(it => it.id == route.params.id);
       setPlayers(game.players);
     } else {
-      setTimeout(() => {
-        let last = games.find(it => it.from == 'gj');
-        if (last) {
-          Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
-            { text: '算了', onPress: () => {} },
-            {
-              text: '好的',
-              onPress: () => {
-                setPlayers([...last.players]);
-              },
-            },
-          ]);
-        }
-      }, 1000);
+      let last = games.find(it => it.from == 'gj');
+      autoRevertGame && last && setPlayers([...last.players]);
     }
     return function () {};
   }, []);

@@ -10,6 +10,7 @@ import Home from '../Home';
 import My from '../My';
 import { RootStacksProp } from '../Screens';
 import { NewModalRef } from './components/NewModal';
+import dayjs from 'dayjs';
 
 const Tab = createBottomTabNavigator();
 interface MyProps {
@@ -17,7 +18,7 @@ interface MyProps {
 }
 
 const BottomTabs = (props: MyProps) => {
-  const { theme } = useCaches();
+  const { theme, freeUsed, setFreeUsed } = useCaches();
   const { navigation } = props;
   const modalRef = useRef<NewModalRef>(null);
 
@@ -28,12 +29,12 @@ const BottomTabs = (props: MyProps) => {
       icon: require('./assets/menu_home.png'),
       label: '首页',
     },
-    {
-      name: 'Find',
-      component: Find,
-      icon: require('./assets/menu_friends.png'),
-      label: '发现',
-    },
+    // {
+    //   name: 'Find',
+    //   component: Find,
+    //   icon: require('./assets/menu_friends.png'),
+    //   label: '发现',
+    // },
     {
       name: 'My',
       component: My,
@@ -45,6 +46,10 @@ const BottomTabs = (props: MyProps) => {
   useFocusEffect(
     useCallback(() => {
       // setIsShowNewModal(true);
+      let today = dayjs().format('YYYY-MM-DD');
+      if (freeUsed.key != today) {
+        setFreeUsed({ key: today, value: 0 });
+      }
       return () => {};
     }, []),
   );

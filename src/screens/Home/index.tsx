@@ -3,6 +3,7 @@ import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import React from 'react';
 import {
+  Image,
   Platform,
   ScrollView,
   StatusBar,
@@ -30,6 +31,9 @@ const Home: React.FC<MyProps> = props => {
     setCardCound,
     isKeyboardFeedback,
     setIsKeyboardFeedback,
+    autoRevertGame,
+    setAutoRevertGame,
+    games,
   } = useCaches();
 
   const height = Platform.select({
@@ -39,7 +43,7 @@ const Home: React.FC<MyProps> = props => {
 
   const frames = useSafeAreaInsets();
 
-  const games = {
+  const supportedGames = {
     gj: {
       title: '够级（鹰 🦅）',
       page: 'Gouji',
@@ -63,7 +67,7 @@ const Home: React.FC<MyProps> = props => {
               选择游戏
             </Text>
             <Flex horizontal style={{ gap: 12 }} align={'flex-end'}>
-              {Object.keys(games).map((item, index) => (
+              {Object.keys(supportedGames).map((item, index) => (
                 <TouchableOpacity
                   key={index}
                   style={[
@@ -83,12 +87,8 @@ const Home: React.FC<MyProps> = props => {
                         fontSize: 14,
                       }}
                     >
-                      {games[item].title}
+                      {supportedGames[item].title}
                     </Text>
-                    {/* <Image
-                      source={require('@src/assets/images/common/arrow_right.png')}
-                      style={{ height: 14, width: 14, tintColor: theme }}
-                    /> */}
                   </Flex>
                   <Text
                     style={{
@@ -97,7 +97,7 @@ const Home: React.FC<MyProps> = props => {
                     }}
                     numberOfLines={1}
                   >
-                    {games[item].message}
+                    {supportedGames[item].message}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -108,26 +108,6 @@ const Home: React.FC<MyProps> = props => {
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏设置
             </Text>
-            {/* <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
-                出牌记录模式
-              </Text>
-              <Flex horizontal align={'center'}>
-                <CheckBox
-                  checked={playedCardsMode == 0}
-                  activeColor={theme}
-                  onPress={() => setPlayedCardsMode(0)}
-                  label={'简洁模式'}
-                />
-                <View style={{ width: 12 }} />
-                <CheckBox
-                  checked={playedCardsMode == 1}
-                  activeColor={theme}
-                  onPress={() => setPlayedCardsMode(1)}
-                  label={'详细模式'}
-                />
-              </Flex>
-            </View> */}
             <View style={{ height: 12 }} />
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
@@ -148,6 +128,20 @@ const Home: React.FC<MyProps> = props => {
             <View style={{ height: 12 }} />
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
+                自动恢复牌局
+              </Text>
+              <Switch
+                value={autoRevertGame}
+                onValueChange={value => {
+                  setAutoRevertGame(value);
+                }}
+                trackColor={{ false: '#ccc', true: theme }}
+                thumbColor={cardSound ? '#fff' : '#f4f3f4'}
+              />
+            </View>
+            <View style={{ height: 12 }} />
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
                 按键反馈（震动效果）
               </Text>
               <Switch
@@ -161,6 +155,36 @@ const Home: React.FC<MyProps> = props => {
               />
             </View>
           </View>
+          <View style={{ height: 12 }} />
+          <View style={styles.card}>
+            <Flex horizontal justify={'space-between'}>
+              <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+                最近对局
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
+                onPress={() => {
+                  navigation.navigate('Games');
+                }}
+              >
+                <Flex horizontal>
+                  <Text style={{ fontSize: 14, color: theme }}>
+                    {`${games.length}局 | ${(
+                      JSON.stringify(games).length /
+                      1024 /
+                      1024
+                    ).toFixed(2)}MB`}
+                  </Text>
+                  <Image
+                    source={require('@src/assets/images/common/arrow_right.png')}
+                    style={{ height: 14, width: 14, tintColor: theme }}
+                  />
+                </Flex>
+              </TouchableOpacity>
+            </Flex>
+          </View>
+          <View style={{ height: 12 }} />
         </View>
       </ScrollView>
       <TouchableOpacity
@@ -170,7 +194,7 @@ const Home: React.FC<MyProps> = props => {
           { backgroundColor: theme, marginBottom: 16 },
         ]}
         onPress={() => {
-          navigation.navigate(games[defaultGame].page);
+          navigation.navigate(supportedGames[defaultGame].page);
         }}
       >
         <Text style={{ color: '#fff', fontSize: 16 }}>快速开始</Text>

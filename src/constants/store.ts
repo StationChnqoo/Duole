@@ -3,12 +3,8 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { MMKV } from 'react-native-mmkv';
 import { StateStorage } from 'zustand/middleware';
-import { Game } from './t';
+import { Game, KeyValue } from './t';
 
-// const mmkv = new MMKV({
-//   id: 'useMMKV',
-//   encryptionKey: 'net.cctv3.iCloud',
-// });
 const mmkv = new MMKV();
 const mmkvStorage: StateStorage = {
   setItem: (key, value) => mmkv.set(key, value),
@@ -29,6 +25,10 @@ interface States {
   setIsKeyboardFeedback: (isKeyboardFeedback: boolean) => void;
   games: Game[];
   setGames: (games: Game[]) => void;
+  freeUsed: KeyValue;
+  setFreeUsed: (freeUsed: KeyValue) => void;
+  autoRevertGame: boolean;
+  setAutoRevertGame: (autoRevertGame: boolean) => void;
 }
 
 const initialState = {
@@ -38,6 +38,8 @@ const initialState = {
   cardSound: true,
   isKeyboardFeedback: true,
   games: [],
+  freeUsed: { key: '2025-07-26', value: 0 },
+  autoRevertGame: true,
 };
 
 const useCaches = create<States>()(
@@ -52,6 +54,8 @@ const useCaches = create<States>()(
         setIsKeyboardFeedback: isKeyboardFeedback =>
           set({ isKeyboardFeedback }),
         setGames: games => set({ games }),
+        setFreeUsed: freeUsed => set({ freeUsed }),
+        setAutoRevertGame: autoRevertGame => set({ autoRevertGame }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -64,6 +68,7 @@ const useCaches = create<States>()(
           cardSound: state.cardSound,
           isKeyboardFeedback: state.isKeyboardFeedback,
           games: state.games,
+          freeUsed: state.freeUsed,
         }),
       },
     ),

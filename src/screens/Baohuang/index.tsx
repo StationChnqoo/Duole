@@ -27,7 +27,7 @@ const Baohuang: React.FC<MyProps> = props => {
   const { navigation, route } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const { theme, games, setGames } = useCaches();
+  const { theme, games, setGames, autoRevertGame } = useCaches();
   const [gameArea, setGameArea] = useState<'wf' | 'fk'>('wf'); // 潍坊 | 疯狂
   const playersRef = useRef(players);
 
@@ -52,19 +52,7 @@ const Baohuang: React.FC<MyProps> = props => {
       setPlayers(game.players);
     } else {
       let last = games.find(it => it.from == 'bh');
-      setTimeout(() => {
-        if (last) {
-          Alert.alert('提示', `检测到${last.time}保存的对局，是否恢复？`, [
-            { text: '算了', onPress: () => {} },
-            {
-              text: '好的',
-              onPress: () => {
-                setPlayers([...last.players]);
-              },
-            },
-          ]);
-        }
-      }, 1000);
+      autoRevertGame && last && setPlayers([...last.players]);
     }
     return function () {};
   }, []);

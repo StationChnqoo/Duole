@@ -11,3 +11,8 @@ export interface Game {
   from: string;
   players: Player[];
 }
+
+export interface KeyValue {
+  key: string;
+  value: string | number;
+}
