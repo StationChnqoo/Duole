@@ -7,6 +7,7 @@ import {
 } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { GoujiPlayer } from '@src/constants/t';
+import { vibrate } from '@src/constants/u';
 import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -26,7 +27,7 @@ const Person: React.FC<MyProps> = props => {
     sum,
     direction = 'column',
   } = props;
-  const { theme, cardSound } = useCaches();
+  const { theme, cardSound, isKeyboardFeedback } = useCaches();
 
   const borderColor = (index: number) => {
     return player.id == currentPalyerIndex && player.currentCardIndex == index
@@ -106,12 +107,18 @@ const Person: React.FC<MyProps> = props => {
               {remainingCards}
             </Text>
           </View>
-          <View style={{ width: 23 }} />
+          <View style={{ width: 16 }} />
           {renderCards2({ flex: 1 })}
         </Flex>
       )}
       <View style={{ position: 'absolute', bottom: 16, right: 16 }}>
-        <Stepper value={error} onChange={t => setError(error => error + t)} />
+        <Stepper
+          value={error}
+          onChange={t => {
+            setError(error => error + t);
+            isKeyboardFeedback && vibrate();
+          }}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -120,7 +127,7 @@ const Person: React.FC<MyProps> = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    padding: 10,
     backgroundColor: '#fff',
     borderRadius: 5,
     position: 'relative',
@@ -140,15 +147,6 @@ const styles = StyleSheet.create({
     borderColor: '#999',
     borderRadius: 5,
     paddingVertical: 3,
-  },
-  cards01: {
-    borderRadius: 5,
-    borderWidth: 1,
-    // borderColor: 'transparent',
-    borderColor: '#333',
-    justifyContent: 'center',
-    paddingHorizontal: 4,
-    height: 24,
   },
 });
 

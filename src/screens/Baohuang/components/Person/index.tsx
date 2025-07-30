@@ -129,7 +129,7 @@ const Person: React.FC<MyProps> = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    padding: 10,
     backgroundColor: '#fff',
     borderRadius: 5,
     position: 'relative',

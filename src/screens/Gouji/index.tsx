@@ -140,7 +140,7 @@ const Gouji: React.FC<MyProps> = props => {
           ) : (
             <View>
               <View style={{ paddingHorizontal: 10 }}>
-                <View style={{ height: 10 }} />
+                <View style={{ height: 6 }} />
                 <KingCounter pack={pack} />
                 <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>

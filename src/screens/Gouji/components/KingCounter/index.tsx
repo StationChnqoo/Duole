@@ -1,6 +1,7 @@
 import Flex from '@src/components/Flex';
 import Stepper from '@src/components/Stepper';
 import { useCaches } from '@src/constants/store';
+import { vibrate } from '@src/constants/u';
 import { produce } from 'immer';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -11,7 +12,7 @@ interface MyProps {
 
 const KingCounter: React.FC<MyProps> = props => {
   const { pack } = props;
-  const { theme } = useCaches();
+  const { theme, isKeyboardFeedback } = useCaches();
   const [datas, setDatas] = useState([]);
 
   useEffect(() => {
@@ -23,12 +24,13 @@ const KingCounter: React.FC<MyProps> = props => {
     return function () {};
   }, [pack]);
 
-  const onStep = (index: number, change: n) => {
+  const onStep = (index: number, change: number) => {
     setDatas(
       produce(datas, draft => {
         draft[index].value += change;
       }),
     );
+    isKeyboardFeedback && vibrate();
   };
 
   return (
@@ -38,7 +40,11 @@ const KingCounter: React.FC<MyProps> = props => {
           <Flex key={i}>
             <Flex horizontal justify={'space-between'}>
               <Text style={{ fontSize: 14, color: '#333' }}>
-                {{ Y: '鹰 🦅', D: '大王 🐱', X: '小王 🐭', '2': '2 ②' }[it.key]}
+                {
+                  { Y: '鹰 🦅', D: '大王 🐓', X: '小王 🐤', '2': '2 🥚' }[
+                    it.key
+                  ]
+                }
               </Text>
             </Flex>
             <View style={{ height: 2 }} />
@@ -57,7 +63,7 @@ const KingCounter: React.FC<MyProps> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 5,
+    paddingVertical: 6,
     paddingHorizontal: 10,
     backgroundColor: '#fff',
     borderRadius: 5,
