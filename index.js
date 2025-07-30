@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { name as appName } from './app.json';
 import Screens from './src/screens/Screens';
+import React from 'react';
 
 const Duole = () => {
 

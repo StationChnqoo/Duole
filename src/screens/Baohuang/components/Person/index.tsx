@@ -4,27 +4,20 @@ import {
   parseCard3Groups,
 } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
-import { Player } from '@src/constants/t';
+import { BaohuangPlayer } from '@src/constants/t';
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Flex from '../Flex';
+import Flex from '@src/components/Flex';
 
 interface MyProps {
-  player: Player;
+  player: BaohuangPlayer;
   onPlayerPress?: (player: Player, cardsIndex: number) => void; // 可选的点击事件处理函数
   currentPalyerIndex?: number; // 当前玩家索引，用于高亮显示
   sum: number;
-  direction?: 'column' | 'row';
 }
 
-const PlayerPanel: React.FC<MyProps> = props => {
-  const {
-    player,
-    onPlayerPress,
-    currentPalyerIndex,
-    sum,
-    direction = 'column',
-  } = props;
+const Person: React.FC<MyProps> = props => {
+  const { player, onPlayerPress, currentPalyerIndex, sum } = props;
   const { theme, cardSound } = useCaches();
 
   const borderColor = (index: number) => {
@@ -85,10 +78,9 @@ const PlayerPanel: React.FC<MyProps> = props => {
       <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
       <View style={{ height: 4 }} />
       <Flex
-        horizontal={direction == 'row'}
         justify={'space-between'}
         // @ts-ignore
-        align={{ row: 'center', column: 'flex-start' }[direction]}
+        align={'flex-start'}
       >
         <View>
           <View style={{ flexDirection: 'row', gap: 5 }}>
@@ -125,13 +117,8 @@ const PlayerPanel: React.FC<MyProps> = props => {
             </View>
           </View>
         </View>
-        {direction == 'row' ? (
-          renderCards2({ marginLeft: 10, width: '50%' })
-        ) : (
-          <View />
-        )}
       </Flex>
-      {direction == 'column' && renderCards2({ marginTop: 10 })}
+      {renderCards2({ marginTop: 10 })}
       <Text style={[styles.remaingCount, { color: theme }]}>
         {remainingCardsCount}张
       </Text>
@@ -177,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlayerPanel;
+export default Person;

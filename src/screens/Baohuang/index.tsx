@@ -1,11 +1,10 @@
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
-import PlayerPanel from '@src/components/PlayerPanel';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
-import { Player } from '@src/constants/t';
+import { BaohuangPlayer } from '@src/constants/t';
 import { uuid } from '@src/constants/u';
 import { produce } from 'immer';
 import React, {
@@ -15,8 +14,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RootStacksParams, RootStacksProp } from '../Screens';
+import Person from './components/Person';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -25,7 +25,7 @@ interface MyProps {
 
 const Baohuang: React.FC<MyProps> = props => {
   const { navigation, route } = props;
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<BaohuangPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const { theme, games, setGames, autoRevertGame } = useCaches();
   const [gameArea, setGameArea] = useState<'wf' | 'fk'>('wf'); // 潍坊 | 疯狂
@@ -141,14 +141,14 @@ const Baohuang: React.FC<MyProps> = props => {
               <View style={{ paddingHorizontal: 12 }}>
                 <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
-                  <PlayerPanel
+                  <Person
                     player={players[0]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
                     sum={sum}
                   />
                   <View style={{ width: 6 }} />
-                  <PlayerPanel
+                  <Person
                     player={players[3]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
@@ -157,14 +157,14 @@ const Baohuang: React.FC<MyProps> = props => {
                 </View>
                 <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
-                  <PlayerPanel
+                  <Person
                     player={players[1]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
                     sum={sum}
                   />
                   <View style={{ width: 6 }} />
-                  <PlayerPanel
+                  <Person
                     player={players[2]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}

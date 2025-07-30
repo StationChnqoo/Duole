@@ -159,6 +159,26 @@ const Home: React.FC<MyProps> = props => {
           <View style={styles.card}>
             <Flex horizontal justify={'space-between'}>
               <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+                实验室
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
+                onPress={() => {
+                  navigation.navigate('GoujiSheet');
+                }}
+              >
+                <Image
+                  source={require('@src/assets/images/common/arrow_right.png')}
+                  style={{ height: 14, width: 14, tintColor: theme }}
+                />
+              </TouchableOpacity>
+            </Flex>
+          </View>
+          <View style={{ height: 12 }} />
+          <View style={styles.card}>
+            <Flex horizontal justify={'space-between'}>
+              <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
                 最近对局
               </Text>
               <TouchableOpacity
