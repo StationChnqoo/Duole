@@ -13,7 +13,14 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { RootStacksParams, RootStacksProp } from '../Screens';
 import KingCounter from './components/KingCounter';
 import Person from './components/Person';
@@ -28,23 +35,20 @@ const Gouji: React.FC<MyProps> = props => {
   const [players, setPlayers] = useState<GoujiPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [isEagle, setIsEagle] = useState(true); // 是否带鹰
-  const { theme, games, setGames, autoRevertGame } = useCaches();
-  const [pack, setPack] = useState(6);
-  const [my, setMy] = useState('');
+  const { theme, games, setGames, autoRevertGame, pack, setPack } = useCaches();
+  const [me, setMe] = useState('');
   const playersRef = useRef(players);
 
   useEffect(() => {
     playersRef.current = players;
   }, [players]);
 
-  const defaultPlayers = ['对门', '上联', '上家', '我', '下家', '下联'].map(
-    (name, index) => ({
-      id: index,
-      name,
-      cards: '',
-      currentCardIndex: 2,
-    }),
-  );
+  const defaultPlayers = ['对门', '上家', '下家'].map((name, index) => ({
+    id: index,
+    name,
+    cards: '',
+    currentCardIndex: 2,
+  }));
 
   // 初始化玩家数据
   useEffect(() => {
@@ -96,23 +100,31 @@ const Gouji: React.FC<MyProps> = props => {
   };
 
   const onKeyBoardPress = (card: string) => {
-    setPlayers(
-      produce(players, draft => {
-        let p = draft[currentPlayerIndex];
-        p.cards += card;
-      }),
-    );
+    if (currentPlayerIndex == -1) {
+      setMe(t => t + card);
+    } else {
+      setPlayers(
+        produce(players, draft => {
+          let p = draft[currentPlayerIndex];
+          p.cards += card;
+        }),
+      );
+    }
   };
 
   const onDeletePress = () => {
-    setPlayers(
-      produce(players, draft => {
-        let p = draft[currentPlayerIndex];
-        if (p.cards.length > 0) {
-          p.cards = p.cards.slice(0, -1);
-        }
-      }),
-    );
+    if (currentPlayerIndex == -1) {
+      setMe(t => t.slice(0, -1));
+    } else {
+      setPlayers(
+        produce(players, draft => {
+          let p = draft[currentPlayerIndex];
+          if (p.cards.length > 0) {
+            p.cards = p.cards.slice(0, -1);
+          }
+        }),
+      );
+    }
   };
 
   const sum = useMemo(() => {
@@ -141,7 +153,7 @@ const Gouji: React.FC<MyProps> = props => {
             <View>
               <View style={{ paddingHorizontal: 10 }}>
                 <View style={{ height: 6 }} />
-                <KingCounter pack={pack} />
+                <KingCounter pack={pack} me={me} />
                 <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <Person
@@ -153,7 +165,6 @@ const Gouji: React.FC<MyProps> = props => {
                   />
                 </View>
                 <View style={{ height: 6 }} />
-
                 <View style={{ flexDirection: 'row' }}>
                   <Person
                     player={players[1]}
@@ -163,28 +174,33 @@ const Gouji: React.FC<MyProps> = props => {
                   />
                   <View style={{ width: 6 }} />
                   <Person
-                    player={players[4]}
-                    onPlayerPress={handlePlayerPress}
-                    currentPalyerIndex={currentPlayerIndex}
-                    sum={sum}
-                  />
-                </View>
-                <View style={{ height: 6 }} />
-                <View style={{ flexDirection: 'row' }}>
-                  <Person
                     player={players[2]}
                     onPlayerPress={handlePlayerPress}
                     currentPalyerIndex={currentPlayerIndex}
                     sum={sum}
                   />
-                  <View style={{ width: 6 }} />
-                  <Person
-                    player={players[3]}
-                    onPlayerPress={handlePlayerPress}
-                    currentPalyerIndex={currentPlayerIndex}
-                    sum={sum}
-                  />
                 </View>
+                <View style={{ height: 10 }} />
+                <TouchableOpacity
+                  style={[
+                    styles.meContainer,
+                    { borderColor: currentPlayerIndex == -1 ? theme : '#ccc' },
+                  ]}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setCurrentPlayerIndex(-1);
+                  }}
+                >
+                  <Text style={[styles.meText, { color: '#333' }]}>
+                    我的鹰、大王、小王、2
+                  </Text>
+                  <View style={{ height: 4 }} />
+                  <Text style={{ color: 'green', fontSize: 12 }}>
+                    3x鹰🦅+2x大王🐓+1x小王🐤+5x2 = YYYDDXX22222
+                  </Text>
+                  <View style={{ height: 4 }} />
+                  <Text style={styles.meText}>{me || '请输入手牌 ...'}</Text>
+                </TouchableOpacity>
                 <View style={{ height: 10 }} />
                 <View style={styles.settingPanel}>
                   <Text
@@ -259,14 +275,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     padding: 12,
   },
-  bigCardsItem: {
-    flex: 1,
-    borderRadius: 4,
-    height: 28,
-    paddingHorizontal: 4,
-    borderColor: '#999',
+  meContainer: {
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: 'white',
     borderWidth: 1,
-    justifyContent: 'center',
+  },
+  meText: {
+    fontSize: 14,
+    color: '#666',
   },
 });
 

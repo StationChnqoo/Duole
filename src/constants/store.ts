@@ -29,6 +29,8 @@ interface States {
   setFreeUsed: (freeUsed: KeyValue) => void;
   autoRevertGame: boolean;
   setAutoRevertGame: (autoRevertGame: boolean) => void;
+  pack: number;
+  setPack: (pack: number) => void;
 }
 
 const initialState = {
@@ -40,6 +42,7 @@ const initialState = {
   games: [],
   freeUsed: { key: '2025-07-26', value: 0 },
   autoRevertGame: true,
+  pack: 4,
 };
 
 const useCaches = create<States>()(
@@ -56,6 +59,7 @@ const useCaches = create<States>()(
         setGames: games => set({ games }),
         setFreeUsed: freeUsed => set({ freeUsed }),
         setAutoRevertGame: autoRevertGame => set({ autoRevertGame }),
+        setPack: pack => set({ pack }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -69,6 +73,7 @@ const useCaches = create<States>()(
           isKeyboardFeedback: state.isKeyboardFeedback,
           games: state.games,
           freeUsed: state.freeUsed,
+          pack: state.pack,
         }),
       },
     ),
