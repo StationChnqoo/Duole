@@ -72,7 +72,7 @@ const Baohuang: React.FC<MyProps> = props => {
             {
               id: uuid(),
               from: 'bh',
-              time: new Date().toLocaleString(),
+              time: new Date().getTime(),
               players: latestPlayers,
             },
             ...games,

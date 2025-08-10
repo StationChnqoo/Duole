@@ -2,6 +2,7 @@ import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
+import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import {
   Image,
@@ -16,7 +17,6 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
-import { set } from 'zod';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -71,6 +71,11 @@ const Home: React.FC<MyProps> = props => {
     }
     return function () {};
   }, [pack]);
+
+  useEffect(() => {
+    setGames(games.filter(game => dayjs(game.time).isSame(dayjs(), 'month')));
+    return function () {};
+  }, []);
 
   return (
     <View style={styles.container}>

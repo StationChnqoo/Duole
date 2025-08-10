@@ -15,7 +15,7 @@ export interface GoujiPlayer {
 
 export interface Game {
   id: string;
-  time: string;
+  time: number;
   from: string;
   players: GoujiPlayer[] | BaohuangPlayer[];
 }

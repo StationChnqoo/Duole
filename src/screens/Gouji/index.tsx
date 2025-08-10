@@ -186,7 +186,7 @@ const Gouji: React.FC<MyProps> = props => {
                 <TouchableOpacity
                   style={[
                     styles.meContainer,
-                    { borderColor: currentPlayerIndex == -1 ? theme : '#ccc' },
+                    { borderColor: currentPlayerIndex == -1 ? theme : '#ddd' },
                   ]}
                   activeOpacity={0.8}
                   onPress={() => {

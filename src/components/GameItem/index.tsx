@@ -2,8 +2,13 @@ import Flex from '@src/components/Flex';
 import { parseCard3Groups } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { Game } from '@src/constants/t';
+import dayjs from 'dayjs';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-cn';
+
+dayjs.extend(relativeTime);
 
 interface MyProps {
   data: Game;
@@ -29,7 +34,9 @@ const GameItem: React.FC<MyProps> = props => {
           <Text style={{ fontSize: 14, color: '#333' }}>
             {{ bh: '保皇', gj: '够级' }[it.from]}
           </Text>
-          <Text style={{ fontSize: 12, color: '#999' }}>{it.time}</Text>
+          <Text style={{ fontSize: 12, color: '#999' }}>
+            {dayjs(it.time).fromNow().replace(' ', '')}
+          </Text>
         </Flex>
         <View style={{ height: 4 }} />
         <Flex horizontal justify={'space-between'}>
