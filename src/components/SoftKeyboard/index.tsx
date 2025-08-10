@@ -120,14 +120,14 @@ const SoftKeyboard: React.FC<MyProps> = props => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            // onKeyBoardPress?.('#');
+            onKeyBoardPress?.('#');
           }}
           style={[
             styles.button,
             { width: 72, borderColor: 'green', backgroundColor: '#e6ffe6' },
           ]}
         >
-          <Text style={{ fontSize: 14, color: 'green' }}>恢复牌局</Text>
+          <Text style={{ fontSize: 14, color: 'green' }}>N.下一轮</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}

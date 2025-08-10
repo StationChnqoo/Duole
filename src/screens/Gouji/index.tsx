@@ -34,8 +34,17 @@ const Gouji: React.FC<MyProps> = props => {
   const { navigation, route } = props;
   const [players, setPlayers] = useState<GoujiPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [isEagle, setIsEagle] = useState(true); // 是否带鹰
-  const { theme, games, setGames, autoRevertGame, pack, setPack } = useCaches();
+  const {
+    theme,
+    games,
+    setGames,
+    autoRevertGame,
+    pack,
+    setPack,
+    isEagle,
+    setIsEagle,
+  } = useCaches();
+
   const [me, setMe] = useState('');
   const playersRef = useRef(players);
 
@@ -76,13 +85,6 @@ const Gouji: React.FC<MyProps> = props => {
       };
     }, []),
   );
-
-  useEffect(() => {
-    if (pack == 4) {
-      setIsEagle(false);
-    }
-    return function () {};
-  }, [pack]);
 
   const handlePlayerPress = (player: GoujiPlayer, index: number) => {
     // 处理玩家点击事件
@@ -151,8 +153,8 @@ const Gouji: React.FC<MyProps> = props => {
             </View>
           ) : (
             <View>
-              <View style={{ paddingHorizontal: 10 }}>
-                <View style={{ height: 6 }} />
+              <View style={{ paddingHorizontal: 12 }}>
+                <View style={{ height: 12 }} />
                 <KingCounter pack={pack} me={me} />
                 <View style={{ height: 6 }} />
                 <View style={{ flexDirection: 'row' }}>
@@ -202,54 +204,6 @@ const Gouji: React.FC<MyProps> = props => {
                   <Text style={styles.meText}>{me || '请输入手牌 ...'}</Text>
                 </TouchableOpacity>
                 <View style={{ height: 10 }} />
-                <View style={styles.settingPanel}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: '#333',
-                      fontWeight: '500',
-                    }}
-                  >
-                    设置
-                  </Text>
-                  <View style={{ height: 6 }} />
-                  <Flex horizontal justify={'space-between'}>
-                    <Text style={{ fontSize: 14, color: '#333' }}>
-                      是否带鹰🦅
-                    </Text>
-                    <Switch
-                      disabled={pack == 4}
-                      value={isEagle}
-                      onValueChange={value => {
-                        setIsEagle(value);
-                      }}
-                      trackColor={{ false: '#ccc', true: theme }}
-                      thumbColor={isEagle ? '#fff' : '#f4f3f4'}
-                    />
-                  </Flex>
-                  <View style={{ height: 6 }} />
-                  <Flex horizontal justify={'space-between'}>
-                    <Text style={{ fontSize: 14, color: '#333' }}>几副牌</Text>
-                    <Flex horizontal style={{ gap: 12 }}>
-                      <CheckBox
-                        activeColor={theme}
-                        checked={pack == 4}
-                        label={'4副牌'}
-                        onPress={() => {
-                          setPack(4);
-                        }}
-                      />
-                      <CheckBox
-                        activeColor={theme}
-                        checked={pack == 6}
-                        label={'6副牌'}
-                        onPress={() => {
-                          setPack(6);
-                        }}
-                      />
-                    </Flex>
-                  </Flex>
-                </View>
               </View>
             </View>
           )}
@@ -268,13 +222,6 @@ const Gouji: React.FC<MyProps> = props => {
 };
 
 const styles = StyleSheet.create({
-  settingPanel: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    padding: 12,
-  },
   meContainer: {
     borderRadius: 10,
     paddingVertical: 10,

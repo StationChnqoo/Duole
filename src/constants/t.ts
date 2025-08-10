@@ -17,7 +17,7 @@ export interface Game {
   id: string;
   time: string;
   from: string;
-  players: Player[];
+  players: GoujiPlayer[] | BaohuangPlayer[];
 }
 
 export interface KeyValue {

@@ -1,6 +1,4 @@
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
-import CheckBox from '@src/components/CheckBox';
-import Flex from '@src/components/Flex';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
@@ -27,8 +25,7 @@ const Baohuang: React.FC<MyProps> = props => {
   const { navigation, route } = props;
   const [players, setPlayers] = useState<BaohuangPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const { theme, games, setGames, autoRevertGame } = useCaches();
-  const [gameArea, setGameArea] = useState<'wf' | 'fk'>('wf'); // 潍坊 | 疯狂
+  const { theme, games, setGames, autoRevertGame, gameArea } = useCaches();
   const playersRef = useRef(players);
 
   useEffect(() => {
@@ -49,10 +46,12 @@ const Baohuang: React.FC<MyProps> = props => {
     setPlayers(defaultPlayers);
     if (route.params?.id && games.some(it => it.id == route.params?.id)) {
       let game = games.find(it => it.id == route.params.id);
-      setPlayers(game.players);
+      setPlayers(game.players as BaohuangPlayer[]);
     } else {
       let last = games.find(it => it.from == 'bh');
-      autoRevertGame && last && setPlayers([...last.players]);
+      autoRevertGame &&
+        last &&
+        setPlayers([...last.players] as BaohuangPlayer[]);
     }
     return function () {};
   }, []);
@@ -61,7 +60,14 @@ const Baohuang: React.FC<MyProps> = props => {
     useCallback(() => {
       return () => {
         const latestPlayers = playersRef.current;
-        if (!latestPlayers.every(it => it.cards.every(card => card == ''))) {
+        if (
+          !(
+            latestPlayers.every(it => it.cards.every(card => card == '')) ||
+            games.some(
+              it => JSON.stringify(it.players) == JSON.stringify(latestPlayers),
+            )
+          )
+        ) {
           setGames([
             {
               id: uuid(),
@@ -76,7 +82,7 @@ const Baohuang: React.FC<MyProps> = props => {
     }, []),
   );
 
-  const handlePlayerPress = (player: Player, index: number) => {
+  const handlePlayerPress = (player: BaohuangPlayer, index: number) => {
     // 处理玩家点击事件
     setCurrentPlayerIndex(player.id);
     setPlayers(
@@ -139,7 +145,7 @@ const Baohuang: React.FC<MyProps> = props => {
           ) : (
             <View>
               <View style={{ paddingHorizontal: 12 }}>
-                <View style={{ height: 6 }} />
+                <View style={{ height: 12 }} />
                 <View style={{ flexDirection: 'row' }}>
                   <Person
                     player={players[0]}
@@ -175,38 +181,6 @@ const Baohuang: React.FC<MyProps> = props => {
             </View>
           )}
           <View style={{ height: 10 }} />
-          <View style={{ paddingHorizontal: 12 }}>
-            <View style={styles.settingPanel}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: '#333',
-                  fontWeight: '500',
-                }}
-              >
-                设置
-              </Text>
-              <View style={{ height: 6 }} />
-              <Flex horizontal justify={'space-between'}>
-                <Text style={{ fontSize: 14, color: '#333' }}>保皇玩法</Text>
-                <Flex horizontal>
-                  <CheckBox
-                    checked={gameArea == 'wf'}
-                    activeColor={theme}
-                    onPress={() => setGameArea('wf')}
-                    label={'Wf.潍坊保皇'}
-                  />
-                  <View style={{ width: 12 }} />
-                  <CheckBox
-                    checked={gameArea == 'fk'}
-                    activeColor={theme}
-                    onPress={() => setGameArea('fk')}
-                    label={'Fk.疯狂保皇'}
-                  />
-                </Flex>
-              </Flex>
-            </View>
-          </View>
         </View>
         <View style={{ height: 12 }} />
       </ScrollView>
@@ -221,13 +195,5 @@ const Baohuang: React.FC<MyProps> = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  settingPanel: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    padding: 12,
-  },
-});
+const styles = StyleSheet.create({});
 export default Baohuang;

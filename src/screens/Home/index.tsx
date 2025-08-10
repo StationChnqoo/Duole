@@ -1,7 +1,8 @@
+import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -34,6 +35,12 @@ const Home: React.FC<MyProps> = props => {
     autoRevertGame,
     setAutoRevertGame,
     games,
+    setPack,
+    pack,
+    isEagle,
+    setIsEagle,
+    gameArea,
+    setGameArea,
   } = useCaches();
 
   const height = Platform.select({
@@ -55,6 +62,13 @@ const Home: React.FC<MyProps> = props => {
       message: '潍坊保皇、疯狂保皇',
     },
   };
+
+  useEffect(() => {
+    if (pack == 4) {
+      setIsEagle(false);
+    }
+    return function () {};
+  }, [pack]);
 
   return (
     <View style={styles.container}>
@@ -108,11 +122,9 @@ const Home: React.FC<MyProps> = props => {
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
               游戏设置
             </Text>
-            <View style={{ height: 12 }} />
+            <View style={{ height: 6 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
-                主题颜色
-              </Text>
+              <Text style={{ fontSize: 14, color: '#333' }}>主题颜色</Text>
               <TouchableOpacity
                 style={[styles.themeTag, { borderColor: theme }]}
                 activeOpacity={0.8}
@@ -125,11 +137,9 @@ const Home: React.FC<MyProps> = props => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={{ height: 12 }} />
+            <View style={{ height: 5 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
-                自动恢复牌局
-              </Text>
+              <Text style={{ fontSize: 14, color: '#333' }}>自动恢复牌局</Text>
               <Switch
                 value={autoRevertGame}
                 onValueChange={value => {
@@ -139,9 +149,9 @@ const Home: React.FC<MyProps> = props => {
                 thumbColor={cardSound ? '#fff' : '#f4f3f4'}
               />
             </View>
-            <View style={{ height: 12 }} />
+            <View style={{ height: 5 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333', fontWeight: '500' }}>
+              <Text style={{ fontSize: 14, color: '#333' }}>
                 按键反馈（震动效果）
               </Text>
               <Switch
@@ -153,6 +163,71 @@ const Home: React.FC<MyProps> = props => {
                 trackColor={{ false: '#ccc', true: theme }}
                 thumbColor={cardSound ? '#fff' : '#f4f3f4'}
               />
+            </View>
+            <View style={{ height: 12 }} />
+            <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+              够级
+            </Text>
+            <View style={{ height: 6 }} />
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333' }}>是否带鹰🦅</Text>
+              <Switch
+                disabled={pack == 4}
+                value={isEagle}
+                onValueChange={value => {
+                  setIsEagle(value);
+                }}
+                trackColor={{ false: '#ccc', true: theme }}
+                thumbColor={isEagle ? '#fff' : '#f4f3f4'}
+              />
+            </View>
+            <View style={{ height: 4 }} />
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333' }}>几副牌</Text>
+              <Flex horizontal style={{ gap: 12 }}>
+                <CheckBox
+                  activeColor={theme}
+                  checked={pack == 4}
+                  label={'4副牌'}
+                  onPress={() => {
+                    setPack(4);
+                  }}
+                />
+                <CheckBox
+                  activeColor={theme}
+                  checked={pack == 6}
+                  label={'6副牌'}
+                  onPress={() => {
+                    setPack(6);
+                  }}
+                />
+              </Flex>
+            </View>
+            <View style={{ height: 12 }} />
+            <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+              保皇
+            </Text>
+            <View style={{ height: 6 }} />
+            <View style={styles.settingItem}>
+              <Text style={{ fontSize: 14, color: '#333' }}>区域玩法</Text>
+              <Flex horizontal style={{ gap: 12 }}>
+                <CheckBox
+                  activeColor={theme}
+                  checked={gameArea == 'wf'}
+                  label={'潍坊保皇'}
+                  onPress={() => {
+                    setGameArea('wf');
+                  }}
+                />
+                <CheckBox
+                  activeColor={theme}
+                  checked={gameArea == 'fk'}
+                  label={'疯狂保皇'}
+                  onPress={() => {
+                    setGameArea('fk');
+                  }}
+                />
+              </Flex>
             </View>
           </View>
           <View style={{ height: 12 }} />

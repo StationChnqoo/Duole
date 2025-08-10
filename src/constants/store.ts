@@ -31,6 +31,10 @@ interface States {
   setAutoRevertGame: (autoRevertGame: boolean) => void;
   pack: number;
   setPack: (pack: number) => void;
+  isEagle: boolean; // 是否带鹰
+  setIsEagle: (isEagle: boolean) => void;
+  gameArea: string; // 'wf' | 'fk'; // 潍坊 | 疯狂
+  setGameArea: (gameArea: 'wf' | 'fk') => void;
 }
 
 const initialState = {
@@ -43,6 +47,8 @@ const initialState = {
   freeUsed: { key: '2025-07-26', value: 0 },
   autoRevertGame: true,
   pack: 4,
+  isEagle: true, // 默认带鹰
+  gameArea: 'wf', // 默认潍坊
 };
 
 const useCaches = create<States>()(
@@ -60,6 +66,8 @@ const useCaches = create<States>()(
         setFreeUsed: freeUsed => set({ freeUsed }),
         setAutoRevertGame: autoRevertGame => set({ autoRevertGame }),
         setPack: pack => set({ pack }),
+        setIsEagle: isEagle => set({ isEagle }),
+        setGameArea: gameArea => set({ gameArea }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -74,6 +82,9 @@ const useCaches = create<States>()(
           games: state.games,
           freeUsed: state.freeUsed,
           pack: state.pack,
+          isEagle: state.isEagle,
+          autoRevertGame: state.autoRevertGame,
+          gameArea: state.gameArea,
         }),
       },
     ),

@@ -8,6 +8,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface MyProps {
   data: Game;
   onPress: (item: Game) => void;
+  onDelete?: (item: Game) => void;
 }
 
 const GameItem: React.FC<MyProps> = props => {
@@ -31,7 +32,27 @@ const GameItem: React.FC<MyProps> = props => {
           <Text style={{ fontSize: 12, color: '#999' }}>{it.time}</Text>
         </Flex>
         <View style={{ height: 4 }} />
-        <Text style={{ fontSize: 12, color: '#999' }}>对局编号：{it.id}</Text>
+        <Flex horizontal justify={'space-between'}>
+          <Text style={{ fontSize: 12, color: '#999' }}>对局编号：{it.id}</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            onPress={() => {
+              props.onDelete?.(it);
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                color: theme,
+                textDecorationLine: 'underline',
+              }}
+            >
+              删除
+            </Text>
+          </TouchableOpacity>
+        </Flex>
+
         <View style={{ height: 4 }} />
         {it.players.map((player, j) => (
           <View key={j} style={{ marginVertical: 1 }}>
