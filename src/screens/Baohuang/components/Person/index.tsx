@@ -11,7 +11,7 @@ import Flex from '@src/components/Flex';
 
 interface MyProps {
   player: BaohuangPlayer;
-  onPlayerPress?: (player: Player, cardsIndex: number) => void; // 可选的点击事件处理函数
+  onPlayerPress?: (player: BaohuangPlayer, cardsIndex: number) => void; // 可选的点击事件处理函数
   currentPalyerIndex?: number; // 当前玩家索引，用于高亮显示
   sum: number;
 }

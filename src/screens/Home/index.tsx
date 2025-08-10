@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
+import { set } from 'zod';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -41,6 +42,7 @@ const Home: React.FC<MyProps> = props => {
     setIsEagle,
     gameArea,
     setGameArea,
+    setGames,
   } = useCaches();
 
   const height = Platform.select({
@@ -137,7 +139,7 @@ const Home: React.FC<MyProps> = props => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={{ height: 5 }} />
+            <View style={{ height: 4 }} />
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333' }}>自动恢复牌局</Text>
               <Switch
@@ -149,7 +151,7 @@ const Home: React.FC<MyProps> = props => {
                 thumbColor={cardSound ? '#fff' : '#f4f3f4'}
               />
             </View>
-            <View style={{ height: 5 }} />
+            <View style={{ height: 4 }} />
             <View style={styles.settingItem}>
               <Text style={{ fontSize: 14, color: '#333' }}>
                 按键反馈（震动效果）
