@@ -73,7 +73,12 @@ const Home: React.FC<MyProps> = props => {
   }, [pack]);
 
   useEffect(() => {
-    setGames(games.filter(game => dayjs(game.time).isSame(dayjs(), 'month')));
+    const now = dayjs();
+    const oneMonthAgo = now.subtract(1, 'month');
+    const recentMonthGames = games.filter(game =>
+      dayjs(game.time).isAfter(oneMonthAgo),
+    );
+    setGames([...recentMonthGames]);
     return function () {};
   }, []);
 
@@ -264,6 +269,7 @@ const Home: React.FC<MyProps> = props => {
                 最近对局
               </Text>
               <TouchableOpacity
+                disabled={games.length == 0}
                 activeOpacity={0.8}
                 hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
                 onPress={() => {
