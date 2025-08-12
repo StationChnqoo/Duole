@@ -25,13 +25,13 @@ const BottomTabs = (props: MyProps) => {
   const screens = [
     {
       name: 'Home',
-      component: Find,
+      component: Home,
       icon: require('./assets/menu_home.png'),
       label: '首页',
     },
     {
       name: 'Find',
-      component: Home,
+      component: Find,
       icon: require('./assets/menu_friends.png'),
       label: '发现',
     },

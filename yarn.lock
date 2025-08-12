@@ -2941,6 +2941,7 @@ __metadata:
     prettier: 2.8.8
     react: 19.1.0
     react-native: 0.80.1
+    react-native-config: ^1.5.6
     react-native-gesture-handler: ^2.27.1
     react-native-haptic-feedback: ^2.3.3
     react-native-mmkv: ^3.3.0
@@ -7990,6 +7991,18 @@ __metadata:
   version: 19.1.0
   resolution: "react-is@npm:19.1.0"
   checksum: 3eb4eac7f09bf178bdc6fa98d384f5f243b85de7c99679a88b0154ead4d818ad94386ccb00ea31ec52409ffd13299057f5ec6ca2eaec06f9f7eddc1ad4832332
+  languageName: node
+  linkType: hard
+
+"react-native-config@npm:^1.5.6":
+  version: 1.5.6
+  resolution: "react-native-config@npm:1.5.6"
+  peerDependencies:
+    react-native-windows: ">=0.61"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: a055ed473203b085a76f550b53f16bcd1c0ec89e16ffd2ec926384ac88d23c710d3fd66da264aa1762d594c30046238d3f44f825f1eeb396b3adfb3568b09b1c
   languageName: node
   linkType: hard
 
