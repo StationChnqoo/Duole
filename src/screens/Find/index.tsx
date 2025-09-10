@@ -6,6 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +16,13 @@ import { KeyValue } from '@src/constants/t';
 import SoftKeyboard from '@src/components/SoftKeyboard';
 import { produce } from 'immer';
 import { uuid } from '@src/constants/u';
+import { useAtom } from 'jotai';
+import {
+  countAtom,
+  persistCountAtom,
+  persistStudentAtom,
+  studentAtom,
+} from '@src/constants/atoms';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -25,61 +33,44 @@ const Find: React.FC<MyProps> = props => {
     ios: useSafeAreaInsets().top,
     android: StatusBar.currentHeight,
   });
-
-  const { games, theme } = useCaches();
-  const { navigation } = props;
-  const [currentIndex, setCurrentIndex] = useState<string>('0');
-  const [license, setLicense] = useState<KeyValue[]>(
-    Array.from({ length: 8 }, (_, i) => ({
-      key: i + '',
-      value: '',
-    })),
-  );
-
-  const onDeletePress = () => {
-    setLicense(
-      produce(license, draft => {
-        draft[parseInt(currentIndex, 10)].value = '';
-      }),
-    );
-    setCurrentIndex(
-      (Math.max(0, parseInt(currentIndex, 10) - 1) % license.length).toString(),
-    );
-  };
+  const [count, setCount] = useAtom(countAtom);
+  const [persistCount, setPersistCount] = useAtom(persistCountAtom);
+  const [student, setStudent] = useAtom(studentAtom);
+  const [persistStudent, setPersistStudent] = useAtom(persistStudentAtom);
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ height }} />
+      <View style={{ height, backgroundColor: '#fff' }} />
       <ScrollView style={{ paddingHorizontal: 12 }}>
-        {Array.from({ length: 20 }, (_, i) => (
-          <View key={i} style={[styles.item]}>
-            <Text>还有更多内容：{uuid()}</Text>
-          </View>
-        ))}
-        <Text style={{ color: '#333', fontSize: 16 }}>请输入车牌</Text>
-        <View style={{ height: 12 }} />
-        <Inputs
-          license={license}
-          currentIndex={currentIndex}
-          onPress={kv => {
-            setCurrentIndex(kv.key);
+        <TouchableOpacity
+          onPress={() => {
+            setCount(t => t + 1);
           }}
-        />
-        <View style={{ height: 12 }} />
+        >
+          <Text>Count: {count}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setPersistCount(t => t + 1);
+          }}
+        >
+          <Text>Count with persist: {persistCount}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setStudent(t => ({ ...t, id: t.id + 1 }));
+          }}
+        >
+          <Text>Student: {JSON.stringify(student)}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setPersistStudent(t => ({ ...t, id: t.id + 1 }));
+          }}
+        >
+          <Text>Student with persist: {JSON.stringify(persistStudent)}</Text>
+        </TouchableOpacity>
       </ScrollView>
-      <SoftKeyboard
-        onKeyBoardPress={key => {
-          setLicense(
-            produce(license, draft => {
-              draft[parseInt(currentIndex, 10)].value = key;
-            }),
-          );
-          setCurrentIndex(
-            ((parseInt(currentIndex, 10) + 1) % license.length).toString(),
-          );
-        }}
-        onDeletePress={onDeletePress}
-      />
     </View>
   );
 };

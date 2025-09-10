@@ -43,7 +43,7 @@ export const calcRemainingRanks = (playedCards: string) => {
     }
   }
   // return allRanks.filter(rank => !used.has(rank)).join('');
-  return allRanks.map(rank => (used.has(rank) ? ' ' : rank)).join('');
+  return allRanks.map(rank => (used.has(rank) ? '' : rank)).join('');
 };
 
 /**

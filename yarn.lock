@@ -2938,6 +2938,7 @@ __metadata:
     hooks: ^0.3.2
     immer: ^10.1.1
     jest: ^29.6.3
+    jotai: ^2.14.0
     prettier: 2.8.8
     react: 19.1.0
     react-native: 0.80.1
@@ -6462,6 +6463,27 @@ __metadata:
     "@sideway/formula": ^3.0.1
     "@sideway/pinpoint": ^2.0.0
   checksum: 66ed454fee3d8e8da1ce21657fd2c7d565d98f3e539d2c5c028767e5f38cbd6297ce54df8312d1d094e62eb38f9452ebb43da4ce87321df66cf5e3f128cbc400
+  languageName: node
+  linkType: hard
+
+"jotai@npm:^2.14.0":
+  version: 2.14.0
+  resolution: "jotai@npm:2.14.0"
+  peerDependencies:
+    "@babel/core": ">=7.0.0"
+    "@babel/template": ">=7.0.0"
+    "@types/react": ">=17.0.0"
+    react: ">=17.0.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@babel/template":
+      optional: true
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 94317c99c1f13fde0728af74f9349e30ec6ec9ed3ea10fdd09df19d5034e1440e6c04c800c5c4b2ccd9ae65c18d9804ed110386143f8160269bf1d5ab49c0ba6
   languageName: node
   linkType: hard
 
