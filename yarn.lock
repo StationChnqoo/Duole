@@ -2949,6 +2949,8 @@ __metadata:
     react-native-safe-area-context: ^5.5.2
     react-native-screens: ^4.11.1
     react-test-renderer: 19.1.0
+    reactotron-react-native: ^5.1.16
+    reactotron-redux: ^3.2.0
     typescript: 5.0.4
     zod: ^4.0.5
     zustand: ^5.0.6
@@ -7094,6 +7096,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"microdiff@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "microdiff@npm:1.5.0"
+  checksum: 03d9d6885c9b30cdfd7cab0eb882c374d1dafeeba277de215af3e6d55b631afb7a6241469c6ce8c9d8a119ae49fc4f4d892d935c0b426333046bf2ef6ab2cbf4
+  languageName: node
+  linkType: hard
+
 "micromatch@npm:^4.0.4, micromatch@npm:^4.0.8":
   version: 4.0.8
   resolution: "micromatch@npm:4.0.8"
@@ -7259,6 +7268,13 @@ __metadata:
   dependencies:
     minipass: ^7.1.2
   checksum: 493bed14dcb6118da7f8af356a8947cf1473289c09658e5aabd69a737800a8c3b1736fb7d7931b722268a9c9bc038a6d53c049b6a6af24b34a121823bb709996
+  languageName: node
+  linkType: hard
+
+"mitt@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mitt@npm:3.0.1"
+  checksum: b55a489ac9c2949ab166b7f060601d3b6d893a852515ae9eca4e11df01c013876df777ea109317622b5c1c60e8aae252558e33c8c94e14124db38f64a39614b1
   languageName: node
   linkType: hard
 
@@ -8169,6 +8185,46 @@ __metadata:
   version: 19.1.0
   resolution: "react@npm:19.1.0"
   checksum: c0905f8cfb878b0543a5522727e5ed79c67c8111dc16ceee135b7fe19dce77b2c1c19293513061a8934e721292bfc1517e0487e262d1906f306bdf95fa54d02f
+  languageName: node
+  linkType: hard
+
+"reactotron-core-client@npm:2.9.7":
+  version: 2.9.7
+  resolution: "reactotron-core-client@npm:2.9.7"
+  dependencies:
+    reactotron-core-contract: 0.2.5
+  checksum: 6149ad998c5cd8dccc41f9b93a21d96e44e1cde04eda2b5e0697327f7aa7d5366cbdf900d61846be269b281342de8d4b09ee8ba1d64aa2d613082e66c914178d
+  languageName: node
+  linkType: hard
+
+"reactotron-core-contract@npm:0.2.5":
+  version: 0.2.5
+  resolution: "reactotron-core-contract@npm:0.2.5"
+  checksum: 54b56322ba05559a9faa1d94407a45c6777c9e50f2efb2a1759eead2acf17e053f68c27e5c4338ac6f7f2d6eb649b4ad375153288659d836ef931df44859047a
+  languageName: node
+  linkType: hard
+
+"reactotron-react-native@npm:^5.1.16":
+  version: 5.1.16
+  resolution: "reactotron-react-native@npm:5.1.16"
+  dependencies:
+    mitt: ^3.0.1
+    reactotron-core-client: 2.9.7
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: c48400a82d61b8e3205aa397c6d10e8af3b1b3c58c4b6c8582ef435246b29fb0f25d8b4ea33862d4ec824245edf2070f10e583a6f09200aa5a3a72a0f89945ac
+  languageName: node
+  linkType: hard
+
+"reactotron-redux@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "reactotron-redux@npm:3.2.0"
+  dependencies:
+    microdiff: ^1.5.0
+  peerDependencies:
+    reactotron-core-client: "*"
+    redux: ">=4.0.0"
+  checksum: 31927880a2da3369b7d935f1f05b467645e132ce38b357ce8ce9cfb35c75243e1c40a9e6cd740d6fec48423ed996e053f1e151fe4e6f3550624cf558f6297ed0
   languageName: node
   linkType: hard
 

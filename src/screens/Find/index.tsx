@@ -37,7 +37,7 @@ const Find: React.FC<MyProps> = props => {
   const [persistCount, setPersistCount] = useAtom(persistCountAtom);
   const [student, setStudent] = useAtom(studentAtom);
   const [persistStudent, setPersistStudent] = useAtom(persistStudentAtom);
-
+  
   return (
     <View style={{ flex: 1 }}>
       <View style={{ height, backgroundColor: '#fff' }} />
