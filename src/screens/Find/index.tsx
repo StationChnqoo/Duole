@@ -5,7 +5,7 @@ import {
   studentAtom,
 } from '@src/constants/atoms';
 import { useAtom } from 'jotai';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Platform,
   StatusBar,
@@ -16,7 +16,9 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
-import { DatePicker, TimePicker } from '@src/react-native-datetime-pickers';
+import { DatePicker, TimePicker } from '@src/react-native-datetime-picker';
+import { Pca } from '@src/react-native-pca-picker/constants/c';
+import { PcaPicker } from '@src/react-native-pca-picker';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -42,6 +44,42 @@ const Find: React.FC<MyProps> = props => {
   const [Ymd, setYmd] = useState('1995-10-06');
   const [isShowTimePicker, setIsShowTimePicker] = useState(false);
   const [isShowDatePicker, setIsShowDatePicker] = useState(false);
+  const [isShowPcaPicker, setIsShowPcaPicker] = useState(false);
+  const [code, setCode] = useState('370687');
+  const [flatPca, setFlatPca] = useState<any>([]);
+
+  const findByCode = (pca: any[], code: string) => {
+    for (let i = 0; i < pca.length; i++) {
+      let item = pca[i];
+      if (item.code == code) {
+        return item;
+      } else if (item?.children) {
+        return findByCode(item.children, code);
+      }
+    }
+  };
+
+  const flat = (array: any[]) => {
+    return array.reduce((result, it) => {
+      const { children, ...rest } = it; // 去掉 children
+      result.push(rest);
+      if (Array.isArray(children) && children.length) {
+        result.push(...flat(children));
+      }
+      return result;
+    }, [] as any[]);
+  };
+
+  useEffect(() => {
+    let codes = ['37', '2108', '320583'];
+    // for (let i = 0; i < codes.length; i++) {
+    //   let start = new Date().getTime();
+    //   let result = findByCode([...Pca], codes[i]);
+    //   let end = new Date().getTime();
+    //   console.log('Code: ', { result, time: end - start + 'ms' });
+    // }
+    return function () {};
+  }, []);
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 12 }}>
@@ -95,26 +133,19 @@ const Find: React.FC<MyProps> = props => {
           [setH, setHm, setHms][index](s);
         }}
       />
-      {[Y, Ym, Ymd].map((it, i) => (
-        <TouchableOpacity
-          key={i}
-          onPress={() => {
-            setIndex(i);
-            setIsShowDatePicker(true);
-          }}
-        >
-          <Text>Choose date: {it}</Text>
-        </TouchableOpacity>
-      ))}
-      <DatePicker
-        date={[Y, Ym, Ymd][index]}
-        show={isShowDatePicker}
-        onCancel={() => setIsShowDatePicker(false)}
-        onHide={() => {}}
-        onConfirm={s => {
-          setIsShowDatePicker(false);
-          [setY, setYm, setYmd][index](s);
+      <TouchableOpacity
+        onPress={() => {
+          setIsShowPcaPicker(true);
         }}
+      >
+        <Text>Choose pca: {code}</Text>
+      </TouchableOpacity>
+      <PcaPicker
+        code={code}
+        show={isShowPcaPicker}
+        onCancel={() => setIsShowPcaPicker(false)}
+        onHide={() => {}}
+        onConfirm={s => {}}
       />
     </View>
   );
