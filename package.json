@@ -27,6 +27,7 @@
     "react-native-gesture-handler": "^2.27.1",
     "react-native-haptic-feedback": "^2.3.3",
     "react-native-mmkv": "^3.3.0",
+    "react-native-modal": "^14.0.0-rc.1",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.11.1",
     "zod": "^4.0.5",

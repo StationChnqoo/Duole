@@ -1,8 +1,13 @@
-import { useCaches } from '@src/constants/store';
+import {
+  countAtom,
+  persistCountAtom,
+  persistStudentAtom,
+  studentAtom,
+} from '@src/constants/atoms';
+import { useAtom } from 'jotai';
 import React, { useState } from 'react';
 import {
   Platform,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,18 +16,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
-import Inputs from './components/Inputs';
-import { KeyValue } from '@src/constants/t';
-import SoftKeyboard from '@src/components/SoftKeyboard';
-import { produce } from 'immer';
-import { uuid } from '@src/constants/u';
-import { useAtom } from 'jotai';
-import {
-  countAtom,
-  persistCountAtom,
-  persistStudentAtom,
-  studentAtom,
-} from '@src/constants/atoms';
+import { DatePicker, TimePicker } from '@src/react-native-datetime-pickers';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -37,40 +31,91 @@ const Find: React.FC<MyProps> = props => {
   const [persistCount, setPersistCount] = useAtom(persistCountAtom);
   const [student, setStudent] = useAtom(studentAtom);
   const [persistStudent, setPersistStudent] = useAtom(persistStudentAtom);
-  
+
+  const [index, setIndex] = useState(0);
+  const [H, setH] = useState('12');
+  const [Hm, setHm] = useState('12:34');
+  const [Hms, setHms] = useState('12:34:56');
+
+  const [Y, setY] = useState('1995');
+  const [Ym, setYm] = useState('1995-10');
+  const [Ymd, setYmd] = useState('1995-10-06');
+  const [isShowTimePicker, setIsShowTimePicker] = useState(false);
+  const [isShowDatePicker, setIsShowDatePicker] = useState(false);
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, paddingHorizontal: 12 }}>
       <View style={{ height, backgroundColor: '#fff' }} />
-      <ScrollView style={{ paddingHorizontal: 12 }}>
+      <TouchableOpacity
+        onPress={() => {
+          setCount(t => t + 1);
+        }}
+      >
+        <Text>Count: {count}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          setPersistCount(t => t + 1);
+        }}
+      >
+        <Text>Count with persist: {persistCount}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          setStudent(t => ({ ...t, id: t.id + 1 }));
+        }}
+      >
+        <Text>Student: {JSON.stringify(student)}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          setPersistStudent(t => ({ ...t, id: t.id + 1 }));
+        }}
+      >
+        <Text>Student with persist: {JSON.stringify(persistStudent)}</Text>
+      </TouchableOpacity>
+      {[H, Hm, Hms].map((it, i) => (
         <TouchableOpacity
+          key={i}
           onPress={() => {
-            setCount(t => t + 1);
+            setIndex(i);
+            setIsShowTimePicker(true);
           }}
         >
-          <Text>Count: {count}</Text>
+          <Text>Choose time: {it}</Text>
         </TouchableOpacity>
+      ))}
+      <TimePicker
+        time={[H, Hm, Hms][index]}
+        show={isShowTimePicker}
+        onCancel={() => setIsShowTimePicker(false)}
+        onHide={() => {}}
+        onConfirm={s => {
+          setIsShowTimePicker(false);
+          [setH, setHm, setHms][index](s);
+        }}
+      />
+      {[Y, Ym, Ymd].map((it, i) => (
         <TouchableOpacity
+          key={i}
           onPress={() => {
-            setPersistCount(t => t + 1);
+            setIndex(i);
+            setIsShowDatePicker(true);
           }}
         >
-          <Text>Count with persist: {persistCount}</Text>
+          <Text>Choose date: {it}</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setStudent(t => ({ ...t, id: t.id + 1 }));
-          }}
-        >
-          <Text>Student: {JSON.stringify(student)}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setPersistStudent(t => ({ ...t, id: t.id + 1 }));
-          }}
-        >
-          <Text>Student with persist: {JSON.stringify(persistStudent)}</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      ))}
+      <DatePicker
+        date={[Y, Ym, Ymd][index]}
+        show={isShowDatePicker}
+        onCancel={() => setIsShowDatePicker(false)}
+        onHide={() => {}}
+        onConfirm={s => {
+          setIsShowDatePicker(false);
+          [setY, setYm, setYmd][index](s);
+        }}
+      />
     </View>
   );
 };
