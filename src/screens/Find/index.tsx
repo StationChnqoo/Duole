@@ -147,6 +147,7 @@ const Find: React.FC<MyProps> = props => {
         show={isShowTimePicker}
         onCancel={() => setIsShowTimePicker(false)}
         onHide={() => {}}
+        activeItemStyle={{ fontSize: 16 }}
         onConfirm={s => {
           setIsShowTimePicker(false);
           [setH, setHm, setHms][index](s);
@@ -155,6 +156,7 @@ const Find: React.FC<MyProps> = props => {
       <DatePicker
         date={[Y, Ym, Ymd][index]}
         show={isShowDatePicker}
+        activeItemStyle={{ fontSize: 16 }}
         onCancel={() => setIsShowDatePicker(false)}
         onHide={() => {}}
         onConfirm={s => {
@@ -168,6 +170,7 @@ const Find: React.FC<MyProps> = props => {
         onCancel={() => setIsShowPcaPicker(false)}
         onHide={() => {}}
         onConfirm={s => {}}
+        activeItemStyle={{ fontSize: 14 }}
       />
     </View>
   );

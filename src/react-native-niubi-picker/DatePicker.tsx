@@ -41,9 +41,10 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
 
   const [array, setArray] = useState<number[]>([]);
 
-  const current = useMemo(() => {
-    return '';
-  }, [array]);
+  const current = () => {
+    console.log(array, options);
+    return array.map((it, i) => options?.[i]?.[it]?.value).join('-');
+  };
 
   const onChange = (listIndex: number, itemIndex: number) => {
     let _array = [...array];
@@ -125,6 +126,7 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
         <Header
           titleStyle={titleStyle}
           title={title || Strings.PleaseSelectDate}
+          preview={current()}
         />
         <View
           style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
@@ -150,7 +152,7 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
         <Footer
           onCancel={onCancel}
           onNow={onNow}
-          onConfirm={() => onConfirm(current)}
+          onConfirm={() => onConfirm(current())}
           confirmButton={confirmButton}
           cancelButton={cancelButton}
           nowButotn={nowButotn}

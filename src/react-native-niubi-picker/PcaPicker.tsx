@@ -67,6 +67,18 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
     return result;
   }, [array]);
 
+  const current = () => {
+    const keys = ['province', 'city', 'area'];
+    return keys.reduce((acc, key, index) => {
+      const item = options?.[index]?.[array[index]];
+      acc[key] = item?.label ?? '';
+      if (key === 'area') {
+        acc.code = item?.value ?? '';
+      }
+      return acc;
+    }, {} as any);
+  };
+
   return (
     <Modal
       isVisible={show}
@@ -84,6 +96,7 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
         <Header
           titleStyle={titleStyle}
           title={title || Strings.PleaseSelectPca}
+          preview={JSON.stringify(current())}
         />
         <View
           style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}

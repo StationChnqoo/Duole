@@ -35,7 +35,7 @@ export const CommonBottomSheetAnimationConfig = {
 
 export const CommonStyles = StyleSheet.create({
   dialogView: {
-    width: '100%',
+    width: '80%',
     backgroundColor: '#fff',
     borderRadius: 4,
     padding: 16,

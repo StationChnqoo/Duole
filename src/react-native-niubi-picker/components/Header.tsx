@@ -12,7 +12,9 @@ const Header = (props: MyProps) => {
     <View>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
       {preview ? (
-        <Text style={{ color: '#999', fontSize: 14 }}>{preview}</Text>
+        <Text style={{ color: '#999', fontSize: 14, marginTop: 6 }}>
+          {preview}
+        </Text>
       ) : null}
       <View style={{ height: 12 }} />
     </View>

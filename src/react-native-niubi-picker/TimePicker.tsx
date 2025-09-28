@@ -38,9 +38,12 @@ const TimePicker = (props: MyProps & CommonPickerModalProps) => {
 
   const [array, setArray] = useState<number[]>([]);
 
-  const current = useMemo(() => {
-    return '';
-  }, [array]);
+  const options = [24, 60, 60].map((it, i) => optionsBuilder(it));
+
+  const current = () => {
+    console.log(array, options);
+    return array.map((it, i) => options?.[i]?.[it]?.value).join(':');
+  };
 
   const onChange = (listIndex: number, itemIndex: number) => {
     let _array = [...array];
@@ -76,7 +79,7 @@ const TimePicker = (props: MyProps & CommonPickerModalProps) => {
       onBackButtonPress={onCancel}
     >
       <View style={CommonStyles.dialogView}>
-        <Header title={title || Strings.PleaseSelectTime} />
+        <Header title={title || Strings.PleaseSelectTime} preview={current()} />
         <View
           style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
         >
@@ -101,7 +104,7 @@ const TimePicker = (props: MyProps & CommonPickerModalProps) => {
         <Footer
           onCancel={onCancel}
           onNow={onNow}
-          onConfirm={() => onConfirm(current)}
+          onConfirm={() => onConfirm(current())}
           confirmButton={confirmButton}
           cancelButton={cancelButton}
           nowButotn={nowButotn}
