@@ -1,19 +1,16 @@
-import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
-import Footer from './components/Footer';
 import Header from './components/Header';
 import ListView from './components/ListView';
 import {
-  CommonModalAnimationConfig,
+  CommonBottomSheetAnimationConfig,
   CommonStyles,
   ITEM_HEIGHT,
   Pca,
   Strings,
 } from './constants/c';
 import { CommonPickerModalProps } from './constants/t';
-import { numPad, optionsBuilder } from './constants/u';
 
 interface MyProps {
   code: string;
@@ -60,11 +57,6 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
     setArray([p, c, a]);
   };
 
-  const findByCode = (pca: any[], code: string) => {
-    let result = pca.find(it => it.value == code);
-    return result;
-  };
-
   const options = useMemo(() => {
     let result = Array(3).fill([]);
     if (array.length > 0) {
@@ -82,16 +74,16 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
       onDismiss={onCancel}
       onModalHide={onHide}
       onBackdropPress={onCancel}
-      {...CommonModalAnimationConfig}
+      {...CommonBottomSheetAnimationConfig}
       onShow={onShow}
       hideModalContentWhileAnimating={true}
       useNativeDriver={useNativeDriver}
       onBackButtonPress={onCancel}
     >
-      <View style={CommonStyles.modalView}>
+      <View style={CommonStyles.bottomSheetView}>
         <Header
           titleStyle={titleStyle}
-          title={title || Strings.PleaseSelectDate}
+          title={title || Strings.PleaseSelectPca}
         />
         <View
           style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}

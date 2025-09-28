@@ -16,9 +16,11 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
-import { DatePicker, TimePicker } from '@src/react-native-datetime-picker';
-import { Pca } from '@src/react-native-pca-picker/constants/c';
-import { PcaPicker } from '@src/react-native-pca-picker';
+import {
+  PcaPicker,
+  DatePicker,
+  TimePicker,
+} from '@src/react-native-niubi-picker';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -46,7 +48,6 @@ const Find: React.FC<MyProps> = props => {
   const [isShowDatePicker, setIsShowDatePicker] = useState(false);
   const [isShowPcaPicker, setIsShowPcaPicker] = useState(false);
   const [code, setCode] = useState('370687');
-  const [flatPca, setFlatPca] = useState<any>([]);
 
   const findByCode = (pca: any[], code: string) => {
     for (let i = 0; i < pca.length; i++) {
@@ -123,6 +124,24 @@ const Find: React.FC<MyProps> = props => {
           <Text>Choose time: {it}</Text>
         </TouchableOpacity>
       ))}
+      {[Y, Ym, Ymd].map((it, i) => (
+        <TouchableOpacity
+          key={i}
+          onPress={() => {
+            setIndex(i);
+            setIsShowDatePicker(true);
+          }}
+        >
+          <Text>Choose date: {it}</Text>
+        </TouchableOpacity>
+      ))}
+      <TouchableOpacity
+        onPress={() => {
+          setIsShowPcaPicker(true);
+        }}
+      >
+        <Text>Choose pca: {code}</Text>
+      </TouchableOpacity>
       <TimePicker
         time={[H, Hm, Hms][index]}
         show={isShowTimePicker}
@@ -133,13 +152,16 @@ const Find: React.FC<MyProps> = props => {
           [setH, setHm, setHms][index](s);
         }}
       />
-      <TouchableOpacity
-        onPress={() => {
-          setIsShowPcaPicker(true);
+      <DatePicker
+        date={[Y, Ym, Ymd][index]}
+        show={isShowDatePicker}
+        onCancel={() => setIsShowDatePicker(false)}
+        onHide={() => {}}
+        onConfirm={s => {
+          setIsShowDatePicker(false);
+          [setY, setYm, setYmd][index](s);
         }}
-      >
-        <Text>Choose pca: {code}</Text>
-      </TouchableOpacity>
+      />
       <PcaPicker
         code={code}
         show={isShowPcaPicker}

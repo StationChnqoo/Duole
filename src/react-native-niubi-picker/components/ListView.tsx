@@ -15,17 +15,17 @@ import { ListViewOption } from '../constants/t';
 
 interface MyProps {
   data: ListViewOption[];
-  onChange: (item: ListViewOption) => void;
+  onChange: (index: number) => void;
   activeItemContainerStyle?: StyleProp<ViewStyle>;
   inactiveItemContainerStyle?: StyleProp<ViewStyle>;
   activeItemStyle?: StyleProp<TextStyle>;
   inactiveItemStyle?: StyleProp<TextStyle>;
-  value: string;
+  index: number;
 }
 
 const ListView = (props: MyProps) => {
   const {
-    value,
+    index,
     data,
     onChange,
     activeItemContainerStyle,
@@ -37,7 +37,6 @@ const ListView = (props: MyProps) => {
 
   useEffect(() => {
     setTimeout(() => {
-      let index = data.findIndex(it => it.value == value);
       listView.current?.scrollToIndex({
         index: Math.max(0, index),
         animated: true,
@@ -46,15 +45,15 @@ const ListView = (props: MyProps) => {
     }, 1);
 
     return function () {};
-  }, [value, data]);
+  }, [index, data]);
 
   const renderItem = (info: ListRenderItemInfo<ListViewOption>) => {
-    let checked = value == info.item.value;
+    let checked = index == info.index;
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          onChange(info.item);
+          onChange(info.index);
         }}
         style={[
           styles.itemContainer,
@@ -64,11 +63,13 @@ const ListView = (props: MyProps) => {
         ]}
       >
         <Text
-          style={
+          style={[
+            { paddingHorizontal: 4 },
             checked
               ? [styles.activeItem, activeItemStyle]
-              : [styles.inactiveItem, inactiveItemStyle]
-          }
+              : [styles.inactiveItem, inactiveItemStyle],
+          ]}
+          numberOfLines={1}
         >
           {info.item.label}
         </Text>
@@ -82,7 +83,7 @@ const ListView = (props: MyProps) => {
       bounces={false}
       data={data}
       renderItem={renderItem}
-      extraData={value}
+      extraData={index}
       keyExtractor={(item, index) => `${item.value}: ${index}`}
       getItemLayout={(data, index) => ({
         length: ITEM_HEIGHT,

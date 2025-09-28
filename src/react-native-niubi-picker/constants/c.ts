@@ -2,10 +2,12 @@ import { StyleSheet } from 'react-native';
 import { Animation, CustomAnimation } from 'react-native-animatable';
 
 export const ITEM_HEIGHT = 36;
+export const DATE_YEAR_INIT = 1901;
 
 export enum Strings {
   PleaseSelectDate = '请选择日期',
   PleaseSelectTime = '请选择时间',
+    PleaseSelectPca = '请选择',
   ButtonTimeNow = '此刻',
   ButtonNow = '今天',
   ButtonConfirm = '确认',
@@ -14,19 +16,35 @@ export enum Strings {
 
 const animationIn: Animation = 'zoomIn';
 const animationOut: Animation = 'zoomOut';
+const slideInUp: Animation = 'slideInUp';
+const slideOutDown: Animation = 'slideOutDown';
 
-export const CommonModalAnimationConfig = {
+export const CommonDialogAnimationConfig = {
   animationIn,
   animationOut,
   animationInTiming: 618,
   animationOutTiming: 618,
 };
 
+export const CommonBottomSheetAnimationConfig = {
+  slideInUp,
+  slideOutDown,
+  animationInTiming: 618,
+  animationOutTiming: 618,
+};
+
 export const CommonStyles = StyleSheet.create({
-  modalView: {
+  dialogView: {
     width: '100%',
     backgroundColor: '#fff',
     borderRadius: 4,
+    padding: 16,
+  },
+  bottomSheetView: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
     padding: 16,
   },
   line: {

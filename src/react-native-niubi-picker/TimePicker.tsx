@@ -1,32 +1,31 @@
 import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import ListView from './components/ListView';
 import {
-  CommonModalAnimationConfig,
+  CommonDialogAnimationConfig,
   CommonStyles,
   ITEM_HEIGHT,
   Strings,
 } from './constants/c';
 import { CommonPickerModalProps } from './constants/t';
-import { numPad, optionsBuilder } from './constants/u';
+import { optionsBuilder } from './constants/u';
 
 interface MyProps {
-  date: string;
+  time: string;
 }
 
-const DatePicker = (props: MyProps & CommonPickerModalProps) => {
+const TimePicker = (props: MyProps & CommonPickerModalProps) => {
   const {
     show,
     onCancel,
     onHide,
     onConfirm,
-    date,
+    time,
     title,
-    titleStyle,
     nowButotn,
     cancelButton,
     confirmButton,
@@ -37,65 +36,31 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
     useNativeDriver,
   } = props;
 
-  const [array, setArray] = useState<string[]>([]);
+  const [array, setArray] = useState<number[]>([]);
 
   const current = useMemo(() => {
-    return array.join('-');
+    return '';
   }, [array]);
 
-  const onChange = (index: number, item: string) => {
+  const onChange = (listIndex: number, itemIndex: number) => {
     let _array = [...array];
-    _array[index] = item;
+    _array[listIndex] = itemIndex;
     setArray(_array);
   };
 
+  const timeString2Array = (t: string) => {
+    let times = (t ?? '').split(':');
+    return times.map(it => Number(it));
+  };
+
   const onShow = () => {
-    setArray((date ?? '').split('-'));
+    setArray(timeString2Array(time));
   };
 
   const onNow = () => {
-    const format = ['YYYY', 'YYYY-MM', 'YYYY-MM-DD'][array.length - 1];
-    setArray(dayjs().format(format).split('-'));
+    const format = ['HH', 'HH:mm', 'HH:mm:ss'][array.length - 1];
+    setArray(timeString2Array(dayjs().format(format)));
   };
-
-  const isLeapYear = (year: number) => {
-    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-  };
-
-  const days = useMemo(() => {
-    return [
-      0,
-      31,
-      isLeapYear(Number(array?.[0]) || 1900) ? 29 : 28,
-      31,
-      30,
-      31,
-      30,
-      31,
-      31,
-      30,
-      31,
-      30,
-      31,
-    ][Number(array?.[1] || 1)];
-  }, [array]);
-
-  const options = useMemo(() => {
-    let result = Array(3).fill([]);
-    result[0] = optionsBuilder(199, 1901);
-    result[1] = optionsBuilder(12, 1);
-    result[2] = optionsBuilder(days, 1);
-    return result;
-  }, [array]);
-
-  useEffect(() => {
-    // 越界 -> 当前选择的日 > 当月总天数
-    // 例如：12-31，只切换了月份
-    if (array.length == 3 && Number(array[2]) > days) {
-      onChange(2, numPad(days));
-    }
-    return function () {};
-  }, [array]);
 
   return (
     <Modal
@@ -104,18 +69,14 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
       onDismiss={onCancel}
       onModalHide={onHide}
       onBackdropPress={onCancel}
-      animationIn={''}
-      {...CommonModalAnimationConfig}
+      {...CommonDialogAnimationConfig}
       onShow={onShow}
       hideModalContentWhileAnimating={true}
       useNativeDriver={useNativeDriver}
       onBackButtonPress={onCancel}
     >
-      <View style={CommonStyles.modalView}>
-        <Header
-          titleStyle={titleStyle}
-          title={title || Strings.PleaseSelectDate}
-        />
+      <View style={CommonStyles.dialogView}>
+        <Header title={title || Strings.PleaseSelectTime} />
         <View
           style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
         >
@@ -123,11 +84,11 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
             return (
               <ListView
                 key={i}
-                data={options[i]}
-                onChange={item => {
-                  onChange(i, item.value);
+                data={optionsBuilder([24, 60, 60][i])}
+                onChange={index => {
+                  onChange(i, index);
                 }}
-                value={it}
+                index={it}
                 activeItemStyle={activeItemStyle}
                 activeItemContainerStyle={activeItemContainerStyle}
                 inactiveItemContainerStyle={inactiveItemContainerStyle}
@@ -157,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DatePicker;
+export default TimePicker;
