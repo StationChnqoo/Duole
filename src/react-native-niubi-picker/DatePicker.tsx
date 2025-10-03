@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {useEffect, useMemo, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -13,8 +13,8 @@ import {
   ITEM_HEIGHT,
   Strings,
 } from './constants/c';
-import { CommonPickerModalProps } from './constants/t';
-import { numPad, optionsBuilder } from './constants/u';
+import {CommonPickerModalProps} from './constants/t';
+import {numPad, optionsBuilder} from './constants/u';
 
 interface MyProps {
   date: string;
@@ -36,15 +36,9 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
     activeItemContainerStyle,
     inactiveItemContainerStyle,
     inactiveItemStyle,
-    useNativeDriver,
   } = props;
 
   const [array, setArray] = useState<number[]>([]);
-
-  const current = () => {
-    console.log(array, options);
-    return array.map((it, i) => options?.[i]?.[it]?.value).join('-');
-  };
 
   const onChange = (listIndex: number, itemIndex: number) => {
     let _array = [...array];
@@ -61,7 +55,7 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
   };
 
   const onShow = () => {
-    setArray(dateString2Array(date));
+    setArray(dateString2Array(date || dayjs().format('YYYY-MM-DD')));
   };
 
   const onNow = () => {
@@ -91,6 +85,11 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
     ][Number(array?.[1] || 1)];
   }, [array]);
 
+  const current = () => {
+    console.log(array, options);
+    return array.map((it, i) => options?.[i]?.[it]?.value).join('-');
+  };
+
   const options = useMemo(() => {
     let result = Array(3).fill([]);
     result[0] = optionsBuilder(199, DATE_YEAR_INIT);
@@ -115,22 +114,15 @@ const DatePicker = (props: MyProps & CommonPickerModalProps) => {
       onDismiss={onCancel}
       onModalHide={onHide}
       onBackdropPress={onCancel}
-      animationIn={''}
       {...CommonDialogAnimationConfig}
       onShow={onShow}
-      hideModalContentWhileAnimating={true}
-      useNativeDriver={useNativeDriver}
-      onBackButtonPress={onCancel}
-    >
+      onBackButtonPress={onCancel}>
       <View style={CommonStyles.dialogView}>
         <Header
           titleStyle={titleStyle}
           title={title || Strings.PleaseSelectDate}
-          preview={current()}
         />
-        <View
-          style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
-        >
+        <View style={{flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6}}>
           {array.map((it, i) => {
             return (
               <ListView

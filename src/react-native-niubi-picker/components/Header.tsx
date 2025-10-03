@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native';
+import {StyleProp, StyleSheet, Text, TextStyle, View} from 'react-native';
 
 interface MyProps {
   titleStyle?: StyleProp<TextStyle>;
@@ -7,16 +7,16 @@ interface MyProps {
 }
 
 const Header = (props: MyProps) => {
-  const { title, preview, titleStyle } = props;
+  const {title, preview, titleStyle} = props;
   return (
     <View>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
       {preview ? (
-        <Text style={{ color: '#999', fontSize: 14, marginTop: 6 }}>
+        <Text style={{color: '#999', fontSize: 14, marginTop: 5}}>
           {preview}
         </Text>
       ) : null}
-      <View style={{ height: 12 }} />
+      <View style={{height: 12}} />
     </View>
   );
 };

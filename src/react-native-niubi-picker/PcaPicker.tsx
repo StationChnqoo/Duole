@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {useMemo, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import Header from './components/Header';
 import ListView from './components/ListView';
@@ -10,7 +10,7 @@ import {
   Pca,
   Strings,
 } from './constants/c';
-import { CommonPickerModalProps } from './constants/t';
+import {CommonPickerModalProps} from './constants/t';
 
 interface MyProps {
   code: string;
@@ -32,7 +32,6 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
     activeItemContainerStyle,
     inactiveItemContainerStyle,
     inactiveItemStyle,
-    useNativeDriver,
   } = props;
 
   const [array, setArray] = useState<any[]>([]);
@@ -51,10 +50,13 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
   };
 
   const onShow = () => {
-    let p = [...Pca].findIndex(it => it.value == code.slice(0, 2));
-    let c = Pca[p].children.findIndex(it => it.value == code.slice(0, 4));
-    let a = Pca[p].children[c].children.findIndex(it => it.value == code);
-    setArray([p, c, a]);
+    const code2Array = (_code: string) => {
+      let p = [...Pca].findIndex(it => it.value == _code.slice(0, 2));
+      let c = Pca[p].children.findIndex(it => it.value == _code.slice(0, 4));
+      let a = Pca[p].children[c].children.findIndex(it => it.value == _code);
+      setArray([p, c, a]);
+    };
+    code2Array(code || '110101');
   };
 
   const options = useMemo(() => {
@@ -88,22 +90,17 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
       onBackdropPress={onCancel}
       {...CommonBottomSheetAnimationConfig}
       onShow={onShow}
-      hideModalContentWhileAnimating={true}
-      useNativeDriver={useNativeDriver}
-      onBackButtonPress={onCancel}
-    >
+      onBackButtonPress={onCancel}>
       <View style={CommonStyles.bottomSheetView}>
         <Header
           titleStyle={titleStyle}
           title={title || Strings.PleaseSelectPca}
           preview={JSON.stringify(current())}
         />
-        <View
-          style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
-        >
+        <View style={{flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6}}>
           {array.map((it, i) => {
             return (
-              <View style={{ flex: 1 }} key={i}>
+              <View style={{flex: 1}} key={i}>
                 <ListView
                   key={i}
                   data={options[i]}

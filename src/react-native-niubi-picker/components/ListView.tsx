@@ -107,12 +107,12 @@ const styles = StyleSheet.create({
   },
   inactiveContainer: {},
   activeItem: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#333',
     fontWeight: '500',
   },
   inactiveItem: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#999',
   },
 });

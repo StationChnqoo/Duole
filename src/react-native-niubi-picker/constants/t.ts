@@ -24,5 +24,4 @@ export interface CommonPickerModalProps {
   inactiveItemContainerStyle?: StyleProp<ViewStyle>;
   activeItemStyle?: StyleProp<TextStyle>;
   inactiveItemStyle?: StyleProp<TextStyle>;
-  useNativeDriver?: boolean;
 }

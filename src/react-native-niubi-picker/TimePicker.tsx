@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {useMemo, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -11,8 +11,8 @@ import {
   ITEM_HEIGHT,
   Strings,
 } from './constants/c';
-import { CommonPickerModalProps } from './constants/t';
-import { optionsBuilder } from './constants/u';
+import {CommonPickerModalProps} from './constants/t';
+import {optionsBuilder} from './constants/u';
 
 interface MyProps {
   time: string;
@@ -33,7 +33,6 @@ const TimePicker = (props: MyProps & CommonPickerModalProps) => {
     activeItemContainerStyle,
     inactiveItemContainerStyle,
     inactiveItemStyle,
-    useNativeDriver,
   } = props;
 
   const [array, setArray] = useState<number[]>([]);
@@ -57,7 +56,7 @@ const TimePicker = (props: MyProps & CommonPickerModalProps) => {
   };
 
   const onShow = () => {
-    setArray(timeString2Array(time));
+    setArray(timeString2Array(time || dayjs().format('HH:mm:ss')));
   };
 
   const onNow = () => {
@@ -74,20 +73,15 @@ const TimePicker = (props: MyProps & CommonPickerModalProps) => {
       onBackdropPress={onCancel}
       {...CommonDialogAnimationConfig}
       onShow={onShow}
-      hideModalContentWhileAnimating={true}
-      useNativeDriver={useNativeDriver}
-      onBackButtonPress={onCancel}
-    >
+      onBackButtonPress={onCancel}>
       <View style={CommonStyles.dialogView}>
         <Header title={title || Strings.PleaseSelectTime} preview={current()} />
-        <View
-          style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
-        >
+        <View style={{flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6}}>
           {array.map((it, i) => {
             return (
               <ListView
                 key={i}
-                data={optionsBuilder([24, 60, 60][i])}
+                data={options[i]}
                 onChange={index => {
                   onChange(i, index);
                 }}
