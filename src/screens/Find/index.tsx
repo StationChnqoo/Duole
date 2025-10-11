@@ -20,7 +20,7 @@ import {
   PcaPicker,
   DatePicker,
   TimePicker,
-} from '@src/react-native-niubi-picker';
+} from '@src/components/react-native-pickers';
 
 interface MyProps {
   navigation?: RootStacksProp;

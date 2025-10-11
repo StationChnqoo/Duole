@@ -1,5 +1,5 @@
-import {useMemo, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 import Header from './components/Header';
 import ListView from './components/ListView';
@@ -10,7 +10,8 @@ import {
   Pca,
   Strings,
 } from './constants/c';
-import {CommonPickerModalProps} from './constants/t';
+import { CommonPickerModalProps } from './constants/t';
+import { Modalize } from 'react-native-modalize';
 
 interface MyProps {
   code: string;
@@ -35,6 +36,7 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
   } = props;
 
   const [array, setArray] = useState<any[]>([]);
+  const modalizeRef = useRef<Modalize>(null);
 
   const onChange = (listIndex: number, itemIndex: number) => {
     let _array = [...array];
@@ -81,45 +83,60 @@ const PcaPicker = (props: MyProps & CommonPickerModalProps) => {
     }, {} as any);
   };
 
+  useEffect(() => {
+    if (show) {
+      modalizeRef.current?.open();
+    } else {
+      modalizeRef.current?.close();
+    }
+  }, [show]);
+
   return (
-    <Modal
-      isVisible={show}
-      style={styles.views}
-      onDismiss={onCancel}
-      onModalHide={onHide}
-      onBackdropPress={onCancel}
-      {...CommonBottomSheetAnimationConfig}
-      onShow={onShow}
-      onBackButtonPress={onCancel}>
-      <View style={CommonStyles.bottomSheetView}>
-        <Header
-          titleStyle={titleStyle}
-          title={title || Strings.PleaseSelectPca}
-          preview={JSON.stringify(current())}
-        />
-        <View style={{flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6}}>
-          {array.map((it, i) => {
-            return (
-              <View style={{flex: 1}} key={i}>
-                <ListView
-                  key={i}
-                  data={options[i]}
-                  onChange={index => {
-                    onChange(i, index);
-                  }}
-                  index={array[i]}
-                  activeItemStyle={activeItemStyle}
-                  activeItemContainerStyle={activeItemContainerStyle}
-                  inactiveItemContainerStyle={inactiveItemContainerStyle}
-                  inactiveItemStyle={inactiveItemStyle}
-                />
-              </View>
-            );
-          })}
+    <Modalize
+      ref={modalizeRef}
+      handlePosition="inside"
+      adjustToContentHeight
+      closeOnOverlayTap
+      onClose={onCancel}
+      onOpen={onShow}
+      // openAnimationConfig={{ timing: { duration: 618 } }}
+      // closeAnimationConfig={{ timing: { duration: 618 * 3 } }}
+      overlayStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
+      scrollViewProps={{ scrollEnabled: false }}
+      disableScrollIfPossible
+      customRenderer={() => (
+        <View style={CommonStyles.bottomSheetView}>
+          <Header
+            titleStyle={titleStyle}
+            title={title || Strings.PleaseSelectPca}
+            preview={JSON.stringify(current())}
+          />
+          <View
+            style={{ flexDirection: 'row', gap: 12, height: ITEM_HEIGHT * 6 }}
+          >
+            {array.map((it, i) => {
+              return (
+                <View style={{ flex: 1 }} key={i}>
+                  <ListView
+                    key={i}
+                    data={options[i]}
+                    onChange={index => {
+                      onChange(i, index);
+                    }}
+                    index={array[i]}
+                    activeItemStyle={activeItemStyle}
+                    activeItemContainerStyle={activeItemContainerStyle}
+                    inactiveItemContainerStyle={inactiveItemContainerStyle}
+                    inactiveItemStyle={inactiveItemStyle}
+                  />
+                </View>
+              );
+            })}
+          </View>
+          <View style={CommonStyles.line} />
         </View>
-        <View style={CommonStyles.line} />
-      </View>
-    </Modal>
+      )}
+    ></Modalize>
   );
 };
 

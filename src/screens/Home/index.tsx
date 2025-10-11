@@ -27,8 +27,6 @@ const Home: React.FC<MyProps> = props => {
   const {
     theme,
     setTheme,
-    defaultGame,
-    setDefaultGame,
     cardSound,
     setCardCound,
     isKeyboardFeedback,
@@ -52,26 +50,6 @@ const Home: React.FC<MyProps> = props => {
 
   const frames = useSafeAreaInsets();
 
-  const supportedGames = {
-    gj: {
-      title: '够级（鹰 🦅）',
-      page: 'Gouji',
-      message: '6副牌、4副牌',
-    },
-    bh: {
-      title: '保皇（炸弹 💣 ）',
-      page: 'Baohuang',
-      message: '潍坊保皇、疯狂保皇',
-    },
-  };
-
-  useEffect(() => {
-    if (pack == 4) {
-      setIsEagle(false);
-    }
-    return function () {};
-  }, [pack]);
-
   useEffect(() => {
     const now = dayjs();
     const oneMonthAgo = now.subtract(1, 'month');
@@ -87,48 +65,6 @@ const Home: React.FC<MyProps> = props => {
       <View style={{ backgroundColor: '#fff', height }} />
       <ScrollView>
         <View style={{ flex: 1, paddingHorizontal: 12 }}>
-          <View style={{ height: 12 }} />
-          <View style={styles.card}>
-            <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
-              选择游戏
-            </Text>
-            <Flex horizontal style={{ gap: 12 }} align={'flex-end'}>
-              {Object.keys(supportedGames).map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.item,
-                    { borderColor: defaultGame == item ? theme : '#ccc' },
-                  ]}
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    // navigation.navigate(item.page as never);
-                    setDefaultGame(item);
-                  }}
-                >
-                  <Flex horizontal justify={'space-between'}>
-                    <Text
-                      style={{
-                        color: item == defaultGame ? theme : '#666',
-                        fontSize: 14,
-                      }}
-                    >
-                      {supportedGames[item].title}
-                    </Text>
-                  </Flex>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: item == defaultGame ? theme : '#666',
-                    }}
-                    numberOfLines={1}
-                  >
-                    {supportedGames[item].message}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </Flex>
-          </View>
           <View style={{ height: 12 }} />
           <View style={styles.card}>
             <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
@@ -301,9 +237,7 @@ const Home: React.FC<MyProps> = props => {
           styles.startButton,
           { backgroundColor: theme, marginBottom: 16 },
         ]}
-        onPress={() => {
-          navigation.navigate(supportedGames[defaultGame].page);
-        }}
+        onPress={() => {}}
       >
         <Text style={{ color: '#fff', fontSize: 16 }}>快速开始</Text>
       </TouchableOpacity>
