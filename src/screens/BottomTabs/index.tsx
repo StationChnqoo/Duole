@@ -29,12 +29,12 @@ const BottomTabs = (props: MyProps) => {
       icon: require('./assets/menu_home.png'),
       label: '首页',
     },
-    {
-      name: 'Find',
-      component: Find,
-      icon: require('./assets/menu_friends.png'),
-      label: '发现',
-    },
+    // {
+    //   name: 'Find',
+    //   component: Find,
+    //   icon: require('./assets/menu_friends.png'),
+    //   label: '发现',
+    // },
     {
       name: 'My',
       component: My,
