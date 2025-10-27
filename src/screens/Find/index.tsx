@@ -5,7 +5,7 @@ import {
   studentAtom,
 } from '@src/constants/atoms';
 import { useAtom } from 'jotai';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Platform,
   StatusBar,
@@ -40,7 +40,7 @@ const Find: React.FC<MyProps> = props => {
   const [H, setH] = useState('12');
   const [Hm, setHm] = useState('12:34');
   const [Hms, setHms] = useState('12:34:56');
-
+  
   const [Y, setY] = useState('1995');
   const [Ym, setYm] = useState('1995-10');
   const [Ymd, setYmd] = useState('1995-10-06');
@@ -48,6 +48,8 @@ const Find: React.FC<MyProps> = props => {
   const [isShowDatePicker, setIsShowDatePicker] = useState(false);
   const [isShowPcaPicker, setIsShowPcaPicker] = useState(false);
   const [code, setCode] = useState('370687');
+  const [testTabIndex, setTestTabIndex] = useState(0);
+  const testTabIndexRef = useRef(testTabIndex);
 
   const findByCode = (pca: any[], code: string) => {
     for (let i = 0; i < pca.length; i++) {
@@ -82,6 +84,33 @@ const Find: React.FC<MyProps> = props => {
     return function () {};
   }, []);
 
+  useEffect(() => {
+    console.log('Used effect: ', testTabIndex);
+    testTabIndexRef.current = testTabIndex;
+  }, [testTabIndex]);
+
+  const onTabPress = () => {
+    setTestTabIndex(t => t + 1);
+    console.log('Set tab: ', testTabIndex);
+    console.log('Self package: ', () => {
+      return testTabIndex;
+    });
+    console.log('Ref now: ', testTabIndexRef.current);
+    setTimeout(() => {
+      console.log('Set timeout: ', testTabIndex);
+      console.log('Ref after: ', testTabIndexRef.current);
+    }, 1);
+  };
+
+  const [t, setT] = useState(0);
+  const onPress = () => {
+    setT(t => t + 1);
+    console.log('T1: ', t);
+    setTimeout(() => {
+      console.log('T2: ', t);
+    }, 0);
+  };
+  
   return (
     <View style={{ flex: 1, paddingHorizontal: 12 }}>
       <View style={{ height, backgroundColor: '#fff' }} />
@@ -141,6 +170,13 @@ const Find: React.FC<MyProps> = props => {
         }}
       >
         <Text>Choose pca: {code}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          onTabPress();
+        }}
+      >
+        <Text>TabIndex: {testTabIndex}</Text>
       </TouchableOpacity>
       <TimePicker
         time={[H, Hm, Hms][index]}

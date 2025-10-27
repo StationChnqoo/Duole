@@ -17,7 +17,7 @@ import GoujiSheet from './GoujiSheet';
 
 export type RootStacksParams = {
   HelloWorld: { id: string };
-  Baohuang: { id?: string };
+  Baohuang: { id?: string, name: string };
   Gouji: { id?: string };
   BottomTabs: undefined;
   Games: undefined;
