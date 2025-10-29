@@ -31,27 +31,27 @@ const ZPaging = forwardRef<ZPagingRef, MyProps>((props, ref) => {
     defaultPageNo = 1,
     renderItem,
   } = props;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(defaultPageSize || 10);
-  const [pageNo, setPageNo] = useState(defaultPageNo || 1);
+  const [pageSize, setPageSize] = useState(defaultPageSize);
+  const [pageNo, setPageNo] = useState(defaultPageNo);
+
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [hasNoMore, setHasNoMore] = useState(true);
 
   useImperativeHandle(ref, () => ({
     reload: () => {
-      setCurrentPage(pageNo);
-      query(pageNo, pageSize);
+      setPageNo(defaultPageNo);
+      query(defaultPageNo, defaultPageSize);
     },
     complete: (result: any[], noMore: boolean) => {
       setHasNoMore(noMore);
       console.log('ZPaging complete: ', { result, noMore });
-      if (currentPage == 1) {
+      if (pageNo == 1) {
         setData(result);
       } else {
         setData([...data, ...result]);
       }
-      setCurrentPage(t => t + 1);
+      setPageNo(t => t + 1);
       setHasNoMore(noMore);
     },
   }));
@@ -60,17 +60,18 @@ const ZPaging = forwardRef<ZPagingRef, MyProps>((props, ref) => {
     if (hasNoMore) {
       return;
     }
-    query(currentPage + 1, pageSize);
+    query(pageNo + 1, pageSize);
   };
 
   const onRefresh = () => {
-    setCurrentPage(1);
-    query(pageNo, pageSize);
+    setPageNo(defaultPageNo);
+    query(defaultPageNo, pageSize);
   };
 
   useEffect(() => {
     query(pageNo, pageSize);
-  }, [pageNo, pageSize]);
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList
