@@ -252,7 +252,8 @@ const Home: React.FC<MyProps> = props => {
                 activeOpacity={0.8}
                 hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
                 onPress={() => {
-                  navigation.navigate('GoujiSheet');
+                  // navigation.navigate('GoujiSheet');
+                  navigation.navigate('Library');
                 }}
               >
                 <Image

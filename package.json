@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^7.3.21",
     "@react-navigation/stack": "^7.4.2",
     "ahooks": "^3.9.0",
+    "axios": "^1.13.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
     "hooks": "^0.3.2",
