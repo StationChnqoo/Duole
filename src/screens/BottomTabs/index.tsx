@@ -5,12 +5,11 @@ import { useCaches } from '@src/constants/store';
 import React, { useCallback, useRef } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
-import Find from '../Find';
+import dayjs from 'dayjs';
 import Home from '../Home';
 import My from '../My';
 import { RootStacksProp } from '../Screens';
 import { NewModalRef } from './components/NewModal';
-import dayjs from 'dayjs';
 
 const Tab = createBottomTabNavigator();
 interface MyProps {
@@ -44,6 +43,7 @@ const BottomTabs = (props: MyProps) => {
       if (freeUsed.key != today) {
         setFreeUsed({ key: today, value: 0 });
       }
+      // navigation.navigate('Library');
       return () => {};
     }, []),
   );

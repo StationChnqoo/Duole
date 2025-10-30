@@ -1,13 +1,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import {
-  ActivityIndicator,
   FlatList,
   ListRenderItemInfo,
   RefreshControl,
   StyleSheet,
-  Text,
-  View,
 } from 'react-native';
+import Footer from './Footer';
+import NoData from './NoData';
 
 interface MyProps {
   keyExtractor?: (item: any, index: number) => string;
@@ -34,68 +33,69 @@ const ZPaging = forwardRef<ZPagingRef, MyProps>((props, ref) => {
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [pageNo, setPageNo] = useState(defaultPageNo);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState<any[]>([]);
-  const [hasNoMore, setHasNoMore] = useState(true);
+  const [hasNoMore, setHasNoMore] = useState(false);
+  // const pageNoRef = useRef(pageNo);
 
   useImperativeHandle(ref, () => ({
     reload: () => {
-      setPageNo(defaultPageNo);
-      query(defaultPageNo, defaultPageSize);
+      setData([]);
+      if (pageNo == 1) {
+        // 当前页就是第一页
+        query(pageNo, pageSize);
+      } else {
+        setPageNo(defaultPageNo);
+      }
     },
     complete: (result: any[], noMore: boolean) => {
       setHasNoMore(noMore);
-      console.log('ZPaging complete: ', { result, noMore });
       if (pageNo == 1) {
         setData(result);
       } else {
-        setData([...data, ...result]);
+        setData(t => [...t, ...result]);
       }
-      setPageNo(t => t + 1);
-      setHasNoMore(noMore);
+      setRefreshing(false);
+      setLoading(false);
     },
   }));
 
   const onEndReached = () => {
-    if (hasNoMore) {
-      return;
-    }
-    query(pageNo + 1, pageSize);
-  };
-
-  const onRefresh = () => {
-    setPageNo(defaultPageNo);
-    query(defaultPageNo, pageSize);
+    if (loading || refreshing || hasNoMore) return;
+    setPageNo(t => t + 1);
   };
 
   useEffect(() => {
+    if (pageNo == 1) {
+      setData([]);
+      setRefreshing(true);
+    } else {
+      setLoading(true);
+    }
     query(pageNo, pageSize);
-  }, []);
+  }, [pageNo]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={
-          keyExtractor || ((item, index) => `${item?.id}: ${index}`)
-        }
-        onEndReached={onEndReached}
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={onRefresh} />
-        }
-        ListFooterComponent={() =>
-          hasNoMore ? (
-            <View>
-              <Text>没有更多了</Text>
-            </View>
-          ) : (
-            <ActivityIndicator />
-          )
-        }
-        onEndReachedThreshold={0.2}
-      />
-    </View>
+    <FlatList
+      style={{ flex: 1 }}
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor || ((item, index) => `${item?.id}: ${index}`)}
+      onEndReached={onEndReached}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => {
+            setPageNo(defaultPageNo);
+          }}
+        />
+      }
+      // contentContainerStyle={{ flexGrow: 1 }}
+      ListFooterComponent={<Footer laoding={loading} noMore={hasNoMore} />}
+      ListEmptyComponent={<NoData />}
+      onEndReachedThreshold={0.2}
+    />
   );
 });
 

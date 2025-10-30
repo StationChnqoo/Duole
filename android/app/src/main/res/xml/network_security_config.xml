@@ -6,6 +6,7 @@
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">192.168.0.102</domain>
         <domain includeSubdomains="true">192.168.0.106</domain>
+        <domain includeSubdomains="true">10.100.1.15</domain>
         <domain includeSubdomains="true">192.168.0.107</domain>  <!-- Metro Debug Server -->
         <domain includeSubdomains="true">192.168.204.178</domain>
         <domain includeSubdomains="true">192.168.63.97</domain> 
