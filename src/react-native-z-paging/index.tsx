@@ -5,8 +5,8 @@ import {
   RefreshControl,
   StyleSheet,
 } from 'react-native';
-import Footer from './Footer';
-import NoData from './NoData';
+import Footer from './components/Footer';
+import NoData from './components/Empty';
 
 interface MyProps {
   keyExtractor?: (item: any, index: number) => string;

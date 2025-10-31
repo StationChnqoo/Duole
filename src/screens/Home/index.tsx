@@ -52,6 +52,12 @@ const Home: React.FC<MyProps> = props => {
 
   const frames = useSafeAreaInsets();
 
+  useEffect(() => {
+    if (__DEV__) {
+      navigation.navigate('Library');
+    }
+  }, []);
+
   const supportedGames = {
     bh: {
       title: '保皇（炸弹 💣 ）',

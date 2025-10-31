@@ -12,9 +12,8 @@ interface MyProps {
   title?: string;
 }
 
-const NoData: React.FC<MyProps> = props => {
-  const { source = require('../assets/NoData.png'), title = '暂无数据' } =
-    props;
+const Empty: React.FC<MyProps> = props => {
+  const { source = require('./assets/empty.png'), title = '暂无数据' } = props;
 
   return (
     <View style={styles.container}>
@@ -42,4 +41,4 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
 });
-export default NoData;
+export default Empty;
