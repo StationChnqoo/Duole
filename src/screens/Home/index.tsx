@@ -112,16 +112,16 @@ const Home: React.FC<MyProps> = props => {
                     setDefaultGame(item);
                   }}
                 >
-                  <Flex horizontal justify={'space-between'}>
-                    <Text
-                      style={{
-                        color: item == defaultGame ? theme : '#666',
-                        fontSize: 14,
-                      }}
-                    >
-                      {supportedGames[item].title}
-                    </Text>
-                  </Flex>
+                  <Text
+                    style={{
+                      color: item == defaultGame ? theme : '#666',
+                      fontSize: 14,
+                      fontWeight: '500'
+                    }}
+                  >
+                    {supportedGames[item].title}
+                  </Text>
+                  <View style={{ height: 5 }} />
                   <Text
                     style={{
                       fontSize: 12,

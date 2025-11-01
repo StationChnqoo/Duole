@@ -122,7 +122,7 @@ const My: React.FC<MyProps> = props => {
               key={i}
               horizontal
               justify={'space-between'}
-              style={{ marginTop: 2 }}
+              style={{ marginTop: 5 }}
             >
               <Text style={{ fontSize: 14, color: '#333' }}>
                 {it.key.toUpperCase()}
