@@ -1,9 +1,17 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useReducer,
+  useState,
+} from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
   RefreshControl,
+  StyleProp,
   StyleSheet,
+  ViewStyle,
 } from 'react-native';
 import Footer from './components/Footer';
 import NoData from './components/Empty';
@@ -12,9 +20,14 @@ interface MyProps {
   keyExtractor?: (item: any, index: number) => string;
   query: (currentPage: number, pageSize: number) => void;
   renderItem: (info: ListRenderItemInfo<any>) => React.ReactElement;
+  style?: StyleProp<ViewStyle>;
+  bounces?: boolean;
+  extraData?: any;
   /** https://z-paging.zxlee.cn/api/props/common.html */
   defaultPageSize?: number;
   defaultPageNo?: number;
+  delay?: number; // complete后延时处理
+  // auto?: boolean; // mounted后，自动请求
 }
 
 export interface ZPagingRef {
@@ -29,70 +42,90 @@ const ZPaging = forwardRef<ZPagingRef, MyProps>((props, ref) => {
     defaultPageSize = 10,
     defaultPageNo = 1,
     renderItem,
+    style,
+    delay = 0,
+    extraData,
+    // auto,
+    bounces = true,
   } = props;
-  const [pageSize, setPageSize] = useState(defaultPageSize);
-  const [pageNo, setPageNo] = useState(defaultPageNo);
-
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [data, setData] = useState<any[]>([]);
-  const [hasNoMore, setHasNoMore] = useState(false);
+  const [state, dispatch] = useReducer(
+    (state: any, action: any) => {
+      return {
+        ...state,
+        ...action,
+      };
+    },
+    {
+      pageSize: defaultPageSize,
+      pageNo: defaultPageNo,
+      loading: true,
+      refreshing: false,
+      hasNoMore: false,
+    },
+  );
+  const [datas, setDatas] = useState<any[]>([]);
   // const pageNoRef = useRef(pageNo);
 
   useImperativeHandle(ref, () => ({
     reload: () => {
-      setData([]);
-      if (pageNo == 1) {
+      if (state.pageNo == defaultPageNo) {
         // 当前页就是第一页
-        query(pageNo, pageSize);
+        query(state.pageNo, state.pageSize);
       } else {
-        setPageNo(defaultPageNo);
+        dispatch({ pageNo: defaultPageNo });
       }
     },
-    complete: (result: any[], noMore: boolean) => {
-      setHasNoMore(noMore);
-      if (pageNo == 1) {
-        setData(result);
-      } else {
-        setData(t => [...t, ...result]);
+    complete: async (result: any[], noMore: boolean) => {
+      if (delay > 0) {
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(0);
+          }, delay);
+        });
       }
-      setRefreshing(false);
-      setLoading(false);
+      dispatch({ hasNoMore: noMore, refreshing: false, loading: false });
+      if (state.pageNo == 1) {
+        setDatas(result);
+      } else {
+        setDatas([...datas, ...result]);
+      }
     },
   }));
 
   const onEndReached = () => {
-    if (loading || refreshing || hasNoMore) return;
-    setPageNo(t => t + 1);
+    if (state.loading || state.refreshing || state.hasNoMore) return;
+    dispatch({ pageNo: state.pageNo + 1, loading: true });
   };
 
   useEffect(() => {
-    if (pageNo == 1) {
-      setData([]);
-      setRefreshing(true);
-    } else {
-      setLoading(true);
+    console.log('Use effect state: ', state);
+    if (state.pageNo == defaultPageNo) {
+      setDatas([]);
     }
-    query(pageNo, pageSize);
-  }, [pageNo]);
+    query(state.pageNo, state.pageSize);
+  }, [state.pageNo]);
 
   return (
     <FlatList
-      style={{ flex: 1 }}
-      data={data}
+      style={[{ flex: 1 }, style]}
+      data={datas}
+      bounces={bounces}
       renderItem={renderItem}
       keyExtractor={keyExtractor || ((item, index) => `${item?.id}: ${index}`)}
       onEndReached={onEndReached}
+      extraData={extraData}
       refreshControl={
         <RefreshControl
-          refreshing={refreshing}
+          refreshing={state.refreshing}
           onRefresh={() => {
-            setPageNo(defaultPageNo);
+            dispatch({ pageNo: defaultPageNo });
           }}
         />
       }
       // contentContainerStyle={{ flexGrow: 1 }}
-      ListFooterComponent={<Footer laoding={loading} noMore={hasNoMore} />}
+      ListFooterComponent={
+        <Footer laoding={state.loading} noMore={state.hasNoMore} />
+      }
       ListEmptyComponent={<NoData />}
       onEndReachedThreshold={0.2}
     />

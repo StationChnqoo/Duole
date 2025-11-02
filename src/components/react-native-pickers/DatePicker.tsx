@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {useEffect, useMemo, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import Footer from './components/Footer';
 import Header from './components/Header';

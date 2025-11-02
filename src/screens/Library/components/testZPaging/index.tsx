@@ -84,7 +84,15 @@ const TestZPaging: React.FC<MyProps> = props => {
             paging.current?.reload();
           }}
         >
-          <Text>手动刷新</Text>
+          <Text>F: reload</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            paging.current?.clear();
+          }}
+        >
+          <Text>F: clear</Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.8} onPress={() => setTabSmall('a')}>
           <Text style={{ color: tabSmall == 'a' ? 'red' : 'black' }}>
