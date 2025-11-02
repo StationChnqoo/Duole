@@ -5,8 +5,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksParams, RootStacksProp } from '../Screens';
 import TestZPaging from './components/testZPaging';
-import { TestComponents } from './constants';
+import { TestComponents } from './constants/index';
 import { useCaches } from '@src/constants/store';
+import TestUseReducer from './components/testUseReducer';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -19,13 +20,20 @@ const Library: React.FC<MyProps> = props => {
   const { theme } = useCaches();
 
   const currentComponent = useMemo(() => {
-    return { [TestComponents.ZPaging]: <TestZPaging /> }[current];
+    return {
+      [TestComponents.ZPaging]: <TestZPaging />,
+      [TestComponents.TestUseReducer]: <TestUseReducer />,
+    }[current];
   }, [current]);
 
   const options = [
     {
       label: '测试ZPaging',
       value: TestComponents.ZPaging,
+    },
+    {
+      label: '测试UseReducer',
+      value: TestComponents.TestUseReducer,
     },
   ];
   return (
