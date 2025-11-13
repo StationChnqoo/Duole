@@ -8,7 +8,7 @@ import TestZPaging from './components/testZPaging';
 import { TestComponents } from './constants/index';
 import { useCaches } from '@src/constants/store';
 import TestUseReducer from './components/testUseReducer';
-
+import DropdownMenu from '@src/react-native-dropdown-menu';
 interface MyProps {
   navigation?: RootStacksProp;
   route?: RouteProp<RootStacksParams, 'Library'>;
@@ -45,6 +45,7 @@ const Library: React.FC<MyProps> = props => {
         }}
       />
       <View style={{ height: 1, backgroundColor: '#ccc' }} />
+      <DropdownMenu />
       <View style={styles.options}>
         {options.map(item => (
           <TouchableOpacity

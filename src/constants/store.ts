@@ -37,6 +37,10 @@ interface States {
   setGameArea: (gameArea: 'wf' | 'fk') => void;
   isApplePassed: boolean;
   setIsApplePassed: (isApplePassed: boolean) => void; // 苹果是否通过审核
+  tryUseCount: number;
+  setTryUseCount: (tryUseCount: number) => void;
+  currentKami: string;
+  setCurrentKami: (currentKami: string) => void;
 }
 
 const initialState = {
@@ -52,6 +56,8 @@ const initialState = {
   isEagle: true, // 默认带鹰
   gameArea: 'wf', // 默认潍坊
   isApplePassed: false,
+  tryUseCount: 5,
+  currentKami: '',
 };
 
 const useCaches = create<States>()(
@@ -72,6 +78,8 @@ const useCaches = create<States>()(
         setIsEagle: isEagle => set({ isEagle }),
         setGameArea: gameArea => set({ gameArea }),
         setIsApplePassed: isApplePassed => set({ isApplePassed }),
+        setTryUseCount: tryUseCount => set({ tryUseCount }),
+        setCurrentKami: currentKami => set({ currentKami }),
       }),
       {
         storage: createJSONStorage(() => mmkvStorage),
@@ -89,7 +97,8 @@ const useCaches = create<States>()(
           isEagle: state.isEagle,
           autoRevertGame: state.autoRevertGame,
           gameArea: state.gameArea,
-          isApplePassed: state.isApplePassed,
+          tryUseCount: state.tryUseCount,
+          currentKami: state.currentKami,
         }),
       },
     ),

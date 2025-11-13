@@ -99,12 +99,19 @@ const ZPaging = forwardRef<ZPagingRef, MyProps>((props, ref) => {
 
   useEffect(() => {
     console.log('Use effect state: ', state);
-    if (state.pageNo == defaultPageNo) {
-      setDatas([]);
-    }
     query(state.pageNo, state.pageSize);
   }, [state.pageNo]);
 
+  useEffect(() => {
+    if (state.refreshing) {
+      if (state.pageNo == defaultPageNo) {
+        setDatas([]);
+        query(state.pageNo, state.pageSize);
+      } else {
+        dispatch({ pageNo: defaultPageNo });
+      }
+    }
+  }, [state.refreshing]);
   return (
     <FlatList
       style={[{ flex: 1 }, style]}
@@ -118,7 +125,7 @@ const ZPaging = forwardRef<ZPagingRef, MyProps>((props, ref) => {
         <RefreshControl
           refreshing={state.refreshing}
           onRefresh={() => {
-            dispatch({ pageNo: defaultPageNo });
+            dispatch({ refreshing: true });
           }}
         />
       }
