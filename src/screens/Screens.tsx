@@ -15,6 +15,7 @@ import BottomTabs from './BottomTabs';
 import Games from './Games';
 import GoujiSheet from './GoujiSheet';
 import Library from './Library';
+import UniApplet from '../react-native-uni-applet';
 
 export type RootStacksParams = {
   Library: undefined;
@@ -24,6 +25,7 @@ export type RootStacksParams = {
   BottomTabs: undefined;
   Games: undefined;
   GoujiSheet: undefined;  
+  UniApplet: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -51,6 +53,7 @@ export default function Stacks() {
         <RootStack.Screen name="Games" component={Games} />
         <RootStack.Screen name="GoujiSheet" component={GoujiSheet} />
         <RootStack.Screen name="Library" component={Library} />
+        <RootStack.Screen name="UniApplet" component={UniApplet} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

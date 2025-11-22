@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
 import ToolBar from '@src/components/ToolBar';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksParams, RootStacksProp } from '../Screens';
@@ -36,6 +36,10 @@ const Library: React.FC<MyProps> = props => {
       value: TestComponents.TestUseReducer,
     },
   ];
+
+  useEffect(() => {
+    navigation.navigate('UniApplet')
+  }, [])
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
       <ToolBar
