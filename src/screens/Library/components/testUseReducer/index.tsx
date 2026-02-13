@@ -1,6 +1,6 @@
 import ZPaging, { ZPagingRef } from '@src/react-native-z-paging';
 import { loadZPagingLibrary } from '@src/service';
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { use, useEffect, useId, useReducer, useRef, useState } from 'react';
 import {
   Image,
   ListRenderItemInfo,
@@ -26,6 +26,10 @@ const TestUseReducer: React.FC<MyProps> = props => {
 
   const [a, setA] = useState(1);
   const [b, setB] = useState(2);
+  const [id, setId] = useId();
+
+  console.log({ id });
+  
   useEffect(() => {
     console.log({ a, b });
   }, [a, b]);
