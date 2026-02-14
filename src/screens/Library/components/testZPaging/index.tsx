@@ -1,5 +1,6 @@
 import ZPaging, { ZPagingRef } from '@src/react-native-z-paging';
 import { loadZPagingLibrary } from '@src/service';
+import { fs } from '@src/constants/u';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Image,
@@ -47,14 +48,14 @@ const TestZPaging: React.FC<MyProps> = props => {
           style={{ width: 72, height: 72, borderRadius: 5 }}
         />
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <Text style={{ fontSize: 16, fontWeight: '500', color: '#333' }}>
+          <Text style={{ fontSize: fs(16), fontWeight: '500', color: '#333' }}>
             {item.index}.{item.title}
           </Text>
-          <Text style={{ fontSize: 14, color: '#666' }} numberOfLines={2}>
+          <Text style={{ fontSize: fs(14), color: '#666' }} numberOfLines={2}>
             {item.content}
           </Text>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <Text style={{ fontSize: 12, color: '#999' }}>
+            <Text style={{ fontSize: fs(12), color: '#999' }}>
               {item.createdAt}
             </Text>
           </View>

@@ -1,4 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { fs } from '@src/constants/u';
 
 interface MyProps {
   laoding?: boolean;
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   text: {
-    fontSize: 14,
+    fontSize: fs(14),
     color: '#999',
   },
 });

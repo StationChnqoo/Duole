@@ -3,7 +3,7 @@ import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { BaohuangPlayer } from '@src/constants/t';
-import { uuid } from '@src/constants/u';
+import { uuid, fs } from '@src/constants/u';
 import { produce } from 'immer';
 import React, {
   useCallback,
@@ -137,7 +137,7 @@ const Baohuang: React.FC<MyProps> = props => {
           {players.length === 0 ? (
             <View style={{ padding: 16 }}>
               <Text
-                style={{ color: '#666', fontSize: 14, textAlign: 'center' }}
+                style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
               >
                 正在初始化
               </Text>

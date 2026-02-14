@@ -1,5 +1,6 @@
 import Flex from '@src/components/Flex';
 import { useCaches } from '@src/constants/store';
+import { fs } from '@src/constants/u';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Image,
@@ -56,7 +57,7 @@ const My: React.FC<MyProps> = props => {
   const vip = useMemo(() => {
     return `试用版 | 每天试用${freeUsed.value}/5次，${countdown}后恢复`;
   }, [countdown, freeUsed]);
-  
+
   useFocusEffect(
     useCallback(() => {
       setInterval(1000);
@@ -93,10 +94,15 @@ const My: React.FC<MyProps> = props => {
             <View
               style={{ height: 48, justifyContent: 'space-around', flex: 1 }}
             >
-              <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+              <Text
+                style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}
+              >
                 陈桥驿站
               </Text>
-              <Text style={{ fontSize: 12, color: '#999' }} numberOfLines={1}>
+              <Text
+                style={{ fontSize: fs(12), color: '#999' }}
+                numberOfLines={1}
+              >
                 {vip}
               </Text>
             </View>
@@ -114,7 +120,7 @@ const My: React.FC<MyProps> = props => {
         </View>
         <View style={{ height: 12 }} />
         <View style={styles.card}>
-          <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+          <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
             本地缓存
           </Text>
           {caches.map((it, i) => (
@@ -124,10 +130,10 @@ const My: React.FC<MyProps> = props => {
               justify={'space-between'}
               style={{ marginTop: 5 }}
             >
-              <Text style={{ fontSize: 14, color: '#333' }}>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>
                 {it.key.toUpperCase()}
               </Text>
-              <Text style={{ fontSize: 12, color: '#999' }}>
+              <Text style={{ fontSize: fs(12), color: '#999' }}>
                 {(JSON.stringify(it.value).length / 1024).toFixed(2)}KB
               </Text>
             </Flex>

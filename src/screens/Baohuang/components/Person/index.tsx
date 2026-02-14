@@ -5,6 +5,7 @@ import {
 } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { BaohuangPlayer } from '@src/constants/t';
+import { fs } from '@src/constants/u';
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Flex from '@src/components/Flex';
@@ -52,7 +53,7 @@ const Person: React.FC<MyProps> = props => {
       <Text
         ellipsizeMode={'head'}
         numberOfLines={3}
-        style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
+        style={{ fontSize: fs(12), lineHeight: 14, color: '#666' }}
       >
         {player.cards[2] || '暂无出牌记录 ~'}
       </Text>
@@ -73,9 +74,9 @@ const Person: React.FC<MyProps> = props => {
         onPlayerPress(player, 2);
       }}
     >
-      <Text style={{ color: '#333', fontSize: 16 }}>{player.name}</Text>
+      <Text style={{ color: '#333', fontSize: fs(16) }}>{player.name}</Text>
       <View style={{ height: 4 }} />
-      <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
+      <Text style={{ color: '#666', fontSize: fs(14) }}>{remainingCards}</Text>
       <View style={{ height: 4 }} />
       <Flex
         justify={'space-between'}
@@ -91,10 +92,10 @@ const Person: React.FC<MyProps> = props => {
                 onPlayerPress(player, 0);
               }}
             >
-              <Text style={{ color: 'green', fontSize: 12 }}>进贡：</Text>
+              <Text style={{ color: 'green', fontSize: fs(12) }}>进贡：</Text>
             </TouchableOpacity>
             <View style={[styles.cards01, { borderColor: borderColor(0) }]}>
-              <Text style={{ color: 'green', fontSize: 12 }}>
+              <Text style={{ color: 'green', fontSize: fs(12) }}>
                 {player.cards[0] || '--'}
               </Text>
             </View>
@@ -108,10 +109,10 @@ const Person: React.FC<MyProps> = props => {
                 onPlayerPress(player, 1);
               }}
             >
-              <Text style={{ color: 'red', fontSize: 12 }}>吃贡：</Text>
+              <Text style={{ color: 'red', fontSize: fs(12) }}>吃贡：</Text>
             </TouchableOpacity>
             <View style={[styles.cards01, { borderColor: borderColor(1) }]}>
-              <Text style={{ color: 'red', fontSize: 12 }}>
+              <Text style={{ color: 'red', fontSize: fs(12) }}>
                 {player.cards[1] || '--'}
               </Text>
             </View>
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
   },
   remaingCount: {
     color: '#000',
-    fontSize: 16,
+    fontSize: fs(16),
     position: 'absolute',
     right: 12,
     top: 12,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { fs } from '@src/constants/u';
 
 interface MyProps {
   checked: boolean;
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    fontSize: 14,
+    fontSize: fs(14),
     lineHeight: 16,
     color: '#333',
     marginLeft: 4,

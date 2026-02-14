@@ -7,7 +7,7 @@ import {
 } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { GoujiPlayer } from '@src/constants/t';
-import { vibrate } from '@src/constants/u';
+import { vibrate, fs } from '@src/constants/u';
 import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -59,7 +59,7 @@ const Person: React.FC<MyProps> = props => {
       <Text
         ellipsizeMode={'head'}
         numberOfLines={4}
-        style={{ fontSize: 12, lineHeight: 14, color: '#666' }}
+        style={{ fontSize: fs(12), lineHeight: 14, color: '#666' }}
       >
         {player.cards || '暂无出牌记录 ~'}
       </Text>
@@ -83,13 +83,13 @@ const Person: React.FC<MyProps> = props => {
       {direction == 'column' ? (
         <View>
           <Flex horizontal justify={'space-between'}>
-            <Text style={{ color: '#333', fontSize: 16 }}>{player.name}</Text>
+            <Text style={{ color: '#333', fontSize: fs(16) }}>{player.name}</Text>
             <Text style={[styles.remaingCount, { color: theme }]}>
               {remainingCardsCount}张
             </Text>
           </Flex>
           <View style={{ height: 4 }} />
-          <Text style={{ color: '#666', fontSize: 14 }}>{remainingCards}</Text>
+          <Text style={{ color: '#666', fontSize: fs(14) }}>{remainingCards}</Text>
           <View style={{ height: 4 }} />
           {renderCards2({})}
         </View>
@@ -97,13 +97,13 @@ const Person: React.FC<MyProps> = props => {
         <Flex horizontal justify={'space-between'}>
           <View style={{ flex: 1 }}>
             <Flex horizontal justify={'space-between'} style={{}}>
-              <Text style={{ color: '#333', fontSize: 16 }}>{player.name}</Text>
+              <Text style={{ color: '#333', fontSize: fs(16) }}>{player.name}</Text>
               <Text style={[styles.remaingCount, { color: theme }]}>
                 {remainingCardsCount}张
               </Text>
             </Flex>
             <View style={{ height: 4 }} />
-            <Text style={{ color: '#666', fontSize: 14 }}>
+            <Text style={{ color: '#666', fontSize: fs(14) }}>
               {remainingCards}
             </Text>
           </View>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   remaingCount: {
     color: '#000',
-    fontSize: 16,
+    fontSize: fs(16),
   },
   cards2: {
     paddingHorizontal: 4,

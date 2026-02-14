@@ -2,6 +2,7 @@ import Flex from '@src/components/Flex';
 import { parseCard3Groups } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { Game } from '@src/constants/t';
+import { fs } from '@src/constants/u';
 import dayjs from 'dayjs';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -31,16 +32,16 @@ const GameItem: React.FC<MyProps> = props => {
     >
       <View>
         <Flex horizontal justify="space-between">
-          <Text style={{ fontSize: 14, color: '#333' }}>
+          <Text style={{ fontSize: fs(14), color: '#333' }}>
             {{ bh: '保皇', gj: '够级' }[it.from]}
           </Text>
-          <Text style={{ fontSize: 12, color: '#999' }}>
+          <Text style={{ fontSize: fs(12), color: '#999' }}>
             {dayjs(it.time).fromNow().replace(' ', '')}
           </Text>
         </Flex>
         <View style={{ height: 4 }} />
         <Flex horizontal justify={'space-between'}>
-          <Text style={{ fontSize: 12, color: '#999' }}>对局编号：{it.id}</Text>
+          <Text style={{ fontSize: fs(12), color: '#999' }}>对局编号：{it.id}</Text>
           <TouchableOpacity
             activeOpacity={0.8}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -50,7 +51,7 @@ const GameItem: React.FC<MyProps> = props => {
           >
             <Text
               style={{
-                fontSize: 14,
+                fontSize: fs(14),
                 color: theme,
                 textDecorationLine: 'underline',
               }}
@@ -64,7 +65,7 @@ const GameItem: React.FC<MyProps> = props => {
         {it.players.map((player, j) => (
           <View key={j} style={{ marginVertical: 1 }}>
             <Flex horizontal>
-              <Text style={{ fontSize: 12, color: '#333' }} numberOfLines={1}>
+              <Text style={{ fontSize: fs(12), color: '#333' }} numberOfLines={1}>
                 {`${player.name}`}
               </Text>
               <Text

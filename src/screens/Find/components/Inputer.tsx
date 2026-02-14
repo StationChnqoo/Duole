@@ -1,4 +1,5 @@
 import { KeyValue } from '@src/constants/t';
+import { fs } from '@src/constants/u';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface MyProps {
@@ -21,10 +22,10 @@ const Inputer: React.FC<MyProps> = (props: MyProps) => {
         onPress(c);
       }}
     >
-      <Text style={{ fontSize: 16, color: '#333' }}>{c.value}</Text>
+      <Text style={{ fontSize: fs(16), color: '#333' }}>{c.value}</Text>
       {isGreen && (
         <View style={styles.tag}>
-          <Text style={{ color: 'white', fontSize: 12 }}>新</Text>
+          <Text style={{ color: 'white', fontSize: fs(12) }}>新</Text>
         </View>
       )}
       <View

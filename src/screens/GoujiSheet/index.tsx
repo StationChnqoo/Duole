@@ -2,6 +2,7 @@ import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { produce } from 'immer';
+import { fs } from '@src/constants/u';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Dimensions,
@@ -160,11 +161,11 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   ceilLabel: {
-    fontSize: 14,
+    fontSize: fs(14),
     color: '#333',
   },
   ceilValue: {
-    fontSize: 14,
+    fontSize: fs(14),
     color: '#666',
   },
   countButton: {

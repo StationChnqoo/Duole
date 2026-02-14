@@ -5,6 +5,7 @@ import {
   studentAtom,
 } from '@src/constants/atoms';
 import { useAtom } from 'jotai';
+import { fs } from '@src/constants/u';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Platform,
@@ -183,7 +184,7 @@ const Find: React.FC<MyProps> = props => {
         show={isShowTimePicker}
         onCancel={() => setIsShowTimePicker(false)}
         onHide={() => {}}
-        activeItemStyle={{ fontSize: 16 }}
+        activeItemStyle={{ fontSize: fs(16) }}
         onConfirm={s => {
           setIsShowTimePicker(false);
           [setH, setHm, setHms][index](s);
@@ -192,7 +193,7 @@ const Find: React.FC<MyProps> = props => {
       <DatePicker
         date={[Y, Ym, Ymd][index]}
         show={isShowDatePicker}
-        activeItemStyle={{ fontSize: 16 }}
+        activeItemStyle={{ fontSize: fs(16) }}
         onCancel={() => setIsShowDatePicker(false)}
         onHide={() => {}}
         onConfirm={s => {
@@ -206,7 +207,7 @@ const Find: React.FC<MyProps> = props => {
         onCancel={() => setIsShowPcaPicker(false)}
         onHide={() => {}}
         onConfirm={s => {}}
-        activeItemStyle={{ fontSize: 14 }}
+        activeItemStyle={{ fontSize: fs(14) }}
       />
     </View>
   );

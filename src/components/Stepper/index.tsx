@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { fs } from '@src/constants/u';
 import Flex from '../Flex';
 
 interface MyProps {
@@ -19,10 +20,10 @@ const Stepper: React.FC<MyProps> = props => {
           onChange(-1);
         }}
       >
-        <Text style={{ color: '#666', fontSize: 16 }}>-</Text>
+        <Text style={{ color: '#666', fontSize: fs(16) }}>-</Text>
       </TouchableOpacity>
       <View style={styles.views}>
-        <Text style={{ color: '#333', fontSize: 12 }}>{value}</Text>
+        <Text style={{ color: '#333', fontSize: fs(12) }}>{value}</Text>
       </View>
       <TouchableOpacity
         style={styles.views}
@@ -31,7 +32,7 @@ const Stepper: React.FC<MyProps> = props => {
           onChange(1);
         }}
       >
-        <Text style={{ color: '#666', fontSize: 16 }}>+</Text>
+        <Text style={{ color: '#666', fontSize: fs(16) }}>+</Text>
       </TouchableOpacity>
     </Flex>
   );

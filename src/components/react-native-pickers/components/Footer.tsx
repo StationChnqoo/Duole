@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ButtonConfig } from '../constants/t';
 import { Strings } from '../constants/c';
+import { fs } from '@src/constants/u';
 
 interface MyProps {
   nowButotn?: ButtonConfig;
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     marginVertical: 12,
   },
   title: {
-    fontSize: 18,
+    fontSize: fs(18),
     color: '#333',
     fontWeight: '500',
   },
@@ -67,15 +68,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   confirmButton: {
-    fontSize: 16,
+    fontSize: fs(16),
     color: '#4096fc',
   },
   cancelButton: {
-    fontSize: 16,
+    fontSize: fs(16),
     color: '#999',
   },
   nowButton: {
-    fontSize: 16,
+    fontSize: fs(16),
     color: '#4096fc',
   },
 });

@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { fs } from '@src/constants/u';
 
 interface MyProps {
   source?: ImageRequireSource | ImageURISource;
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     width: 144,
   },
   title: {
-    fontSize: 14,
+    fontSize: fs(14),
     color: '#999',
     marginTop: 12,
   },

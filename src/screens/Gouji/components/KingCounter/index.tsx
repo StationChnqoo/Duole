@@ -1,7 +1,7 @@
 import Flex from '@src/components/Flex';
 import Stepper from '@src/components/Stepper';
 import { useCaches } from '@src/constants/store';
-import { vibrate } from '@src/constants/u';
+import { vibrate, fs } from '@src/constants/u';
 import { produce } from 'immer';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -49,11 +49,11 @@ const KingCounter: React.FC<MyProps> = props => {
       <Flex horizontal justify={'space-between'}>
         {datas.map((it, i) => (
           <Flex key={i}>
-            <Text style={{ color: theme, fontSize: 20 }}>
+            <Text style={{ color: theme, fontSize: fs(20) }}>
               {it.sum - it.me - it.other}
             </Text>
             <Flex horizontal justify={'space-between'}>
-              <Text style={{ fontSize: 14, color: '#333' }}>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>
                 {
                   { Y: '🦅. 鹰', D: '🐓. 大王', X: '🐤. 小王', '2': '🥚. 2' }[
                     it.key

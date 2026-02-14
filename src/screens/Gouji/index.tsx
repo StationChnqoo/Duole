@@ -5,6 +5,7 @@ import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { GoujiPlayer } from '@src/constants/t';
+import { fs } from '@src/constants/u';
 import { produce } from 'immer';
 import React, {
   useCallback,
@@ -146,7 +147,7 @@ const Gouji: React.FC<MyProps> = props => {
           {players.length === 0 ? (
             <View style={{ padding: 16 }}>
               <Text
-                style={{ color: '#666', fontSize: 14, textAlign: 'center' }}
+                style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
               >
                 正在初始化
               </Text>
@@ -197,7 +198,7 @@ const Gouji: React.FC<MyProps> = props => {
                     我的鹰、大王、小王、2
                   </Text>
                   <View style={{ height: 4 }} />
-                  <Text style={{ color: 'green', fontSize: 12 }}>
+                  <Text style={{ color: 'green', fontSize: fs(12) }}>
                     3x鹰🦅+2x大王🐓+1x小王🐤+5x2 = YYYDDXX22222
                   </Text>
                   <View style={{ height: 4 }} />
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   meText: {
-    fontSize: 14,
+    fontSize: fs(14),
     color: '#666',
   },
 });

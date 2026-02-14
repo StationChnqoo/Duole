@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
 import ToolBar from '@src/components/ToolBar';
+import { fs } from '@src/constants/u';
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -64,7 +65,7 @@ const Library: React.FC<MyProps> = props => {
             <Text
               style={{
                 color: current === item.value ? theme : '#333',
-                fontSize: 14,
+                fontSize: fs(14),
               }}
             >
               {item.label}

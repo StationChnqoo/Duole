@@ -1,4 +1,5 @@
 import {useCaches} from '@src/constants/store';
+import { fs } from '@src/constants/u';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Flex from '../Flex';
@@ -20,7 +21,7 @@ const MoreButton: React.FC<MyProps> = props => {
       disabled={disabled}
       onPress={onPress}>
       <Flex horizontal>
-        <Text style={{color, fontSize: 16}}>{label}</Text>
+        <Text style={{color, fontSize: fs(16)}}>{label}</Text>
         <View style={{width: 4}} />
         <Image
           source={require('@src/assets/images/common/arrow_right.png')}

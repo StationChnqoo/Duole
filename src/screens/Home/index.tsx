@@ -2,6 +2,7 @@ import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
 import { buildRandomHexColor } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
+import { fs } from '@src/constants/u';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import {
@@ -53,9 +54,9 @@ const Home: React.FC<MyProps> = props => {
   const frames = useSafeAreaInsets();
 
   useEffect(() => {
-    if (__DEV__) {
-      navigation.navigate('Library');
-    }
+    // if (__DEV__) {
+    //   navigation.navigate('Library');
+    // }
   }, []);
 
   const supportedGames = {
@@ -95,7 +96,7 @@ const Home: React.FC<MyProps> = props => {
         <View style={{ flex: 1, paddingHorizontal: 12 }}>
           <View style={{ height: 12 }} />
           <View style={styles.card}>
-            <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
+            <Text style={{ color: '#333', fontSize: fs(16), fontWeight: '500' }}>
               选择游戏
             </Text>
             <Flex horizontal style={{ gap: 12 }} align={'flex-end'}>
@@ -115,7 +116,7 @@ const Home: React.FC<MyProps> = props => {
                   <Text
                     style={{
                       color: item == defaultGame ? theme : '#666',
-                      fontSize: 14,
+                      fontSize: fs(14),
                       fontWeight: '500'
                     }}
                   >
@@ -124,7 +125,7 @@ const Home: React.FC<MyProps> = props => {
                   <View style={{ height: 5 }} />
                   <Text
                     style={{
-                      fontSize: 12,
+                      fontSize: fs(12),
                       color: item == defaultGame ? theme : '#666',
                     }}
                     numberOfLines={1}
@@ -137,12 +138,12 @@ const Home: React.FC<MyProps> = props => {
           </View>
           <View style={{ height: 12 }} />
           <View style={styles.card}>
-            <Text style={{ color: '#333', fontSize: 16, fontWeight: '500' }}>
+            <Text style={{ color: '#333', fontSize: fs(16), fontWeight: '500' }}>
               游戏设置
             </Text>
             <View style={{ height: 6 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333' }}>主题颜色</Text>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>主题颜色</Text>
               <TouchableOpacity
                 style={[styles.themeTag, { borderColor: theme }]}
                 activeOpacity={0.8}
@@ -150,14 +151,14 @@ const Home: React.FC<MyProps> = props => {
                   setTheme(buildRandomHexColor());
                 }}
               >
-                <Text style={{ fontSize: 14, color: theme }}>
+                <Text style={{ fontSize: fs(14), color: theme }}>
                   换一组：{theme}
                 </Text>
               </TouchableOpacity>
             </View>
             <View style={{ height: 4 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333' }}>自动恢复牌局</Text>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>自动恢复牌局</Text>
               <Switch
                 value={autoRevertGame}
                 onValueChange={value => {
@@ -169,7 +170,7 @@ const Home: React.FC<MyProps> = props => {
             </View>
             <View style={{ height: 4 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333' }}>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>
                 按键反馈（震动效果）
               </Text>
               <Switch
@@ -183,12 +184,12 @@ const Home: React.FC<MyProps> = props => {
               />
             </View>
             <View style={{ height: 12 }} />
-            <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+            <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
               够级
             </Text>
             <View style={{ height: 6 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333' }}>是否带鹰🦅</Text>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>是否带鹰🦅</Text>
               <Switch
                 disabled={pack == 4}
                 value={isEagle}
@@ -201,7 +202,7 @@ const Home: React.FC<MyProps> = props => {
             </View>
             <View style={{ height: 4 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333' }}>几副牌</Text>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>几副牌</Text>
               <Flex horizontal style={{ gap: 12 }}>
                 <CheckBox
                   activeColor={theme}
@@ -222,12 +223,12 @@ const Home: React.FC<MyProps> = props => {
               </Flex>
             </View>
             <View style={{ height: 12 }} />
-            <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+            <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
               保皇
             </Text>
             <View style={{ height: 6 }} />
             <View style={styles.settingItem}>
-              <Text style={{ fontSize: 14, color: '#333' }}>区域玩法</Text>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>区域玩法</Text>
               <Flex horizontal style={{ gap: 12 }}>
                 <CheckBox
                   activeColor={theme}
@@ -251,7 +252,7 @@ const Home: React.FC<MyProps> = props => {
           <View style={{ height: 12 }} />
           <View style={styles.card}>
             <Flex horizontal justify={'space-between'}>
-              <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+              <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
                 实验室
               </Text>
               <TouchableOpacity
@@ -272,7 +273,7 @@ const Home: React.FC<MyProps> = props => {
           <View style={{ height: 12 }} />
           <View style={styles.card}>
             <Flex horizontal justify={'space-between'}>
-              <Text style={{ fontSize: 16, color: '#333', fontWeight: '500' }}>
+              <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
                 最近对局
               </Text>
               <TouchableOpacity
@@ -284,7 +285,7 @@ const Home: React.FC<MyProps> = props => {
                 }}
               >
                 <Flex horizontal>
-                  <Text style={{ fontSize: 14, color: theme }}>
+                  <Text style={{ fontSize: fs(14), color: theme }}>
                     {`${games.length}局 | ${(
                       JSON.stringify(games).length /
                       1024 /
@@ -312,7 +313,7 @@ const Home: React.FC<MyProps> = props => {
           navigation.navigate(supportedGames[defaultGame].page);
         }}
       >
-        <Text style={{ color: '#fff', fontSize: 16 }}>快速开始</Text>
+        <Text style={{ color: '#fff', fontSize: fs(16) }}>快速开始</Text>
       </TouchableOpacity>
     </View>
   );

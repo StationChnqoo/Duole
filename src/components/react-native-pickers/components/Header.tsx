@@ -1,4 +1,5 @@
 import {StyleProp, StyleSheet, Text, TextStyle, View} from 'react-native';
+import { fs } from '@src/constants/u';
 
 interface MyProps {
   titleStyle?: StyleProp<TextStyle>;
@@ -12,7 +13,7 @@ const Header = (props: MyProps) => {
     <View>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
       {preview ? (
-        <Text style={{color: '#999', fontSize: 14, marginTop: 5}}>
+        <Text style={{color: '#999', fontSize: fs(14), marginTop: 5}}>
           {preview}
         </Text>
       ) : null}
@@ -23,7 +24,7 @@ const Header = (props: MyProps) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 16,
+    fontSize: fs(16),
     color: '#333',
     fontWeight: '500',
   },

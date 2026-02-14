@@ -1,6 +1,7 @@
 import {BottomSheeter, Flex} from '@src/components';
 import {BottomSheeterRef} from '@src/components/BottomSheeter';
 import {useCaches} from '@src/constants/store';
+import {fs} from '@src/constants/u';
 import {forwardRef, useCallback, useImperativeHandle, useRef} from 'react';
 import {
   Image,
@@ -73,7 +74,7 @@ const NewModal = forwardRef<NewModalRef, MyProps>((props, ref) => {
               <View style={{width: 6}} />
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: fs(12),
                   color: theme,
                 }}>
                 {it.label}

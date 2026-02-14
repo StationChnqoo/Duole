@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { ITEM_HEIGHT } from '../constants/c';
 import { ListViewOption } from '../constants/t';
+import { fs } from '@src/constants/u';
 
 interface MyProps {
   data: ListViewOption[];
@@ -107,12 +108,12 @@ const styles = StyleSheet.create({
   },
   inactiveContainer: {},
   activeItem: {
-    fontSize: 16,
+    fontSize: fs(16),
     color: '#333',
     fontWeight: '500',
   },
   inactiveItem: {
-    fontSize: 16,
+    fontSize: fs(16),
     color: '#999',
   },
 });
