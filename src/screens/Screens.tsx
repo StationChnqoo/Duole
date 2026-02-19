@@ -13,9 +13,9 @@ import Baohuang from './Baohuang';
 import Gouji from './Gouji';
 import BottomTabs from './BottomTabs';
 import Games from './Games';
-import GoujiSheet from './GoujiSheet';
 import Library from './Library';
-import UniApplet from '../react-native-uni-applet';
+import Home from './Home';
+import Webviewer from './Webviewer';
 
 export type RootStacksParams = {
   Library: undefined;
@@ -24,8 +24,8 @@ export type RootStacksParams = {
   Gouji: { id?: string };
   BottomTabs: undefined;
   Games: undefined;
-  GoujiSheet: undefined;  
-  UniApplet: undefined;
+  Home: undefined;
+  Webviewer: { url: string; title: string };
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -47,13 +47,13 @@ export default function Stacks() {
         }}
       >
         <RootStack.Screen name="BottomTabs" component={BottomTabs} />
+        <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="HelloWorld" component={HelloWorld} />
         <RootStack.Screen name="Baohuang" component={Baohuang} />
         <RootStack.Screen name="Gouji" component={Gouji} />
         <RootStack.Screen name="Games" component={Games} />
-        <RootStack.Screen name="GoujiSheet" component={GoujiSheet} />
         <RootStack.Screen name="Library" component={Library} />
-        <RootStack.Screen name="UniApplet" component={UniApplet} />
+        <RootStack.Screen name="Webviewer" component={Webviewer} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

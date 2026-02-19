@@ -10,6 +10,7 @@ import { TestComponents } from './constants/index';
 import { useCaches } from '@src/constants/store';
 import TestUseReducer from './components/testUseReducer';
 import DropdownMenu from '@src/react-native-dropdown-menu';
+
 interface MyProps {
   navigation?: RootStacksProp;
   route?: RouteProp<RootStacksParams, 'Library'>;
@@ -19,13 +20,10 @@ const Library: React.FC<MyProps> = props => {
   const { navigation } = props;
   const [current, setCurrent] = useState(TestComponents.ZPaging);
   const { theme } = useCaches();
-
-  const currentComponent = useMemo(() => {
-    return {
-      [TestComponents.ZPaging]: <TestZPaging />,
-      [TestComponents.TestUseReducer]: <TestUseReducer />,
-    }[current];
-  }, [current]);
+  const currentComponent = {
+    [TestComponents.ZPaging]: <TestZPaging />,
+    [TestComponents.TestUseReducer]: <TestUseReducer />,
+  }[current];
 
   const options = [
     {
@@ -38,9 +36,7 @@ const Library: React.FC<MyProps> = props => {
     },
   ];
 
-  useEffect(() => {
-    navigation.navigate('UniApplet')
-  }, [])
+  useEffect(() => {}, []);
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
       <ToolBar

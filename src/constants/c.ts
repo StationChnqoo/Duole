@@ -58,9 +58,9 @@ export const buildRandomHexColor = () => {
 
 /**
  * Hex -> rgba
- * @param hex 
- * @param alpha 
- * @returns 
+ * @param hex
+ * @param alpha
+ * @returns
  */
 export const hexToRgba = (hex: string, alpha = 1) => {
   // 去除 # 号
@@ -70,4 +70,11 @@ export const hexToRgba = (hex: string, alpha = 1) => {
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+export const h5 = (path: string) => {
+  const host = __DEV__
+    ? 'http://localhost:5173/#'
+    : `https://cdn.xiaopacai.cn/h5/index.html#`;
+  return `${host}${path}`;
 };

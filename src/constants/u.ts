@@ -29,6 +29,10 @@ export const uuid = () => {
   return result;
 };
 
+export const dip2px = (dip: number) => {
+  return Math.round(dip * (width / 375));
+};
+
 export function fs(size: number) {
   if (width >= 430) return size + 2; // iPhone12 Plus/Pro Max
   if (width >= 390) return size + 1; // iPhone12/Pro

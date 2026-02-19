@@ -12,6 +12,7 @@ import { RootStacksProp } from '../Screens';
 import { NewModalRef } from './components/NewModal';
 
 const Tab = createBottomTabNavigator();
+
 interface MyProps {
   navigation?: RootStacksProp;
 }
@@ -74,22 +75,5 @@ const BottomTabs = (props: MyProps) => {
   );
 };
 
-const styles = StyleSheet.create({
-  specialButton: {
-    top: -12,
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    alignContent: 'center',
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 4, // Android 阴影
-    shadowColor: '#000', // iOS 阴影
-    shadowOffset: { width: 0, height: 0.1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-  },
-});
+const styles = StyleSheet.create({});
 export default BottomTabs;

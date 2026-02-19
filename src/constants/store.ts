@@ -45,7 +45,7 @@ interface States {
 
 const initialState = {
   bears: 0,
-  theme: '#987123',
+  theme: '#009688',
   defaultGame: 'bh',
   cardSound: true,
   isKeyboardFeedback: true,

@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface MyProps {
   onKeyBoardPress?: (key: string) => void; // 可选的键盘按键处理函数
@@ -143,7 +142,6 @@ const SoftKeyboard: React.FC<MyProps> = props => {
           <Text style={{ fontSize: 14, color: 'red' }}>D.删除</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ height: 10 + useSafeAreaInsets().bottom }} />
     </View>
   );
 };
@@ -153,8 +151,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 12,
     backgroundColor: '#fff',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    // borderTopLeftRadius: 16,
+    // borderTopRightRadius: 16,
     // position: 'absolute',
     // bottom: 0,
     width: '100%',

@@ -1,7 +1,9 @@
+import CheckBox from '@src/components/CheckBox';
 import Flex from '@src/components/Flex';
+import Switcher from '@src/components/Switcher';
 import { useCaches } from '@src/constants/store';
-import { fs } from '@src/constants/u';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { dip2px, fs } from '@src/constants/u';
+import React from 'react';
 import {
   Image,
   Platform,
@@ -14,130 +16,208 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
-import { useInterval } from 'ahooks';
-import { useFocusEffect } from '@react-navigation/native';
+import MoreButton from '@src/components/MoreButton';
+import { h5 } from '@src/constants/c';
 
 interface MyProps {
   navigation?: RootStacksProp;
 }
 
 const My: React.FC<MyProps> = props => {
+  const { navigation } = props;
+  const {
+    theme,
+    setTheme,
+    defaultGame,
+    setDefaultGame,
+    cardSound,
+    setCardCound,
+    isKeyboardFeedback,
+    setIsKeyboardFeedback,
+    autoRevertGame,
+    setAutoRevertGame,
+    games,
+    setPack,
+    pack,
+    isEagle,
+    setIsEagle,
+    gameArea,
+    setGameArea,
+    setGames,
+  } = useCaches();
+
   const height = Platform.select({
     ios: useSafeAreaInsets().top,
     android: StatusBar.currentHeight,
   });
 
-  const { games, theme, freeUsed } = useCaches();
-  const { navigation } = props;
-  const state = useCaches();
-  const [caches, setCaches] = useState([]);
-  const [interval, setInterval] = useState(undefined);
-  const [countdown, setCountdown] = useState('23:59:59');
-
-  useInterval(() => {
-    dayjs.extend(duration);
-    // 当前时间
-    const now = dayjs();
-    // 今晚 23:59:59
-    const endOfDay = dayjs().endOf('day').set('millisecond', 0);
-    // 计算剩余毫秒
-    const diffMs = endOfDay.diff(now);
-    // 转换成 duration 并格式化为 HH:mm:ss
-    const remaining = dayjs.duration(diffMs);
-    const formatted = [
-      String(remaining.hours()).padStart(2, '0'),
-      String(remaining.minutes()).padStart(2, '0'),
-      String(remaining.seconds()).padStart(2, '0'),
-    ].join(':');
-    setCountdown(formatted);
-  }, interval);
-
-  const vip = useMemo(() => {
-    return `试用版 | 每天试用${freeUsed.value}/5次，${countdown}后恢复`;
-  }, [countdown, freeUsed]);
-
-  useFocusEffect(
-    useCallback(() => {
-      setInterval(1000);
-      return () => {
-        setInterval(undefined);
-      };
-    }, []),
-  );
-
-  useEffect(() => {
-    let array = [];
-    const entries = Object.entries(state).filter(
-      ([_, value]) => typeof value !== 'function',
-    );
-    entries.forEach(([key, value]) => {
-      array.push({ key, value });
-    });
-    setCaches(array);
-    return function () {};
-  }, [state]);
-
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ height, backgroundColor: 'white' }} />
-      <ScrollView style={{ paddingHorizontal: 12 }}>
-        <View style={{ height: 12 }} />
+    <View style={styles.container}>
+      <View style={{ backgroundColor: '#fff', height }} />
+      <ScrollView style={{ flex: 1 }} bounces={false}>
         <View style={styles.card}>
-          <Flex horizontal>
+          <View style={{ height: 12 }} />
+          <Flex>
+            <Text
+              style={{ fontSize: fs(18), color: '#333', fontWeight: '500' }}
+            >
+              爱数牌
+            </Text>
+            <View style={{ height: 12 }} />
             <Image
-              source={{ uri: 'https://cctv3.net/i.jpg' }}
-              style={{ height: 48, width: 48 }}
+              source={require('@src/assets/images/logo_square.png')}
+              style={{ width: 108, height: 108, borderRadius: 16 }}
+              resizeMode="stretch"
             />
-            <View style={{ width: 10 }} />
-            <View
-              style={{ height: 48, justifyContent: 'space-around', flex: 1 }}
+            <View style={{ height: 12 }} />
+            <Text
+              style={{ fontSize: fs(12), color: '#999', textAlign: 'center' }}
             >
-              <Text
-                style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}
-              >
-                陈桥驿站
-              </Text>
-              <Text
-                style={{ fontSize: fs(12), color: '#999' }}
-                numberOfLines={1}
-              >
-                {vip}
-              </Text>
-            </View>
-            <View style={{ width: 12 }} />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
-            >
-              <Image
-                source={require('@src/assets/images/common/arrow_right.png')}
-                style={{ height: 14, width: 14, tintColor: theme }}
-              />
-            </TouchableOpacity>
+              让牌局更有把握
+            </Text>
           </Flex>
+          <View style={{ height: 32 }} />
+          <Text style={{ color: '#333', fontSize: fs(16), fontWeight: '500' }}>
+            游戏设置
+          </Text>
+          <View style={{ height: 6 }} />
+          <View style={styles.settingItem}>
+            <Text style={{ fontSize: fs(14), color: '#333' }}>
+              按键反馈（震动效果）
+            </Text>
+            <Switcher
+              value={isKeyboardFeedback}
+              onValueChange={value => {
+                setIsKeyboardFeedback(value);
+              }}
+              disabled={Platform.OS != 'android'}
+              trackColor={{ false: '#ccc', true: theme }}
+              thumbColor={cardSound ? '#fff' : '#f4f3f4'}
+            />
+          </View>
         </View>
-        <View style={{ height: 12 }} />
+        <View style={{ height: 2 }} />
         <View style={styles.card}>
           <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
-            本地缓存
+            够级
           </Text>
-          {caches.map((it, i) => (
-            <Flex
-              key={i}
-              horizontal
-              justify={'space-between'}
-              style={{ marginTop: 5 }}
-            >
-              <Text style={{ fontSize: fs(14), color: '#333' }}>
-                {it.key.toUpperCase()}
-              </Text>
-              <Text style={{ fontSize: fs(12), color: '#999' }}>
-                {(JSON.stringify(it.value).length / 1024).toFixed(2)}KB
-              </Text>
+          <View style={{ height: 10 }} />
+          <View style={styles.settingItem}>
+            <Text style={{ fontSize: fs(14), color: '#333' }}>是否带鹰🦅</Text>
+            <Switcher
+              disabled={pack == 4}
+              value={isEagle}
+              onValueChange={value => {
+                setIsEagle(value);
+              }}
+              trackColor={{ false: '#ccc', true: theme }}
+              thumbColor={isEagle ? '#fff' : '#f4f3f4'}
+            />
+          </View>
+          <View style={{ height: 5 }} />
+          <View style={styles.settingItem}>
+            <Text style={{ fontSize: fs(14), color: '#333' }}>几副牌</Text>
+            <View style={{ height: 10 }} />
+            <Flex horizontal style={{ gap: 12 }}>
+              <CheckBox
+                activeColor={theme}
+                checked={pack == 4}
+                label={'4副牌'}
+                onPress={() => {
+                  setPack(4);
+                }}
+              />
+              <CheckBox
+                activeColor={theme}
+                checked={pack == 6}
+                label={'6副牌'}
+                onPress={() => {
+                  setPack(6);
+                }}
+              />
             </Flex>
-          ))}
+          </View>
+        </View>
+        <View style={{ height: 1 }} />
+        <View style={styles.card}>
+          <Text style={{ fontSize: fs(16), color: '#333', fontWeight: '500' }}>
+            保皇
+          </Text>
+          <View style={{ height: 10 }} />
+          <View style={styles.settingItem}>
+            <Text style={{ fontSize: fs(14), color: '#333' }}>区域玩法</Text>
+            <Flex horizontal style={{ gap: 12 }}>
+              <CheckBox
+                activeColor={theme}
+                checked={gameArea == 'wf'}
+                label={'潍坊保皇'}
+                onPress={() => {
+                  setGameArea('wf');
+                }}
+              />
+              <CheckBox
+                activeColor={theme}
+                checked={gameArea == 'fk'}
+                label={'疯狂保皇'}
+                onPress={() => {
+                  setGameArea('fk');
+                }}
+              />
+            </Flex>
+          </View>
+        </View>
+        <View style={{ height: 2 }} />
+        <View style={styles.card}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+            <Flex horizontal justify="space-between">
+              <Text style={{ fontSize: fs(16), color: '#333' }}>用户政策</Text>
+              <MoreButton
+                onPress={() => {
+                  navigation.navigate('Webviewer', {
+                    url: h5(
+                      `testMarkdown?src=./docs/duole/terms-of-service.md`,
+                    ),
+                    title: '用户政策',
+                  });
+                }}
+                label=""
+              />
+            </Flex>
+          </TouchableOpacity>
+        </View>
+        <View style={{ height: 1 }} />
+        <View style={styles.card}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+            <Flex horizontal justify="space-between">
+              <Text style={{ fontSize: fs(16), color: '#333' }}>隐私协议</Text>
+              <MoreButton
+                onPress={() => {
+                  navigation.navigate('Webviewer', {
+                    url: h5(`testMarkdown?src=./docs/duole/privacy-policy.md`),
+                    title: '隐私协议',
+                  });
+                }}
+                label=""
+              />
+            </Flex>
+          </TouchableOpacity>
+        </View>
+        <View style={{ height: 1 }} />
+        <View style={styles.card}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+            <Flex horizontal justify="space-between">
+              <Text style={{ fontSize: fs(16), color: '#333' }}>关于我们</Text>
+              <MoreButton
+                onPress={() => {
+                  navigation.navigate('Webviewer', {
+                    url: 'https://www.xiaopacai.cn',
+                    title: '关于我们',
+                  });
+                }}
+                label=""
+              />
+            </Flex>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -145,13 +225,43 @@ const My: React.FC<MyProps> = props => {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 12,
-    padding: 12,
-    backgroundColor: 'white',
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
   },
   item: {
-    marginVertical: 5,
+    padding: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginTop: 12,
+    flex: 1,
+  },
+  settingItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  themeTag: {
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 24,
+    paddingHorizontal: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  card: {
+    padding: 15,
+    // borderRadius: 10,
+    backgroundColor: '#fff',
+  },
+  startButton: {
+    // borderWidth: 1,
+    borderRadius: 6,
+    paddingHorizontal: 15,
+    height: dip2px(32),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

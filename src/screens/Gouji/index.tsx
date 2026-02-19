@@ -22,6 +22,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksParams, RootStacksProp } from '../Screens';
 import KingCounter from './components/KingCounter';
 import Person from './components/Person';
@@ -45,6 +46,7 @@ const Gouji: React.FC<MyProps> = props => {
     isEagle,
     setIsEagle,
   } = useCaches();
+  const insets = useSafeAreaInsets();
 
   const [me, setMe] = useState('');
   const playersRef = useRef(players);
@@ -69,13 +71,7 @@ const Gouji: React.FC<MyProps> = props => {
   // 初始化玩家数据
   useEffect(() => {
     setPlayers(defaultPlayers);
-    if (route.params?.id && games.some(it => it.id == route.params?.id)) {
-      let game = games.find(it => it.id == route.params.id);
-      // setPlayers(game.players);
-    } else {
-      let last = games.find(it => it.from == 'gj');
-      // autoRevertGame && last && setPlayers([...last.players]);
-    }
+
     return function () {};
   }, []);
 
@@ -130,87 +126,72 @@ const Gouji: React.FC<MyProps> = props => {
     }
   };
 
-  const sum = useMemo(() => {
-    return pack == 4 ? 32 : isEagle ? 51 : 50;
-  }, [isEagle, pack]);
+  const sum = pack == 4 ? 32 : isEagle ? 51 : 50;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#f0f0f0' }}>
-      <ToolBar
-        title={'够级'}
-        onBackPress={() => {
-          navigation.goBack();
-        }}
-      />
-      <ScrollView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          {players.length === 0 ? (
-            <View style={{ padding: 16 }}>
-              <Text
-                style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
-              >
-                正在初始化
-              </Text>
-            </View>
-          ) : (
-            <View>
-              <View style={{ paddingHorizontal: 12 }}>
-                <View style={{ height: 12 }} />
-                <KingCounter pack={pack} me={me} />
-                <View style={{ height: 6 }} />
-                <View style={{ flexDirection: 'row' }}>
-                  <Person
-                    player={players[0]}
-                    onPlayerPress={handlePlayerPress}
-                    currentPalyerIndex={currentPlayerIndex}
-                    sum={sum}
-                    direction={'row'}
-                  />
-                </View>
-                <View style={{ height: 6 }} />
-                <View style={{ flexDirection: 'row' }}>
-                  <Person
-                    player={players[1]}
-                    onPlayerPress={handlePlayerPress}
-                    currentPalyerIndex={currentPlayerIndex}
-                    sum={sum}
-                  />
-                  <View style={{ width: 6 }} />
-                  <Person
-                    player={players[2]}
-                    onPlayerPress={handlePlayerPress}
-                    currentPalyerIndex={currentPlayerIndex}
-                    sum={sum}
-                  />
-                </View>
-                <View style={{ height: 10 }} />
-                <TouchableOpacity
-                  style={[
-                    styles.meContainer,
-                    { borderColor: currentPlayerIndex == -1 ? theme : '#ddd' },
-                  ]}
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    setCurrentPlayerIndex(-1);
-                  }}
-                >
-                  <Text style={[styles.meText, { color: '#333' }]}>
-                    我的鹰、大王、小王、2
-                  </Text>
-                  <View style={{ height: 4 }} />
-                  <Text style={{ color: 'green', fontSize: fs(12) }}>
-                    3x鹰🦅+2x大王🐓+1x小王🐤+5x2 = YYYDDXX22222
-                  </Text>
-                  <View style={{ height: 4 }} />
-                  <Text style={styles.meText}>{me || '请输入手牌 ...'}</Text>
-                </TouchableOpacity>
-                <View style={{ height: 10 }} />
-              </View>
-            </View>
-          )}
-          <View style={{ height: 12 }} />
+    <View style={{ flex: 1, backgroundColor: '#fff', position: 'relative' }}>
+      <View style={{ height: 12 }} />
+      {players.length === 0 ? (
+        <View style={{ padding: 16 }}>
+          <Text
+            style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
+          >
+            正在初始化
+          </Text>
         </View>
-      </ScrollView>
+      ) : (
+        <View style={{ paddingHorizontal: 10 }}>
+          <KingCounter pack={pack} me={me} />
+          <View style={{ height: 6 }} />
+          <View style={{ flexDirection: 'row' }}>
+            <Person
+              player={players[0]}
+              onPlayerPress={handlePlayerPress}
+              currentPalyerIndex={currentPlayerIndex}
+              sum={sum}
+              direction={'row'}
+            />
+          </View>
+          <View style={{ height: 6 }} />
+          <View style={{ flexDirection: 'row' }}>
+            <Person
+              player={players[1]}
+              onPlayerPress={handlePlayerPress}
+              currentPalyerIndex={currentPlayerIndex}
+              sum={sum}
+            />
+            <View style={{ width: 6 }} />
+            <Person
+              player={players[2]}
+              onPlayerPress={handlePlayerPress}
+              currentPalyerIndex={currentPlayerIndex}
+              sum={sum}
+            />
+          </View>
+          <View style={{ height: 10 }} />
+          <TouchableOpacity
+            style={[
+              styles.meContainer,
+              { borderColor: currentPlayerIndex == -1 ? theme : '#ddd' },
+            ]}
+            activeOpacity={0.8}
+            onPress={() => {
+              setCurrentPlayerIndex(-1);
+            }}
+          >
+            <Text style={[styles.meText, { color: '#333' }]}>
+              我的鹰、大王、小王、2
+            </Text>
+            <View style={{ height: 4 }} />
+            <Text style={{ color: 'green', fontSize: fs(12) }}>
+              3x鹰🦅+2x大王🐓+1x小王🐤+5x2 = YYYDDXX22222
+            </Text>
+            <View style={{ height: 4 }} />
+            <Text style={styles.meText}>{me || '请输入手牌 ...'}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      <View style={{ height: 12 }} />
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
         onDeletePress={onDeletePress}
