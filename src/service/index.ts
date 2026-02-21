@@ -12,4 +12,12 @@ const loadZPagingLibrary = (params: {
   return instance.get('/api/public/testZPaging', { params });
 };
 
-export { loadZPagingLibrary };
+const loadClassesConfig = () => {
+  // https://cdn.xiaopacai.cn/apps/cn.xiaopacai.duole/assets/1.jpg
+  let instance = axios.create({
+    baseURL: 'https://cdn.xiaopacai.cn',
+  });
+  return instance.get('/apps/cn.xiaopacai.duole/class.json');
+};
+
+export { loadZPagingLibrary, loadClassesConfig };

@@ -16,17 +16,10 @@ interface MyProps {
   onPlayerPress?: (player: GoujiPlayer, cardsIndex: number) => void; // 可选的点击事件处理函数
   currentPalyerIndex?: number; // 当前玩家索引，用于高亮显示
   sum: number;
-  direction?: 'column' | 'row';
 }
 
 const Person: React.FC<MyProps> = props => {
-  const {
-    player,
-    onPlayerPress,
-    currentPalyerIndex,
-    sum,
-    direction = 'column',
-  } = props;
+  const { player, onPlayerPress, currentPalyerIndex, sum } = props;
   const { theme, cardSound, isKeyboardFeedback } = useCaches();
 
   const borderColor = (index: number) => {
@@ -37,13 +30,9 @@ const Person: React.FC<MyProps> = props => {
 
   const [error, setError] = useState(0);
 
-  const remainingCardsCount = useMemo(() => {
-    return sum + error - parseCard3Groups(player.cards).length;
-  }, [sum, player.cards, error]);
-
-  const remainingCards = useMemo(() => {
-    return calcRemainingRanks(player.cards);
-  }, [player.cards]);
+  const remainingCardsCount =
+    sum + error - parseCard3Groups(player.cards).length;
+  const remainingCards = calcRemainingRanks(player.cards);
 
   const renderCards2 = (extraStyle: any) => (
     <View
@@ -51,15 +40,15 @@ const Person: React.FC<MyProps> = props => {
         styles.cards2,
         {
           borderColor: borderColor(2),
-          height: 14 * 4 + 6,
+          height: fs(16) * 4,
         },
         extraStyle,
       ]}
     >
       <Text
         ellipsizeMode={'head'}
-        numberOfLines={4}
-        style={{ fontSize: fs(12), lineHeight: 14, color: '#666' }}
+        numberOfLines={3}
+        style={{ fontSize: fs(14), lineHeight: fs(16), color: '#666' }}
       >
         {player.cards || '暂无出牌记录 ~'}
       </Text>
@@ -80,45 +69,24 @@ const Person: React.FC<MyProps> = props => {
         onPlayerPress(player, 2);
       }}
     >
-      {direction == 'column' ? (
-        <View>
-          <Flex horizontal justify={'space-between'}>
-            <Text style={{ color: '#333', fontSize: fs(16) }}>{player.name}</Text>
-            <Text style={[styles.remaingCount, { color: theme }]}>
-              {remainingCardsCount}张
-            </Text>
-          </Flex>
-          <View style={{ height: 4 }} />
-          <Text style={{ color: '#666', fontSize: fs(14) }}>{remainingCards}</Text>
-          <View style={{ height: 4 }} />
-          {renderCards2({})}
-        </View>
-      ) : (
+      <View>
         <Flex horizontal justify={'space-between'}>
-          <View style={{ flex: 1 }}>
-            <Flex horizontal justify={'space-between'} style={{}}>
-              <Text style={{ color: '#333', fontSize: fs(16) }}>{player.name}</Text>
-              <Text style={[styles.remaingCount, { color: theme }]}>
-                {remainingCardsCount}张
-              </Text>
-            </Flex>
-            <View style={{ height: 4 }} />
-            <Text style={{ color: '#666', fontSize: fs(14) }}>
-              {remainingCards}
-            </Text>
-          </View>
-          <View style={{ width: 16 }} />
-          {renderCards2({ flex: 1 })}
+          <Text style={{ color: '#333', fontSize: fs(16) }}>
+            {player?.name}
+          </Text>
+          <Text style={[styles.remaingCount, { color: theme }]}>
+            {remainingCardsCount}张
+          </Text>
         </Flex>
-      )}
-      <View style={{ position: 'absolute', bottom: 16, right: 16 }}>
-        <Stepper
-          value={error}
-          onChange={t => {
-            setError(error => error + t);
-            isKeyboardFeedback && vibrate();
-          }}
-        />
+        <View style={{ height: 5 }} />
+        <Text style={{ color: theme, fontSize: fs(14) }}>{remainingCards}</Text>
+        <View style={{ height: 10 }} />
+        <Flex horizontal justify={'space-between'}>
+          <Text style={{ color: '#666', fontSize: fs(14) }}>多了几张牌</Text>
+          <Stepper value={error} onChange={v => setError(t => t + v)} />
+        </Flex>
+        <View style={{ height: 5 }} />
+        {renderCards2({})}
       </View>
     </TouchableOpacity>
   );

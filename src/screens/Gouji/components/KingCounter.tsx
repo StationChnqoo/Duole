@@ -1,10 +1,10 @@
 import Flex from '@src/components/Flex';
 import Stepper from '@src/components/Stepper';
 import { useCaches } from '@src/constants/store';
-import { vibrate, fs } from '@src/constants/u';
+import { vibrate, fs, dip2px } from '@src/constants/u';
 import { produce } from 'immer';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface MyProps {
   pack: number;
@@ -27,11 +27,22 @@ const KingCounter: React.FC<MyProps> = props => {
   };
 
   useEffect(() => {
-    let kings = 'YDX'
-      .split('')
-      .map((it, i) => ({ id: i, key: it, sum: pack, me: count(it), other: 0 }));
+    let kings = ['鹰', '大王', '小王'].map((it, i) => ({
+      id: i,
+      key: it,
+      sum: pack,
+      me: count(it),
+      other: 0,
+    }));
     let er = { id: 3, key: '2', sum: pack * 4, me: count('2'), other: 0 };
-    setDatas([...kings, er]);
+    let other = ['A', 'K', 'Q', 'J'].map(it => ({
+      id: it.charCodeAt(0),
+      key: it,
+      sum: pack * 4,
+      me: count(it),
+      other: 0,
+    }));
+    setDatas([...kings, er, ...other]);
     return function () {};
   }, [pack, me]);
 
@@ -52,22 +63,20 @@ const KingCounter: React.FC<MyProps> = props => {
             <Text style={{ color: theme, fontSize: fs(20) }}>
               {it.sum - it.me - it.other}
             </Text>
+            <View style={{ height: 4 }} />
             <Flex horizontal justify={'space-between'}>
-              <Text style={{ fontSize: fs(14), color: '#333' }}>
-                {
-                  { Y: '🦅. 鹰', D: '🐓. 大王', X: '🐤. 小王', '2': '🥚. 2' }[
-                    it.key
-                  ]
-                }
-              </Text>
+              <Text style={{ fontSize: fs(14), color: '#333' }}>{it.key}</Text>
             </Flex>
             <View style={{ height: 4 }} />
-            <Stepper
-              value={it.other}
-              onChange={t => {
-                onStep(i, t);
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.button, { backgroundColor: theme }]}
+              onPress={() => {
+                onStep(i, 1);
               }}
-            />
+            >
+              <Text style={{ color: '#fff', fontSize: fs(14) }}>减1</Text>
+            </TouchableOpacity>
           </Flex>
         ))}
       </Flex>
@@ -77,16 +86,22 @@ const KingCounter: React.FC<MyProps> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
+    padding: 10,
     backgroundColor: '#fff',
     borderRadius: 5,
-    position: 'relative',
+    marginHorizontal: 12,
   },
   border: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: dip2px(32),
+    width: dip2px(32),
+    borderRadius: dip2px(16),
   },
 });
 

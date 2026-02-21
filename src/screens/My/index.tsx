@@ -177,7 +177,7 @@ const My: React.FC<MyProps> = props => {
                     url: h5(
                       `testMarkdown?src=./docs/duole/terms-of-service.md`,
                     ),
-                    title: '用户政策',
+                    title: '用户协议',
                   });
                 }}
                 label=""
@@ -194,7 +194,7 @@ const My: React.FC<MyProps> = props => {
                 onPress={() => {
                   navigation.navigate('Webviewer', {
                     url: h5(`testMarkdown?src=./docs/duole/privacy-policy.md`),
-                    title: '隐私协议',
+                    title: '隐私政策',
                   });
                 }}
                 label=""

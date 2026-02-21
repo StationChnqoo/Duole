@@ -45,7 +45,7 @@ const Person: React.FC<MyProps> = props => {
         styles.cards2,
         {
           borderColor: borderColor(2),
-          height: 14 * 3 + 6,
+          height: fs(16) * 4,
         },
         extraStyle,
       ]}
@@ -53,7 +53,7 @@ const Person: React.FC<MyProps> = props => {
       <Text
         ellipsizeMode={'head'}
         numberOfLines={3}
-        style={{ fontSize: fs(12), lineHeight: 14, color: '#666' }}
+        style={{ fontSize: fs(14), lineHeight: fs(16), color: '#666' }}
       >
         {player.cards[2] || '暂无出牌记录 ~'}
       </Text>

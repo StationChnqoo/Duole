@@ -24,3 +24,20 @@ export interface KeyValue {
   key: string;
   value: string | number;
 }
+
+export interface ClassItem {
+  /** 教程唯一标识ID */
+  id: number;
+  /** 教程标题 */
+  title: string;
+  /** 教程内容描述 */
+  content: string;
+  /** 游戏类型，bh表示保皇 */
+  game: string;
+  /** 缩略图URL */
+  thumbnail: string;
+  /** 哔哩哔哩链接，可能为空字符串 */
+  biLink: string;
+  /** 抖音链接，可能为空字符串 */
+  douLink: string;
+}

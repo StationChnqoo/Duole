@@ -27,7 +27,13 @@ const ToolBar: React.FC<MyProps> = props => {
     android: StatusBar.currentHeight,
   });
   return (
-    <View style={{ backgroundColor: '#fff' }}>
+    <View
+      style={{
+        backgroundColor: '#fff',
+        borderBottomColor: '#ccc',
+        borderBottomWidth: 1,
+      }}
+    >
       <View
         style={{
           backgroundColor: '#fff',

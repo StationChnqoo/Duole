@@ -1,51 +1,27 @@
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
-import CheckBox from '@src/components/CheckBox';
-import Flex from '@src/components/Flex';
-import SoftKeyboard from '@src/components/SoftKeyboard';
 import ToolBar from '@src/components/ToolBar';
 import { useCaches } from '@src/constants/store';
 import { GoujiPlayer } from '@src/constants/t';
 import { fs } from '@src/constants/u';
 import { produce } from 'immer';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksParams, RootStacksProp } from '../Screens';
 import KingCounter from './components/KingCounter';
 import Person from './components/Person';
+import SoftKeyboard from '@src/components/SoftKeyboard';
 
 interface MyProps {
   navigation?: RootStacksProp;
-  route?: RouteProp<RootStacksParams, 'Baohuang'>;
+  route?: RouteProp<RootStacksParams, 'Gouji'>;
 }
 
 const Gouji: React.FC<MyProps> = props => {
   const { navigation, route } = props;
   const [players, setPlayers] = useState<GoujiPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const {
-    theme,
-    games,
-    setGames,
-    autoRevertGame,
-    pack,
-    setPack,
-    isEagle,
-    setIsEagle,
-  } = useCaches();
+  const { theme, pack, isEagle } = useCaches();
   const insets = useSafeAreaInsets();
 
   const [me, setMe] = useState('');
@@ -129,69 +105,49 @@ const Gouji: React.FC<MyProps> = props => {
   const sum = pack == 4 ? 32 : isEagle ? 51 : 50;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', position: 'relative' }}>
-      <View style={{ height: 12 }} />
-      {players.length === 0 ? (
-        <View style={{ padding: 16 }}>
-          <Text
-            style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
-          >
-            正在初始化
-          </Text>
-        </View>
-      ) : (
-        <View style={{ paddingHorizontal: 10 }}>
-          <KingCounter pack={pack} me={me} />
-          <View style={{ height: 6 }} />
-          <View style={{ flexDirection: 'row' }}>
-            <Person
-              player={players[0]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-              direction={'row'}
-            />
+    <View style={{ flex: 1, backgroundColor: '#f5f5f5', position: 'relative' }}>
+      <ToolBar
+        title={'够级'}
+        onBackPress={() => {
+          navigation.goBack();
+        }}
+      />
+      {players.length == 0 ? null : (
+        <ScrollView bounces={false} style={{ flex: 1 }}>
+          <View style={{ height: 12 }} />
+          <KingCounter me={me} pack={pack} />
+          <View style={{ height: 12 }} />
+          <View style={{ paddingHorizontal: 10 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Person
+                player={players[0]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+            </View>
+            <View style={{ height: 12 }} />
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            >
+              <Person
+                player={players[1]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+              <View style={{ width: 10 }} />
+              <Person
+                player={players[2]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+            </View>
           </View>
-          <View style={{ height: 6 }} />
-          <View style={{ flexDirection: 'row' }}>
-            <Person
-              player={players[1]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-            />
-            <View style={{ width: 6 }} />
-            <Person
-              player={players[2]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-            />
-          </View>
-          <View style={{ height: 10 }} />
-          <TouchableOpacity
-            style={[
-              styles.meContainer,
-              { borderColor: currentPlayerIndex == -1 ? theme : '#ddd' },
-            ]}
-            activeOpacity={0.8}
-            onPress={() => {
-              setCurrentPlayerIndex(-1);
-            }}
-          >
-            <Text style={[styles.meText, { color: '#333' }]}>
-              我的鹰、大王、小王、2
-            </Text>
-            <View style={{ height: 4 }} />
-            <Text style={{ color: 'green', fontSize: fs(12) }}>
-              3x鹰🦅+2x大王🐓+1x小王🐤+5x2 = YYYDDXX22222
-            </Text>
-            <View style={{ height: 4 }} />
-            <Text style={styles.meText}>{me || '请输入手牌 ...'}</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={{ height: 12 }} />
+        </ScrollView>
       )}
-      <View style={{ height: 12 }} />
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
         onDeletePress={onDeletePress}
@@ -199,6 +155,7 @@ const Gouji: React.FC<MyProps> = props => {
           setPlayers(defaultPlayers);
         }}
       />
+      <View style={{ height: insets.bottom, backgroundColor: '#fff' }} />
     </View>
   );
 };

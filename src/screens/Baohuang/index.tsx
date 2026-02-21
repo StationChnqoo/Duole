@@ -8,11 +8,15 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Person from './components/Person';
+import ToolBar from '@src/components/ToolBar';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-interface MyProps {}
+interface MyProps {
+  navigation?: NativeStackNavigationProp<any>;
+}
 
 const Baohuang: React.FC<MyProps> = props => {
-  const {} = props;
+  const { navigation } = props;
   const [players, setPlayers] = useState<BaohuangPlayer[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const { theme, games, setGames, autoRevertGame, gameArea } = useCaches();
@@ -114,51 +118,59 @@ const Baohuang: React.FC<MyProps> = props => {
   const sum = { wf: 40, fk: 30 }[gameArea];
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', position: 'relative' }}>
+    <View style={{ flex: 1, backgroundColor: '#f5f5f5', position: 'relative' }}>
+      <ToolBar
+        title={'保皇'}
+        onBackPress={() => {
+          navigation.goBack();
+        }}
+      />
       <View style={{ height: 12 }} />
-      {players.length === 0 ? (
-        <View style={{ padding: 16 }}>
-          <Text
-            style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
-          >
-            正在初始化
-          </Text>
-        </View>
-      ) : (
-        <View style={{ paddingHorizontal: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Person
-              player={players[0]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-            />
-            <View style={{ width: 6 }} />
-            <Person
-              player={players[3]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-            />
+      <View style={{ flex: 1 }}>
+        {players.length === 0 ? (
+          <View style={{ padding: 16 }}>
+            <Text
+              style={{ color: '#666', fontSize: fs(14), textAlign: 'center' }}
+            >
+              正在初始化
+            </Text>
           </View>
-          <View style={{ height: 6 }} />
-          <View style={{ flexDirection: 'row' }}>
-            <Person
-              player={players[1]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-            />
-            <View style={{ width: 6 }} />
-            <Person
-              player={players[2]}
-              onPlayerPress={handlePlayerPress}
-              currentPalyerIndex={currentPlayerIndex}
-              sum={sum}
-            />
+        ) : (
+          <View style={{ paddingHorizontal: 10 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Person
+                player={players[0]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+              <View style={{ width: 6 }} />
+              <Person
+                player={players[3]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+            </View>
+            <View style={{ height: 6 }} />
+            <View style={{ flexDirection: 'row' }}>
+              <Person
+                player={players[1]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+              <View style={{ width: 6 }} />
+              <Person
+                player={players[2]}
+                onPlayerPress={handlePlayerPress}
+                currentPalyerIndex={currentPlayerIndex}
+                sum={sum}
+              />
+            </View>
           </View>
-        </View>
-      )}
+        )}
+      </View>
       <View style={{ height: 12 }} />
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
@@ -167,6 +179,7 @@ const Baohuang: React.FC<MyProps> = props => {
           setPlayers(defaultPlayers);
         }}
       />
+      <View style={{ height: insets.bottom, backgroundColor: '#fff' }} />
     </View>
   );
 };

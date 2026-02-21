@@ -2,8 +2,10 @@ import Flex from '@src/components/Flex';
 import { useCaches } from '@src/constants/store';
 import { dip2px, fs } from '@src/constants/u';
 import dayjs from 'dayjs';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
+  Image,
+  ImageBackground,
   Platform,
   ScrollView,
   StatusBar,
@@ -14,9 +16,9 @@ import {
 } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Baohuang from '../Baohuang';
-import Gouji from '../Gouji';
 import { RootStacksProp } from '../Screens';
+import { ClassItem } from '@src/constants/t';
+import { loadClassesConfig } from '@src/service';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -26,22 +28,11 @@ const Home: React.FC<MyProps> = props => {
   const { navigation } = props;
   const {
     theme,
-    setTheme,
     defaultGame,
     setDefaultGame,
-    cardSound,
-    setCardCound,
-    isKeyboardFeedback,
-    setIsKeyboardFeedback,
-    autoRevertGame,
-    setAutoRevertGame,
     games,
-    setPack,
     pack,
-    isEagle,
     setIsEagle,
-    gameArea,
-    setGameArea,
     setGames,
   } = useCaches();
 
@@ -49,9 +40,8 @@ const Home: React.FC<MyProps> = props => {
     ios: useSafeAreaInsets().top,
     android: StatusBar.currentHeight,
   });
-
+  const [classes, setClasses] = useState<ClassItem[]>([]);
   const insets = useSafeAreaInsets();
-  const modalizeRef = useRef<Modalize>(null);
 
   useEffect(() => {
     // if (__DEV__) {
@@ -72,27 +62,17 @@ const Home: React.FC<MyProps> = props => {
     },
   };
 
-  useEffect(() => {
-    if (pack == 4) {
-      setIsEagle(false);
+  const loadConfig = async () => {
+    let result = await loadClassesConfig();
+    if (result.status == 200) {
+      let data = result.data as ClassItem[];
+      setClasses(data);
     }
-    return function () {};
-  }, [pack]);
+  };
 
   useEffect(() => {
-    const now = dayjs();
-    const oneMonthAgo = now.subtract(1, 'month');
-    const recentMonthGames = games.filter(game =>
-      dayjs(game.time).isAfter(oneMonthAgo),
-    );
-    setGames([...recentMonthGames]);
-    return function () {};
+    loadConfig();
   }, []);
-
-  const component = {
-    ['bh']: <Baohuang />,
-    ['gj']: <Gouji />,
-  }[defaultGame];
 
   return (
     <View style={styles.container}>
@@ -142,14 +122,70 @@ const Home: React.FC<MyProps> = props => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={[styles.startButton, { backgroundColor: theme }]}
-              onPress={() => {}}
+              onPress={() => {
+                const pages = {
+                  bh: 'Baohuang',
+                  gj: 'Gouji',
+                };
+                navigation.navigate(pages[defaultGame] as never);
+              }}
             >
-              <Text style={{ color: '#fff', fontSize: fs(14) }}>查看教程</Text>
+              <Text style={{ color: '#fff', fontSize: fs(14) }}>开始数牌</Text>
             </TouchableOpacity>
           </Flex>
         </View>
         <View style={{ height: 2 }} />
-        {component}
+        <View style={styles.card}>
+          <Text style={{ color: '#333', fontSize: fs(16), fontWeight: '500' }}>
+            使用教程
+          </Text>
+          {classes.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              activeOpacity={0.8}
+              style={{ marginTop: 12 }}
+              onPress={() => {
+                navigation.navigate('Webviewer', {
+                  title: item.title,
+                  url: item.biLink,
+                });
+              }}
+            >
+              <Flex horizontal>
+                <Image
+                  source={{ uri: item.thumbnail }}
+                  style={{
+                    width: '100%',
+                    height: dip2px(218),
+                    borderRadius: 12,
+                  }}
+                  resizeMode="stretch"
+                />
+                <View style={styles.backCover}>
+                  <Text
+                    style={{
+                      fontSize: fs(16),
+                      color: '#fff',
+                      fontWeight: '500',
+                    }}
+                  >
+                    {item.title}
+                  </Text>
+                  <View style={{ height: 10 }} />
+                  <Text
+                    style={{
+                      fontSize: fs(14),
+                      color: '#fff',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {item.content}
+                  </Text>
+                </View>
+              </Flex>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -174,14 +210,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  themeTag: {
-    borderRadius: 5,
-    borderWidth: 1,
-    height: 24,
-    paddingHorizontal: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   card: {
     padding: 12,
     // borderRadius: 10,
@@ -192,6 +220,18 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 12,
     height: dip2px(32),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backCover: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.38)',
+    padding: 12,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
