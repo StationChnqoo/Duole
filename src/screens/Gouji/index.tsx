@@ -114,9 +114,9 @@ const Gouji: React.FC<MyProps> = props => {
       />
       {players.length == 0 ? null : (
         <ScrollView bounces={false} style={{ flex: 1 }}>
-          <View style={{ height: 12 }} />
+          <View style={{ height: 10 }} />
           <KingCounter me={me} pack={pack} />
-          <View style={{ height: 12 }} />
+          <View style={{ height: 10 }} />
           <View style={{ paddingHorizontal: 10 }}>
             <View style={{ flexDirection: 'row' }}>
               <Person
@@ -126,7 +126,7 @@ const Gouji: React.FC<MyProps> = props => {
                 sum={sum}
               />
             </View>
-            <View style={{ height: 12 }} />
+            <View style={{ height: 10 }} />
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
@@ -145,7 +145,7 @@ const Gouji: React.FC<MyProps> = props => {
               />
             </View>
           </View>
-          <View style={{ height: 12 }} />
+          <View style={{ height: 10 }} />
         </ScrollView>
       )}
       <SoftKeyboard

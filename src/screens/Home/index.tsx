@@ -156,10 +156,10 @@ const Home: React.FC<MyProps> = props => {
                   source={{ uri: item.thumbnail }}
                   style={{
                     width: '100%',
-                    height: dip2px(218),
-                    borderRadius: 12,
+                    height: dip2px(96),
+                    borderRadius: 5,
                   }}
-                  resizeMode="stretch"
+                  resizeMode="cover"
                 />
                 <View style={styles.backCover}>
                   <Text
@@ -176,8 +176,10 @@ const Home: React.FC<MyProps> = props => {
                     style={{
                       fontSize: fs(14),
                       color: '#fff',
+                      lineHeight: fs(20),
                       textAlign: 'center',
                     }}
+                    numberOfLines={3}
                   >
                     {item.content}
                   </Text>
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   card: {
-    padding: 12,
+    padding: 15,
     // borderRadius: 10,
     backgroundColor: '#fff',
   },
@@ -230,8 +232,8 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.38)',
-    padding: 12,
-    borderRadius: 12,
+    paddingHorizontal: '10%',
+    borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },

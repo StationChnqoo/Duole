@@ -132,13 +132,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '#fff',
-    borderRadius: 5,
+    borderRadius: 10,
     position: 'relative',
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   border: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    borderColor: '#ddd',
+    borderRadius: 10,
   },
   remaingCount: {
     color: '#000',

@@ -125,7 +125,7 @@ const Baohuang: React.FC<MyProps> = props => {
           navigation.goBack();
         }}
       />
-      <View style={{ height: 12 }} />
+      <View style={{ height: 10 }} />
       <View style={{ flex: 1 }}>
         {players.length === 0 ? (
           <View style={{ padding: 16 }}>
@@ -171,7 +171,7 @@ const Baohuang: React.FC<MyProps> = props => {
           </View>
         )}
       </View>
-      <View style={{ height: 12 }} />
+      <View style={{ height: 10 }} />
       <SoftKeyboard
         onKeyBoardPress={onKeyBoardPress}
         onDeletePress={onDeletePress}
