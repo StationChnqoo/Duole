@@ -1,3 +1,4 @@
+import Flex from '@src/components/Flex';
 import {
   calcRemainingRanks,
   hexToRgba,
@@ -6,9 +7,8 @@ import {
 import { useCaches } from '@src/constants/store';
 import { BaohuangPlayer } from '@src/constants/t';
 import { fs } from '@src/constants/u';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Flex from '@src/components/Flex';
 
 interface MyProps {
   player: BaohuangPlayer;
@@ -26,18 +26,13 @@ const Person: React.FC<MyProps> = props => {
       ? theme
       : '#ccc';
   };
-  const remainingCardsCount = useMemo(() => {
-    return (
-      sum -
-      player.cards[0].length +
-      player.cards[1].length -
-      parseCard3Groups(player.cards[2]).length
-    );
-  }, [sum, player.cards]);
+  const remainingCardsCount =
+    sum -
+    player.cards[0].length +
+    player.cards[1].length -
+    parseCard3Groups(player.cards[2]).length;
 
-  const remainingCards = useMemo(() => {
-    return calcRemainingRanks(player.cards[2]);
-  }, [player.cards]);
+  const remainingCards = calcRemainingRanks(player.cards[2]);
 
   const renderCards2 = (extraStyle: any) => (
     <View

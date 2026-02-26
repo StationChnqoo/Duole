@@ -1,5 +1,5 @@
 import { useCaches } from '@src/constants/store';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useUsePermission = () => {
   const { isApplePassed, tryUseCount, currentKami, setIsApplePassed } =

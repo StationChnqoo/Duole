@@ -1,12 +1,17 @@
 import {
+  DatePicker,
+  PcaPicker,
+  TimePicker,
+} from '@src/components/react-native-pickers';
+import {
   countAtom,
   persistCountAtom,
   persistStudentAtom,
   studentAtom,
 } from '@src/constants/atoms';
-import { useAtom } from 'jotai';
 import { fs } from '@src/constants/u';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useAtom } from 'jotai';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Platform,
   StatusBar,
@@ -17,11 +22,6 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksProp } from '../Screens';
-import {
-  PcaPicker,
-  DatePicker,
-  TimePicker,
-} from '@src/components/react-native-pickers';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -41,7 +41,7 @@ const Find: React.FC<MyProps> = props => {
   const [H, setH] = useState('12');
   const [Hm, setHm] = useState('12:34');
   const [Hms, setHms] = useState('12:34:56');
-  
+
   const [Y, setY] = useState('1995');
   const [Ym, setYm] = useState('1995-10');
   const [Ymd, setYmd] = useState('1995-10-06');
@@ -111,7 +111,7 @@ const Find: React.FC<MyProps> = props => {
       console.log('T2: ', t);
     }, 0);
   };
-  
+
   return (
     <View style={{ flex: 1, paddingHorizontal: 12 }}>
       <View style={{ height, backgroundColor: '#fff' }} />

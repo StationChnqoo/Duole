@@ -1,15 +1,15 @@
 import { RouteProp } from '@react-navigation/native';
 import ToolBar from '@src/components/ToolBar';
+import { useCaches } from '@src/constants/store';
 import { fs } from '@src/constants/u';
-import React, { useEffect, useMemo, useState } from 'react';
+import DropdownMenu from '@src/react-native-dropdown-menu';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStacksParams, RootStacksProp } from '../Screens';
+import TestUseReducer from './components/testUseReducer';
 import TestZPaging from './components/testZPaging';
 import { TestComponents } from './constants/index';
-import { useCaches } from '@src/constants/store';
-import TestUseReducer from './components/testUseReducer';
-import DropdownMenu from '@src/react-native-dropdown-menu';
 
 interface MyProps {
   navigation?: RootStacksProp;

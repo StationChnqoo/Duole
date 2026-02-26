@@ -7,8 +7,8 @@ import {
 } from '@src/constants/c';
 import { useCaches } from '@src/constants/store';
 import { GoujiPlayer } from '@src/constants/t';
-import { vibrate, fs } from '@src/constants/u';
-import React, { useMemo, useState } from 'react';
+import { fs } from '@src/constants/u';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface MyProps {
